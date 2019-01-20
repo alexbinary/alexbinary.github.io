@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
+
+  <body>
+
+    {%- include header.html -%}
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </main>
+
+    {%- include footer.html -%}
+
+    {%- if jekyll.environment == 'production' -%}
+      <script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101163560);</script>
+      <script async src="//static.getclicky.com/js"></script>
+      <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101163560ns.gif" /></p></noscript>
+    {%- endif -%}
+
+  </body>
+
+</html>
