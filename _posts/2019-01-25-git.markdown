@@ -1,0 +1,52 @@
+---
+layout: post
+title:  "Développement à travers l'espace temps"
+date:   2019-01-25 07:32:12 +0100
+categories: git
+---
+
+Sur mon projet perso du moment, j'ai voulu tenter une approche particulière en terme de gestion des sources avec git.
+
+L'approche traditionnelle consiste à empiler les modifications, en faisant un commit à chaque fois.
+Ensuite, on peut consulter l'historique des commit et retracer l'évolution du projet petit à petit.
+
+Je suis assez maniaque et j'aime quand l'historique git est propre.
+Sur ce projet j'ai **travaillé directement sur l'historique**.
+Je m'explique:
+
+Pour chaque modification que j'apporte au code, je me demande si c'est plutôt
+une correction de ce que j'ai déjà fait, ou bien une évolution du code.
+Si c'est une évolution, alors je fais un commit standard. 
+Si c'est une correction, ça veut dire que j'ai mal fait quelque chose dans un commit précédent.
+Et au lieu de refaire un nouveau commit qui corrige un commit situé potentiellement loin dans le passé,
+je vais modifier ce commit directement.
+
+Le but en fait c'est de ne pas avoir de commit qui corrige un commit précédent,
+mais uniquement des commits qui ajoutent des fonctionnalités ou font évoluer le code
+sans que ce soit une correction. En d'autres termes: un *historique propre*.
+
+En plus de ça, je relis régulièrement l'historique et modifie des commits pour
+toujours avoir un historique le plus propre possible.
+
+Concrètement, `git rebase -i` permet d'aller modifier un commit. On peut également
+ajouter ou supprimer des commits, et découper un commit en plusieurs commits.
+La plupart du temps, il y a des conflits avec les commits suivants, et le rebase
+prend parfois un peu de temps car il faut corriger un nombre important de conflits.
+Pour découper un commit en plusieurs, il faut généralement passer par des stash
+et souvent faire des éditions manuelles. Le risque d'erreur est grand et ça prend
+du temps.
+
+En fait avec cette méthode on travaille non seulement sur le code final,
+mais on travaille également sur l'historique du code. Le but est d'avoir un
+code final bon ET un historique clean.
+
+Points négatifs de cette approche :
+- vu qu'on travaille sur l'historique lui-même, on a en fait pas d'historique des modifications
+- découper un commits en plusieurs et parfois compliqué
+- les rebases sont généralement compliqués à effectuer à cause des conflits
+
+L'expérience est intéressante, mais ça demande beaucoup de travail.
+De plus ce n'est faisable que quand on est seul sur le projet. Pour la suite de mon
+projet je fais revenir à une approche plus conventionnelle, en m'efforçant de
+constituer un historique le plus propre possible mais sans jamais revenir sur un
+commit passé.
