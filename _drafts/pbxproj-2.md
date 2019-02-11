@@ -1,0 +1,76 @@
+# iOS: Qu'y a-t-il dans les fichiers projets Xcode - partie 2
+
+
+Dans un précédent article, nous avons vu ouvert un fichier .pbxproj et fait des observations simples.
+
+Aujourd'hui, regardons de plus près.
+
+Première observation, le fichier ressemble à du JSON, et voici la structure de premier niveau :
+
+```
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+        ...
+	};
+	rootObject = 29F4EA1521C972780000B8A1 /* Project object */;
+}
+```
+
+Dans `objects` on a des éléments identifiés par un code unique et qui prennent la forme d'un objet JSON, exemples :
+
+```
+2963B14921D7B14600B97C19 /* Release */ = {
+    isa = XCBuildConfiguration;
+    buildSettings = {
+        CODE_SIGN_IDENTITY = "Mac Developer";
+        CODE_SIGN_STYLE = Automatic;
+        DEVELOPMENT_TEAM = 2N6DR3R99K;
+        MACOSX_DEPLOYMENT_TARGET = 10.14;
+        PRODUCT_NAME = "$(TARGET_NAME)";
+        SDKROOT = macosx;
+        SWIFT_VERSION = 4.2;
+    };
+    name = Release;
+};
+```
+
+```
+2963B14221D7B14600B97C19 /* CopyFiles */ = {
+    isa = PBXCopyFilesBuildPhase;
+    buildActionMask = 2147483647;
+    dstPath = /usr/share/man/man1/;
+    dstSubfolderSpec = 0;
+    files = (
+    );
+    runOnlyForDeploymentPostprocessing = 1;
+};
+```
+
+```
+2963B14721D7B14600B97C19 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2963B14621D7B14600B97C19 /* main.swift */; };
+```
+
+Sur ce dernier exemple, on voit `fileRef = 2963B14621D7B14600B97C19` qui fait en fait référence à un autre objet :
+
+```
+2963B14621D7B14600B97C19 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+```
+
+D'autres objets font de même références à d'autres objets.
+
+Si on y regarde de plus près, on voit que les objets ont toujours un champ `isa`, à comprendre "is a". Dans les exemples ci-dessus on par exemple :
+`XCBuildConfiguration`, `PBXCopyFilesBuildPhase`, `PBXBuildFile`.
+
+On peut alors essayer de voir quels types d'objets font références à quels types d'objets et ainsi construire une sorte de graphe.
+
+C'est l'exercice auquel je me suis livré et voici le résultat :
+
+*Les cases arrondies correspondent à un objet du type indiqué, les cases carrées correspondent à des propriétés de l'objet.*
+
+![](pbxproj.png)
