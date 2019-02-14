@@ -1,4 +1,9 @@
-# iOS: Chargement d'images avec cache et usage dans un table view - partie 2
+---
+layout: post
+title:  "iOS: Chargement d'images avec cache et usage dans un table view - partie 2"
+date:   2019-02-14 21:11:47 +0100
+categories: ios
+---
 
 
 Dans un précédent article, nous avons vu comment télécharger des images avec un
@@ -70,7 +75,7 @@ propriété `imageURL` alors même que l'image précédente est encore en train 
 charger. On peut alors voir apparaitre l'image précédente un bref instant avant
 qu'elle soit remplacée par la nouvelle image. Du point de vue de l'utilisateur,
 il va voir apparaitre une image qui ne correspond pas à la cellule dans laquelle
-elle apparait. Dans de rares cas, il est même possible que la requête de chargement
+elle apparait. Il est même possible que la requête de chargement
 de la seconde image finisse avant celle de la première image, auquel cas on verra
 d'abbord apparaitre la seconde image, qui est l'image voulue, avant qu'elle soit
 remplacée par la première image, qui n'est pas l'image voulue, et la cellule
@@ -79,7 +84,7 @@ affichera alors la mauvaise image tant qu'on ne met pas à jour la propriété
 
 Pour éviter d'avoir la mauvaise image quand la cellule est réutilisée, il faut
 annuler le chargement de l'image s'il est encore en cours lorsque la valeur de
-la propriété `imageURL` est mise à jour.
+la propriété `imageURL` change.
 
 
 # Annuler une requête de chargement d'image
@@ -227,7 +232,7 @@ que seule l'image voulue est affichée.
 ```swift
 class MyCell: UITableViewCell {
 
-    var latestRequestId: UUID?
+    var latestRequestId: UUID? = nil
 
     var imageURL: URL {
         didSet {
@@ -330,7 +335,7 @@ class ImageLoader {
 ```swift
 class MyCell: UITableViewCell {
 
-    var latestRequestId: UUID?
+    var latestRequestId: UUID? = nil
 
     var imageURL: URL {
         didSet {
@@ -367,8 +372,8 @@ Notre fournisseur ne gère pas le cas où plusieurs clients demandent la même i
 Si cela se produit, la closure du dernier client remplace celle du premier,
 et la closure du premier n'est donc jamais appelée.
 
-La solution est simple, il suffit de stocker une liste de closure pour chaque requête.
-Je vous laisse cela en exercice ;)
+La solution est simple, il suffit de stocker une liste de closure pour chaque requête
+au lieu d'une seule. Je vous laisse cela en exercice ;)
 
 Dans un prochain article nous verrons comment améliorer la robustesse du fournisseur
 d'image dans un contexte multithread.
