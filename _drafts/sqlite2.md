@@ -2,7 +2,7 @@
 # Utiliser SQLite sur iOS (partie 2)
 
 Dans la première partie nous avons vu comment utiliser SQLite sur iOS.
-Nous avons utiliser directement l'API C fournie dans iOS.
+Nous avons utilisé directement l'API C fournie dans iOS.
 Cette API pose plusieurs problèmes :
 
 - connexions et statements sont représentés par un même type d'objet (pointeur)
@@ -30,7 +30,7 @@ class Statement {
 Par rapport au deuxième point, nous décidons qu'une instance de `Connection` représente nécessairement une connexion ouverte.
 Une connexion fermée n'a pas beaucoup d'intérêt de toute façon.
 
-De même nous, décidons qu'une instance de `Statement` correspond nécessairement à un statement préparé.
+De même nous décidons qu'une instance de `Statement` correspond nécessairement à un statement préparé.
 Un statement non préparé n'a pas beaucoup d'intérêt non plus.
 
 Dans `Connection`, on ouvre la connexion dans l'`init`, et on ferme la connexion dans le `deinit`.
