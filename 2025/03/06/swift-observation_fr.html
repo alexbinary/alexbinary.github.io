@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>(fr) Swift Observation: étude approfondie | Making something great</title>
+<meta name="generator" content="Jekyll v4.2.2" />
+<meta property="og:title" content="(fr) Swift Observation: étude approfondie" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduit en 2023, le framework Observation vise à simplifier les mécanismes existant en matière de réactivité tout en améliorant les performances des applications." />
+<meta property="og:description" content="Introduit en 2023, le framework Observation vise à simplifier les mécanismes existant en matière de réactivité tout en améliorant les performances des applications." />
+<meta property="og:site_name" content="Making something great" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-03-06T04:23:15-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="(fr) Swift Observation: étude approfondie" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-03-06T04:23:15-06:00","datePublished":"2025-03-06T04:23:15-06:00","description":"Introduit en 2023, le framework Observation vise à simplifier les mécanismes existant en matière de réactivité tout en améliorant les performances des applications.","headline":"(fr) Swift Observation: étude approfondie","mainEntityOfPage":{"@type":"WebPage","@id":"/2025/03/06/swift-observation_fr.html"},"url":"/2025/03/06/swift-observation_fr.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Making something great" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+</head><body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Making something great</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog">Blog</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(fr) Swift Observation: étude approfondie</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-03-06T04:23:15-06:00" itemprop="datePublished">Mar 6, 2025
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Introduit en 2023, le framework <a href="https://developer.apple.com/documentation/observation">Observation</a>
+vise à simplifier les mécanismes existant en matière de réactivité tout en améliorant les performances des applications.</p>
+
+<p>Cette nouvelle approche repose sur le tracking automatique des accès aux données
+via la méthode <a href="https://developer.apple.com/documentation/observation/withobservationtracking(_:onchange:)"><code class="language-plaintext highlighter-rouge">withObservationTracking(_:onChange:)</code></a>.</p>
+
+<p>Dans cet article nous allons jouer avec cette méthode pour en comprendre le fonctionnement et les limitations.</p>
+
+<h2 id="fonctionnement-général">Fonctionnement général</h2>
+
+<p>Le framework Observation repose sur l’utilisation de types de référence. La macro <a href="https://developer.apple.com/documentation/observation/observable()"><code class="language-plaintext highlighter-rouge">@Observable</code></a> ne peut être appliquée qu’aux classes, excluant ainsi les structures. Par conséquent, les applications s’appuyant sur une sémantique de valeur devront d’abord effectuer une transition vers une sémantique de référence, une tâche qui peut s’avérer complexe selon les contextes.</p>
+
+<p>Une classe annotée avec <code class="language-plaintext highlighter-rouge">@Observable</code> détecte et mémorise les accès à ses propriétés.
+Seuls les accès aux propriétés stockées sont pris en compte.
+Cependant, l’accès peut-être indirect, par exemple via une fonction ou une propriété calculée.
+Si une chaine d’appels résulte <em>in fine</em> en en accès à une propriété stockée, Observation le détecte.</p>
+
+<p>Les accès en lecture et écriture sont détectés.
+Les accès en lecture servent à identifier les dépendances,
+les accès en écriture à envoyer les notifications de changement.</p>
+
+<h2 id="un-exemple-simple">Un exemple simple</h2>
+
+<p>Remarque : Tous les codes présentés fonctionnent tel quel dans une <em>playground</em>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str</span> <span class="o">=</span> <span class="s">"test"</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">str</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"str changed"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing str"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">str</span> <span class="o">=</span> <span class="s">"new"</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Changing str
+str changed 
+</code></pre></div></div>
+
+<p>Dans cet exemple, nous déclarons une classe observable avec une propriété simple et créons une instance de celle-ci. Nous accédons à la propriété de l’objet dans le bloc <code class="language-plaintext highlighter-rouge">apply</code> de <code class="language-plaintext highlighter-rouge">withObservationTracking(_:onChange:)</code>.
+L’accès en lecture est détecté et mémorisé. Enfin, en modifiant la valeur de la propriété à l’extérieur, l’accès en écriture est également détecté, entraînant l’appel du bloc <code class="language-plaintext highlighter-rouge">onChange</code>.</p>
+
+<h2 id="cest-laccès-en-lecture-qui-attache-lobservation">C’est l’accès en lecture qui attache l’observation</h2>
+
+<p>Si nous modifions le code pour effectuer un accès en écriture plutôt qu’en lecture dans le bloc <code class="language-plaintext highlighter-rouge">apply</code>, nous constatons que le changement n’est pas détecté :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str</span> <span class="o">=</span> <span class="s">"test"</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="n">test</span><span class="o">.</span><span class="n">str</span> <span class="o">=</span> <span class="s">"write"</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"str changed"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing str"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">str</span> <span class="o">=</span> <span class="s">"new"</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Changing str
+</code></pre></div></div>
+
+<p>Il s’avère donc que seuls les accès en lecture permettent de connecter l’observation. Cette logique est cohérente : un composant qui ne fait qu’écrire n’a pas besoin d’être informé des changements de valeur.</p>
+
+<h2 id="laccès-en-écriture-déclenche-toujours-la-notification">L’accès en écriture déclenche <em>toujours</em> la notification</h2>
+
+<p>Si nous accédons en écriture à la propriété en passant une valeur identique à la valeur existante, la notification de changement est toujours envoyée :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str</span> <span class="o">=</span> <span class="s">"test"</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">str</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"str changed"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing str"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">str</span> <span class="o">=</span> <span class="s">"test"</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Changing str
+str changed 
+</code></pre></div></div>
+
+<p>Les accès en écriture déclenchent donc toujours un événement de changement, même si la valeur ne change pas dans la pratique. Si nous voulons déclencher l’événement seulement si la valeur change réellement, charge à nous de nous assurer d’écrire la variable seulement si la nouvelle valeur est différente.</p>
+
+<h2 id="seules-les-propriétées-lues-sont-observées">Seules les propriétées lues sont observées</h2>
+
+<p>En ajoutant une seconde propriété, nous constatons que seul un changement à la propriété lue dans <code class="language-plaintext highlighter-rouge">apply</code> déclenche un changement :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str1</span> <span class="o">=</span> <span class="s">"test1"</span>
+    <span class="k">var</span> <span class="nv">str2</span> <span class="o">=</span> <span class="s">"test2"</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">str1</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"str1 changed"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">str2</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"str2 changed"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing str2"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">str2</span> <span class="o">=</span> <span class="s">"new"</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Changing str2
+str2 changed
+</code></pre></div></div>
+
+<p>Seuls les blocs attachés aux propriétés qui changent sont appelés. Cela constitue une amélioration majeure par rapport aux techniques précédentes, où l’objet dans son ensemble était observé. Cette granularité accrue peut améliorer les performances en limitant les mises à jour aux parties réellement concernées.</p>
+
+<h2 id="étude-approfondie--sémantique-de-valeur">Étude approfondie : sémantique de valeur</h2>
+
+<p>Pour les types avec une sémantique de valeur, ce qui comprend notamment tous types les primitifs, ainsi que les tableaux et les dictionnaires, mais aussi les structures, la notification de changement est envoyée dès que la valeur change.</p>
+
+<p>Nous avons déjà vu des exemples plus haut pour les types primitifs comme <code class="language-plaintext highlighter-rouge">String</code>.
+Le cas des tableaux, dictionnaires et structures et intéressant, bien que tout à fait logique.</p>
+
+<h3 id="tableaux">Tableaux</h3>
+
+<p>Dans le cas d’un tableau, changer une valeur dans le tableau change la valeur totale du tableau, et envoie donc un changement à tout observateur attaché à tout ou partie du tableau :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s">"test1"</span><span class="p">,</span><span class="s">"test2"</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">arr</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"arr changed"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"arr[0] changed"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"arr[1] changed"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing arr[0]"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s">"new"</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Changing arr[1]
+arr changed
+arr[0] changed
+arr[1] changed
+</code></pre></div></div>
+
+<h3 id="dictionnaires">Dictionnaires</h3>
+
+<p>Le même principe s’applique aux dictionnaires :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">dict</span> <span class="o">=</span> <span class="p">[</span><span class="s">"1"</span><span class="p">:</span><span class="s">"test1"</span><span class="p">,</span><span class="s">"2"</span><span class="p">:</span><span class="s">"test2"</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">dict</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"dict changed"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">dict</span><span class="p">[</span><span class="s">"1"</span><span class="p">]</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"dict['1'] changed"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">dict</span><span class="p">[</span><span class="s">"2"</span><span class="p">]</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"dict['2'] changed"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing dict['1']"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">dict</span><span class="p">[</span><span class="s">"1"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"new"</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Changing dict['2']
+dict changed
+dict['1'] changed
+dict['2'] changed
+</code></pre></div></div>
+
+<h3 id="structures">Structures</h3>
+
+<p>Idem pour les structures, pour lesquelles changer un membre change la valeur totale de celle-ci :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">value</span> <span class="o">=</span> <span class="kt">TestValue</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="kd">struct</span> <span class="kt">TestValue</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str1</span> <span class="o">=</span> <span class="s">"test"</span>
+    <span class="k">var</span> <span class="nv">str2</span> <span class="o">=</span> <span class="s">"test"</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">value</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"value changed"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">str1</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"value.str1 changed"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">str2</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"value.str2 changed"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing value.str1"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">str1</span> <span class="o">=</span> <span class="s">"new"</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Changing value.str1
+value changed
+value.str1 changed
+value.str2 changed
+</code></pre></div></div>
+
+<h2 id="étude-approfondie--sémantique-de-référence">Étude approfondie : sémantique de référence</h2>
+
+<p>Pour les type avec une sémantique de référence, la notification de changement est envoyée dès lors que la référence change.
+Par voie de conséquence, tous les accès aux propriétés des objets référencés reçoivent également la mise à jour :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">ref</span> <span class="o">=</span> <span class="kt">TestRef</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="kt">TestRef</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str</span> <span class="o">=</span> <span class="s">"test"</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">ref</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"ref changed"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"ref.str changed"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing ref"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">ref</span> <span class="o">=</span> <span class="kt">TestRef</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Changing ref
+ref changed
+ref.str changed
+</code></pre></div></div>
+
+<p>Noter que, comme vu plus haut, le changement est déclenché même si concrètement aucune valeur ne change
+(<code class="language-plaintext highlighter-rouge">ref.str</code> vaut toujours <code class="language-plaintext highlighter-rouge">"test"</code> avant et après, et on aurait le même résultat si on avait fait <code class="language-plaintext highlighter-rouge">test.ref = test.ref</code>).</p>
+
+<h3 id="changements-dans-un-objet-par-référence">Changements dans un objet par référence</h3>
+
+<p>Contrairement aux structures vues plus haut, par défaut, accéder en écriture à une propriété dans un objet par référence ne déclenche pas de changement :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">ref</span> <span class="o">=</span> <span class="kt">TestRef</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="kt">TestRef</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str</span> <span class="o">=</span> <span class="s">"test"</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">ref</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"ref changed"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"ref.str changed"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing ref.str"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str</span> <span class="o">=</span> <span class="s">"new"</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Changing ref.str
+</code></pre></div></div>
+
+<p>Pour que ce soit le cas il suffit de rendre la classe <code class="language-plaintext highlighter-rouge">@Observable</code> :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">ref</span> <span class="o">=</span> <span class="kt">TestRef</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestRef</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str</span> <span class="o">=</span> <span class="s">"test"</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">ref</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"ref changed"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"ref.str changed"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing ref.str"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str</span> <span class="o">=</span> <span class="s">"new"</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Changing ref.str
+ref.str changed
+</code></pre></div></div>
+
+<p>Noter que dans ce cas, contrairement à la structure, aucun changement n’est déclenché sur <code class="language-plaintext highlighter-rouge">ref</code>, car c’est la référence qui compte, et ici celle-ci n’est pas touchée.</p>
+
+<h2 id="reduction-des-changements">Reduction des changements</h2>
+
+<p>Lorsque plusieurs accès en écriture provoquent le même changement, un seul événement est déclenché :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">ref</span> <span class="o">=</span> <span class="kt">TestRef</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestRef</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str1</span> <span class="o">=</span> <span class="s">"test1"</span>
+    <span class="k">var</span> <span class="nv">str2</span> <span class="o">=</span> <span class="s">"test2"</span>
+<span class="p">}</span>
+<span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+
+<span class="n">withObservationTracking</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str1</span>
+    <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str2</span>
+<span class="p">}</span> <span class="nv">onChange</span><span class="p">:</span> <span class="p">{</span>
+    <span class="kt">Task</span> <span class="p">{</span> <span class="kd">@MainActor</span> <span class="k">in</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"ref.str1 and/or ref.str2 changed"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"str1: </span><span class="se">\(</span><span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str1</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"str2: </span><span class="se">\(</span><span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str2</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Original values"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"str1: </span><span class="se">\(</span><span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str1</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"str2: </span><span class="se">\(</span><span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str2</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing ref.str1"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str1</span> <span class="o">=</span> <span class="s">"new1"</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"Changing ref.str2"</span><span class="p">)</span>
+<span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str2</span> <span class="o">=</span> <span class="s">"new2"</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Original values
+str1: test1
+str2: test2
+Changing ref.str1
+Changing ref.str2
+ref.str1 and/or ref.str2 changed
+str1: new1
+str2: new2
+</code></pre></div></div>
+
+<p>Cet exemple est un peu complexe.
+Un exemple dans une app SwiftUI est plus parlant :</p>
+
+<p><em>Ce code ne fonctionne pas dans une playground. Il faut créer une app.</em></p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str1</span> <span class="o">=</span> <span class="s">"test1"</span>
+    <span class="k">var</span> <span class="nv">str2</span> <span class="o">=</span> <span class="s">"test2"</span>
+<span class="p">}</span>
+
+<span class="kd">@main</span>
+<span class="kd">struct</span> <span class="kt">TestApp</span><span class="p">:</span> <span class="kt">App</span> <span class="p">{</span>
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">Scene</span> <span class="p">{</span>
+        <span class="kt">WindowGroup</span> <span class="p">{</span>  
+            <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="nf">print</span><span class="p">(</span><span class="s">"View update"</span><span class="p">)</span>
+            <span class="kt">Text</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">str1</span><span class="p">)</span>
+            <span class="kt">Text</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">str2</span><span class="p">)</span>
+            <span class="kt">Button</span><span class="p">(</span><span class="s">"Change str1"</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"Changing str1"</span><span class="p">)</span>
+                <span class="n">test</span><span class="o">.</span><span class="n">str1</span> <span class="o">=</span> <span class="s">"</span><span class="se">\(</span><span class="kt">Date</span><span class="p">()</span><span class="se">)</span><span class="s">"</span>
+            <span class="p">}</span>
+            <span class="kt">Button</span><span class="p">(</span><span class="s">"Change str2"</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"Changing str2"</span><span class="p">)</span>
+                <span class="n">test</span><span class="o">.</span><span class="n">str2</span> <span class="o">=</span> <span class="s">"</span><span class="se">\(</span><span class="kt">Date</span><span class="p">()</span><span class="se">)</span><span class="s">"</span>
+            <span class="p">}</span>
+            <span class="kt">Button</span><span class="p">(</span><span class="s">"Change both"</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"Changing both"</span><span class="p">)</span>
+                <span class="n">test</span><span class="o">.</span><span class="n">str1</span> <span class="o">=</span> <span class="s">"</span><span class="se">\(</span><span class="kt">Date</span><span class="p">()</span><span class="se">)</span><span class="s">"</span>
+                <span class="n">test</span><span class="o">.</span><span class="n">str2</span> <span class="o">=</span> <span class="s">"</span><span class="se">\(</span><span class="kt">Date</span><span class="p">()</span><span class="se">)</span><span class="s">"</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<p><img src="/assets/2025-03-06-swift-observation/1.gif" alt="" /></p>
+
+<p>Lorsqu’on clique sur <strong>Change both</strong>, nous remarquons qu’un seul <code class="language-plaintext highlighter-rouge">View update</code> est émis, même si les deux valeurs sont mises à jour simultanément. Cela témoigne d’une performance optimisée, où les vues ne se recalculent qu’une seule fois, indépendamment du nombre de modifications apportées à l’objet.</p>
+
+<h2 id="changement-dun-objet-par-référence-exemple-dans-une-app-swiftui">Changement d’un objet par référence, exemple dans une app SwiftUI</h2>
+
+<p>Si nous remplaçons un objet au lieu de modifier uniquement les propriétés changeantes, nous déclenchons un changement au niveau de l’objet, ce qui entraîne une mise à jour de toutes les vues qui dépendent de ses propriétés, même si ces dernières ne changent pas :</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestClass</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">ref</span> <span class="o">=</span> <span class="kt">TestRef</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">TestRef</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">str1</span> <span class="o">=</span> <span class="s">"test1"</span>
+    <span class="k">var</span> <span class="nv">str2</span> <span class="o">=</span> <span class="s">"test2"</span>
+<span class="p">}</span>
+
+<span class="kd">@main</span>
+<span class="kd">struct</span> <span class="kt">TestApp</span><span class="p">:</span> <span class="kt">App</span> <span class="p">{</span>
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">test</span> <span class="o">=</span> <span class="kt">TestClass</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">Scene</span> <span class="p">{</span>
+        <span class="kt">WindowGroup</span> <span class="p">{</span>
+            <span class="kt">View1</span><span class="p">()</span>
+            <span class="kt">View2</span><span class="p">()</span>
+            <span class="kt">Button</span><span class="p">(</span><span class="s">"Change ref"</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">test</span><span class="o">.</span><span class="n">ref</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">ref</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="o">.</span><span class="nf">environment</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">struct</span> <span class="kt">View1</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kd">@Environment</span><span class="p">(</span><span class="kt">TestClass</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="k">var</span> <span class="nv">test</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="nf">print</span><span class="p">(</span><span class="s">"View1 update"</span><span class="p">)</span>
+        <span class="kt">Text</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str1</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">struct</span> <span class="kt">View2</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kd">@Environment</span><span class="p">(</span><span class="kt">TestClass</span><span class="o">.</span><span class="k">self</span><span class="p">)</span> <span class="k">var</span> <span class="nv">test</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="nf">print</span><span class="p">(</span><span class="s">"View2 update"</span><span class="p">)</span>
+        <span class="kt">Text</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">str2</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Résultat :</p>
+
+<p><img src="/assets/2025-03-06-swift-observation/2.gif" alt="" /></p>
+
+<p>En cliquant sur <strong>Change ref</strong>, nous constatons que les deux vues se mettent à jour, même si les données affichées n’ont pas changé. Pour optimiser les performances, il est donc préférable de ne modifier que les propriétés réellement modifiées.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Le framework Observation représente une avancée significative dans la gestion de la réactivité au sein des applications Swift. En offrant une granularité fine dans le suivi des changements, il permet d’optimiser les performances tout en simplifiant la gestion des dépendances. Les développeurs doivent cependant garder à l’esprit la nécessité de transitionner vers une sémantique de référence et de gérer judicieusement les accès en lecture et en écriture.</p>
+
+  </div><a class="u-url" href="/2025/03/06/swift-observation_fr.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Making something great</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Making something great</li><li><a class="u-email" href="mailto:alexandre@bintz.xyz">alexandre@bintz.xyz</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/alexbinary"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">alexbinary</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p> Alexandre Bintz - maker, coder, thinker #programming #3dprinting #electronics #woodworking #LEGO #photography </p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

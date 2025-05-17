@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>(fr) Accès au micro dans une app SwiftUI | Making something great</title>
+<meta name="generator" content="Jekyll v4.2.2" />
+<meta property="og:title" content="(fr) Accès au micro dans une app SwiftUI" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="J’ai une activité de vente en ligne de pièces de LEGO sur la plateforme BrickLink, et je développe une application mac en SwiftUI pour m’aider à gérer mes ventes." />
+<meta property="og:description" content="J’ai une activité de vente en ligne de pièces de LEGO sur la plateforme BrickLink, et je développe une application mac en SwiftUI pour m’aider à gérer mes ventes." />
+<meta property="og:site_name" content="Making something great" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-02-28T04:02:15-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="(fr) Accès au micro dans une app SwiftUI" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-02-28T04:02:15-06:00","datePublished":"2025-02-28T04:02:15-06:00","description":"J’ai une activité de vente en ligne de pièces de LEGO sur la plateforme BrickLink, et je développe une application mac en SwiftUI pour m’aider à gérer mes ventes.","headline":"(fr) Accès au micro dans une app SwiftUI","mainEntityOfPage":{"@type":"WebPage","@id":"/2025/02/28/swiftui-microphone_fr.html"},"url":"/2025/02/28/swiftui-microphone_fr.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Making something great" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+</head><body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Making something great</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog">Blog</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">(fr) Accès au micro dans une app SwiftUI</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-02-28T04:02:15-06:00" itemprop="datePublished">Feb 28, 2025
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>J’ai une activité de vente en ligne de pièces de LEGO sur la plateforme BrickLink,
+et je développe une application mac en SwiftUI pour m’aider à gérer mes ventes.</p>
+
+<p>Pour le module d’aide au picking, j’ai imaginé une fonctionnalité mains libre basée sur des commandes vocales.
+Dans cette optique, j’ai commencé par expérimenter avec le module de reconnaissance vocale d’Apple.
+Mais au préalable, il faut accéder aux données audio du micro.</p>
+
+<p>Dans cet article je reviens sur comment j’ai implémenté l’accès au micro dans une application Swift UI.</p>
+
+<h2 id="préparation">Préparation</h2>
+
+<p>Pour que l’app puisse avoir accès au micro, il faut cocher <strong>Audio Input</strong> dans <strong>Signing &amp; Capabilities</strong>, et ajouter la clé <strong>NSMicrophoneUsageDescription</strong> dans l’onglet <strong>Info</strong>.</p>
+
+<h2 id="structure-de-base">Structure de base</h2>
+
+<p>Mon app de test comprend une seule vue, avec un bouton pour lancer/arrêter l’écoute du micro.
+Les fonctionnalités d’accès au micro sont gérées dans un objet contrôleur <code class="language-plaintext highlighter-rouge">@Observable</code> utilisé comme <code class="language-plaintext highlighter-rouge">@State</code> dans la vue. Le contrôleur expose des fonctions <code class="language-plaintext highlighter-rouge">start()</code> et <code class="language-plaintext highlighter-rouge">stop()</code>, et une propriété observable <code class="language-plaintext highlighter-rouge">listening</code>, à <code class="language-plaintext highlighter-rouge">true</code> quand le micro est en cours d’écoute, <code class="language-plaintext highlighter-rouge">false</code> sinon.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@main</span>
+<span class="kd">struct</span> <span class="kt">SpeechRecognitionApp</span><span class="p">:</span> <span class="kt">App</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">Scene</span> <span class="p">{</span>
+        <span class="kt">WindowGroup</span> <span class="p">{</span>
+            <span class="kt">SpeechRecognitionRootView</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">struct</span> <span class="kt">SpeechRecognitionRootView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>    
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">SpeechRecognitionController</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>      
+        <span class="kt">HStack</span> <span class="p">{</span>    
+            <span class="k">if</span> <span class="o">!</span><span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                <span class="kt">Button</span><span class="p">(</span><span class="s">"Start"</span><span class="p">)</span> <span class="p">{</span> <span class="n">controller</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span> <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="kt">Button</span><span class="p">(</span><span class="s">"Stop"</span><span class="p">)</span> <span class="p">{</span> <span class="n">controller</span><span class="o">.</span><span class="nf">stop</span><span class="p">()</span> <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Listening"</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">listening</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO</span>
+    <span class="p">}</span>
+    <span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="vérifier-la-permission-daccès-au-micro">Vérifier la permission d’accès au micro</h2>
+
+<p>L’accès au micro peut être autorisé, refusé/restreint ou indéterminé :</p>
+
+<ul>
+  <li>
+    <p>Le cas <em>autorisé</em> correspond au cas où l’utilisateur a explicitement autorisé l’accès.</p>
+  </li>
+  <li>
+    <p>Le cas <em>refusé</em> correspond au cas où l’utilisateur a explicitement refusé l’accès.</p>
+  </li>
+  <li>
+    <p>Le cas <em>restreint</em> correspond au cas où le système impose des restrictions, comme dans le cas d’un contrôle parental par exemple. Ici on considère ce cas équivalent à <em>refusé</em>.</p>
+  </li>
+  <li>
+    <p>Le cas indéterminé correspond à la situation dans laquelle l’app n’a encore jamais demandé la permission.</p>
+  </li>
+</ul>
+
+<p>Dans le contrôleur j’ajoute un un booléen optionnel qui reflètera l’état de l’autorisation d’accès au micro.
+Une valeur <code class="language-plaintext highlighter-rouge">nil</code> correspond à un état indéterminé, <code class="language-plaintext highlighter-rouge">true</code> si autorisé, et <code class="language-plaintext highlighter-rouge">false</code> dans les autres cas.</p>
+
+<p>Dans la vue j’affiche la valeur de l’autorisation.
+Je crée aussi une propriété calculée <code class="language-plaintext highlighter-rouge">ready</code> qui permet d’ajuster l’interface dans le cas où la permission micro est refusée. En l’occurence on désactive le bouton <strong>Start</strong>.</p>
+
+<p>Par la suite on demandera l’autorisation au moment où l’utilisateur•ice clic sur le bouton <strong>Start</strong>.
+Il faut donc que celui-ci soit actif dans le cas où la permission est encore indéterminée.
+De manière générale, quand la permission est encore indéterminée, il est plus engagent pour l’utilisateur•ice de présenter l’interface comme si elle était autorisée, et de ne la désactiver que lorsque la premission est explicitement refusée.
+C’est pour cette raison que <code class="language-plaintext highlighter-rouge">ready</code> ne renvoit <code class="language-plaintext highlighter-rouge">false</code> que dans le cas où la premission est connue et refusée, et <code class="language-plaintext highlighter-rouge">true</code> dans tous les autres cas.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SpeechRecognitionRootView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">SpeechRecognitionController</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="kt">Grid</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">leading</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">GridRow</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Microphone authorisation"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">authorized</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">microphoneAuthorized</span> <span class="p">{</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="n">authorized</span> <span class="p">?</span> <span class="s">"Granted"</span> <span class="p">:</span> <span class="s">"Denied"</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"undetermined"</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="kt">HStack</span> <span class="p">{</span>    
+                <span class="k">if</span> <span class="o">!</span><span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                    <span class="kt">Button</span><span class="p">(</span><span class="s">"Start"</span><span class="p">)</span> <span class="p">{</span> <span class="n">controller</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span> <span class="p">}</span>
+                    <span class="o">.</span><span class="nf">disabled</span><span class="p">(</span><span class="o">!</span><span class="n">ready</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="c1">// ...</span>
+                <span class="p">}</span>
+                <span class="c1">// ...</span>
+            <span class="p">}</span>  
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">var</span> <span class="nv">ready</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span>   
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">authorized</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">microphoneAuthorized</span><span class="p">,</span> <span class="n">authorized</span> <span class="o">==</span> <span class="kc">false</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">false</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>    
+    <span class="c1">// ...</span>
+    <span class="k">var</span> <span class="nv">microphoneAuthorized</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Ensuite dans le contrôleur je crée une propriété calculée pour encapsuler l’appel à la fonction système <code class="language-plaintext highlighter-rouge">AVCaptureDevice.authorizationStatus(for:)</code>, en indiquant qu’on souhaite accéder à l’audio.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">AVFoundation</span>
+
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">var</span> <span class="nv">microphoneAuthorisationStatus</span><span class="p">:</span> <span class="kt">AVAuthorizationStatus</span> <span class="p">{</span>
+        <span class="kt">AVCaptureDevice</span><span class="o">.</span><span class="nf">authorizationStatus</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">audio</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Je crée ensuite une fonction qui met à jour la propriété observable en fonction de la valeur brute de la permission.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="kd">func</span> <span class="nf">updateMicrophoneAuthorisationStatus</span><span class="p">()</span> <span class="p">{</span>   
+        <span class="n">microphoneAuthorized</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="k">switch</span> <span class="n">microphoneAuthorisationStatus</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">notDetermined</span><span class="p">:</span> <span class="kc">nil</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">authorized</span><span class="p">:</span> <span class="kc">true</span>
+            <span class="k">default</span><span class="p">:</span> <span class="kc">false</span>
+            <span class="p">}</span>
+        <span class="p">}()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">microphoneAuthorized</code> pourrait être une propriété calculée, mais on n’aurait alors aucun moyen de communiquer les changements à la vue. L’observation nécessite une propriété stockée. C’est la mise à jour explicite de la propriété qui va déclencher la mise à jour de la vue. La contrepartie est qu’il faut penser à appeler <code class="language-plaintext highlighter-rouge">updateMicrophoneAuthorisationStatus()</code> aux moments opportuns.</p>
+
+<p>Un moment opportun pour mettre à jour la valeur est au démarrage, j’ajoute donc un initialiseur dans le contrôleur qui fait une première mise à jour.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">override</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">()</span>
+        <span class="nf">updateMicrophoneAuthorisationStatus</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Ainsi quand l’app démarre l’affichage reflète la bonne valeur de l’autorisation.</p>
+
+<h2 id="demander-la-permission-daccès-au-micro">Demander la permission d’accès au micro</h2>
+
+<p>Il faut maintenant demander la permission d’accès au micro.</p>
+
+<p>Je crée encore une fois une fonction pour encapsuler l’appel à la fonction système. La fonction est <code class="language-plaintext highlighter-rouge">AVCaptureDevice.requestAccess(for:)</code>, elle renvoie un booléen à <code class="language-plaintext highlighter-rouge">true</code> si autorisé, <code class="language-plaintext highlighter-rouge">false</code> sinon.
+Ma méthode renvoie plutôt la valeur complète de l’autorisation, après avoir mis à jour la propriété.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="kd">func</span> <span class="nf">requestMicrophoneAuthorisation</span><span class="p">()</span> <span class="k">async</span> <span class="o">-&gt;</span> <span class="kt">AVAuthorizationStatus</span> <span class="p">{</span>
+        <span class="k">await</span> <span class="kt">AVCaptureDevice</span><span class="o">.</span><span class="nf">requestAccess</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">audio</span><span class="p">)</span>
+        <span class="nf">updateMicrophoneAuthorisationStatus</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">microphoneAuthorisationStatus</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>A noter que si l’app a déjà demandé la permission et que l’état d’autorisation est donc connu, <code class="language-plaintext highlighter-rouge">AVCaptureDevice.requestAccess(for:)</code> ne fait rien du tout.
+Dans le cas contraire une boîte de dialogue demande à l’utilisateur s’il souhaite autoriser l’accès ou non.
+On peut donc appeler la méthode <code class="language-plaintext highlighter-rouge">requestMicrophoneAuthorisation()</code> de manière systématique pour récupérer l’état de l’autorisation, la question étant préalablement posée à l’utilisateur si nécessaire.</p>
+
+<p>Techniquement, demander la permission d’accès au micro et utiliser le micro sont deux choses différentes qui peuvent se produire à des moments différents. Et on pourrait tout à fait demander la permission au démarrage de l’application ou à l’arrivée sur l’écran. Cependant, demander la permission à l’utilisateur•ice lui donne l’impression qu’on va utiliser le micro immédiatement. Il est donc préférable de faire la demande au moment où on va réellement l’utiliser.</p>
+
+<p>C’est pourquoi j’appelle la méthode <code class="language-plaintext highlighter-rouge">requestMicrophoneAuthorisation()</code> dans la fonction <code class="language-plaintext highlighter-rouge">start()</code> et non dans l’<code class="language-plaintext highlighter-rouge">init()</code>.
+Comme <code class="language-plaintext highlighter-rouge">requestMicrophoneAuthorisation()</code> est <code class="language-plaintext highlighter-rouge">async</code>, je modifie <code class="language-plaintext highlighter-rouge">start()</code> pour l’être également, et je modifie l’action du bouton <strong>Start</strong> en conséquence.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SpeechRecognitionRootView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">SpeechRecognitionController</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="kt">Grid</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">leading</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ...</span>
+            <span class="kt">HStack</span> <span class="p">{</span>    
+                <span class="k">if</span> <span class="o">!</span><span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                    <span class="kt">Button</span><span class="p">(</span><span class="s">"Start"</span><span class="p">)</span> <span class="p">{</span> <span class="kt">Task</span> <span class="p">{</span> <span class="k">await</span> <span class="n">controller</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span> <span class="p">}}</span>
+                    <span class="o">.</span><span class="nf">disabled</span><span class="p">(</span><span class="o">!</span><span class="n">ready</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="c1">// ...</span>
+                <span class="p">}</span>
+                <span class="c1">// ...</span>
+            <span class="p">}</span>  
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>    
+    <span class="c1">// ...</span>
+    <span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="k">async</span> <span class="p">{</span>
+        <span class="c1">// check permission, ask if needed</span>
+        <span class="k">let</span> <span class="nv">microphoneStatus</span> <span class="o">=</span> <span class="k">await</span> <span class="nf">requestMicrophoneAuthorisation</span><span class="p">()</span>
+        <span class="k">guard</span> <span class="n">microphoneStatus</span> <span class="o">==</span> <span class="o">.</span><span class="n">authorized</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Microphone not authorized"</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+        <span class="c1">// next steps will follow here</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Une fois que l’app a demandé une première fois la permission, une entrée est créé dans les réglages de <strong>Confidentialité</strong> dans les <strong>Réglages système</strong>.
+L’utilisateur•ice peut ensuite modifier à loisir la permission.</p>
+
+<p>Une fois que l’entrée existe dans les réglages de <strong>Confidentialité</strong>, la boîte de dialogue d’autorisation ne s’affiche plus à l’utilisateur•ice.
+C’est embêtant pour le développement, où on aimerait pouvoir revenir dans un état de permission indéterminée.</p>
+
+<p>La commande suivante permet de supprimer l’entrée dans les réglages de <strong>Confidentialité</strong>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tccutil reset Microphone &lt;bundle.id&gt;
+</code></pre></div></div>
+
+<p>Attention si <code class="language-plaintext highlighter-rouge">&lt;bundle id&gt;</code> n’est pas précisé, la permission est réinitialisée pour <strong>toutes</strong> les apps du système.</p>
+
+<h2 id="accéder-aux-données-audio">Accéder aux données audio</h2>
+
+<p>Tout est enfin prêt pour recevoir les données audio !
+Pour ça on utilise <code class="language-plaintext highlighter-rouge">AVAudioEngine</code>.</p>
+
+<p>Je crée une nouvelle fonction <code class="language-plaintext highlighter-rouge">startAudio()</code> qui initialise une instance de <code class="language-plaintext highlighter-rouge">AVAudioEngine</code> dans et récupère le noeud d’entrée.
+On configure ensuite un “tap” sur le noeud d’entrée qui nous permet de récupérer les données audio brute dans un buffer. La callback est appelée à de multiples reprises avec le flux de données.
+Enfin on appelle <code class="language-plaintext highlighter-rouge">.prepare()</code> et <code class="language-plaintext highlighter-rouge">.start()</code> sur <code class="language-plaintext highlighter-rouge">audioEngine</code> pour lancer l’écoute.</p>
+
+<p>Je crée aussi une fonction <code class="language-plaintext highlighter-rouge">stopAudio()</code> qui arrête l’<code class="language-plaintext highlighter-rouge">audioEngine</code> et supprime le tap.
+On appelle <code class="language-plaintext highlighter-rouge">startAudio()</code> dans <code class="language-plaintext highlighter-rouge">start()</code> et <code class="language-plaintext highlighter-rouge">stopAudio()</code> dans <code class="language-plaintext highlighter-rouge">stop()</code>, et on peut mettre à jour le flag <code class="language-plaintext highlighter-rouge">listening</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">var</span> <span class="nv">audioEngine</span><span class="p">:</span> <span class="kt">AVAudioEngine</span><span class="o">!</span>
+    <span class="k">var</span> <span class="nv">inputNode</span><span class="p">:</span> <span class="kt">AVAudioInputNode</span><span class="o">!</span>
+
+    <span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="k">async</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="k">try</span> <span class="nf">startAudio</span><span class="p">()</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Failed to start audio: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+        <span class="n">listening</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span> <span class="p">{</span>   
+        <span class="nf">stopAudio</span><span class="p">()</span>
+        <span class="n">listening</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">startAudio</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+        <span class="n">audioEngine</span> <span class="o">=</span> <span class="kt">AVAudioEngine</span><span class="p">()</span>
+        <span class="n">inputNode</span> <span class="o">=</span> <span class="n">audioEngine</span><span class="o">.</span><span class="n">inputNode</span>
+        
+        <span class="k">let</span> <span class="nv">recordingFormat</span> <span class="o">=</span> <span class="n">inputNode</span><span class="o">.</span><span class="nf">outputFormat</span><span class="p">(</span><span class="nv">forBus</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">inputNode</span><span class="o">.</span><span class="nf">installTap</span><span class="p">(</span><span class="nv">onBus</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">bufferSize</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span> <span class="nv">format</span><span class="p">:</span> <span class="n">recordingFormat</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span> <span class="k">in</span>
+            <span class="c1">// receive audio data from buffer</span>
+        <span class="p">}</span>
+        
+        <span class="n">audioEngine</span><span class="o">.</span><span class="nf">prepare</span><span class="p">()</span>
+        <span class="k">try</span> <span class="n">audioEngine</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">stopAudio</span><span class="p">()</span> <span class="p">{</span>   
+        <span class="n">audioEngine</span><span class="o">.</span><span class="nf">stop</span><span class="p">()</span>
+        <span class="n">inputNode</span><span class="o">.</span><span class="nf">removeTap</span><span class="p">(</span><span class="nv">onBus</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Et voilà, tout est prêt pour transmettre les données audio au module de reconnaissance vocale.</p>
+
+  </div><a class="u-url" href="/2025/02/28/swiftui-microphone_fr.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Making something great</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Making something great</li><li><a class="u-email" href="mailto:alexandre@bintz.xyz">alexandre@bintz.xyz</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/alexbinary"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">alexbinary</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p> Alexandre Bintz - maker, coder, thinker #programming #3dprinting #electronics #woodworking #LEGO #photography </p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
