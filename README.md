@@ -25,6 +25,4 @@ bundle show minima
 docker run --rm -it -v .:/app -w /app -p 4000:4000 -p 35729:35729 jekyll/minimal npx -y watchy -w _config.yml -- jekyll serve --livereload --drafts
 docker run --rm -it -v .:/app -w /app -p 4000:4000 -p 35729:35729 jekyll/minimal jekyll serve --livereload --drafts
 
-docker run --rm -it -v .:/app ../build:/app/_site -w /app -p 4000:4000 -p 35729:35729 jekyll/minimal jekyll build
-
 docker run --rm -it -v .:/app -w /app -p 4000:4000 -p 35729:35729 jekyll/minimal jekyll build
