@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-08-28T09:21:08-05:00</updated><id>/feed.xml</id><title type="html">Making something great</title><subtitle> Alexandre Bintz - maker, coder, thinker #programming #3dprinting #electronics #woodworking #LEGO #photography </subtitle><entry><title type="html">(fr) Photos</title><link href="/2025/04/04/photos_fr.html" rel="alternate" type="text/html" title="(fr) Photos" /><published>2025-04-04T02:52:01-05:00</published><updated>2025-04-04T02:52:01-05:00</updated><id>/2025/04/04/photos_fr</id><content type="html" xml:base="/2025/04/04/photos_fr.html"><![CDATA[<p>Voici quelques photos que j’ai prises. Plus sur ma page <a href="https://www.flickr.com/photos/189385048@N05/">my Flickr</a>.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-09-01T04:46:27-05:00</updated><id>/feed.xml</id><title type="html">The making of something great</title><subtitle> Alexandre Bintz - maker, coder, thinker </subtitle><author><name>Alexandre Bintz</name></author><entry><title type="html">(fr) Photos</title><link href="/2025/04/04/photos_fr.html" rel="alternate" type="text/html" title="(fr) Photos" /><published>2025-04-04T02:52:01-05:00</published><updated>2025-04-04T02:52:01-05:00</updated><id>/2025/04/04/photos_fr</id><content type="html" xml:base="/2025/04/04/photos_fr.html"><![CDATA[<p>Voici quelques photos que j’ai prises. Plus sur ma page <a href="https://www.flickr.com/photos/189385048@N05/">my Flickr</a>.</p>
 
 <p><a href="/assets/2025-04-04-photos/203902881_1941499075999282_4032388649777417923_n.jpg"><img src="/assets/2025-04-04-photos/203902881_1941499075999282_4032388649777417923_n.jpg" alt="" /></a></p>
 
@@ -12,7 +12,7 @@
 
 <p><a href="/assets/2025-04-04-photos/51752269422_6f8d04b62d_o.jpg"><img src="/assets/2025-04-04-photos/51752269422_6f8d04b62d_o.jpg" alt="" /></a></p>
 
-<p><a href="/assets/2025-04-04-photos/EgRU79zVoAI3uLc.jpg"><img src="/assets/2025-04-04-photos/EgRU79zVoAI3uLc.jpg" alt="" /></a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Voici quelques photos que j’ai prises. Plus sur ma page my Flickr.]]></summary></entry><entry><title type="html">Photos</title><link href="/2025/04/04/photos_en.html" rel="alternate" type="text/html" title="Photos" /><published>2025-04-04T02:52:01-05:00</published><updated>2025-04-04T02:52:01-05:00</updated><id>/2025/04/04/photos_en</id><content type="html" xml:base="/2025/04/04/photos_en.html"><![CDATA[<p>Here are some pictures I took. You can see more on <a href="https://www.flickr.com/photos/189385048@N05/">my Flickr</a>.</p>
+<p><a href="/assets/2025-04-04-photos/EgRU79zVoAI3uLc.jpg"><img src="/assets/2025-04-04-photos/EgRU79zVoAI3uLc.jpg" alt="" /></a></p>]]></content><author><name>Alexandre Bintz</name></author><summary type="html"><![CDATA[Voici quelques photos que j’ai prises. Plus sur ma page my Flickr.]]></summary></entry><entry><title type="html">Photos</title><link href="/2025/04/04/photos_en.html" rel="alternate" type="text/html" title="Photos" /><published>2025-04-04T02:52:01-05:00</published><updated>2025-04-04T02:52:01-05:00</updated><id>/2025/04/04/photos_en</id><content type="html" xml:base="/2025/04/04/photos_en.html"><![CDATA[<p>Here are some pictures I took. You can see more on <a href="https://www.flickr.com/photos/189385048@N05/">my Flickr</a>.</p>
 
 <p><a href="/assets/2025-04-04-photos/203902881_1941499075999282_4032388649777417923_n.jpg"><img src="/assets/2025-04-04-photos/203902881_1941499075999282_4032388649777417923_n.jpg" alt="" /></a></p>
 
@@ -26,657 +26,7 @@
 
 <p><a href="/assets/2025-04-04-photos/51752269422_6f8d04b62d_o.jpg"><img src="/assets/2025-04-04-photos/51752269422_6f8d04b62d_o.jpg" alt="" /></a></p>
 
-<p><a href="/assets/2025-04-04-photos/EgRU79zVoAI3uLc.jpg"><img src="/assets/2025-04-04-photos/EgRU79zVoAI3uLc.jpg" alt="" /></a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Here are some pictures I took. You can see more on my Flickr.]]></summary></entry><entry><title type="html">(fr) Projet: tiroirs connectés</title><link href="/2025/03/28/smart-drawers_fr.html" rel="alternate" type="text/html" title="(fr) Projet: tiroirs connectés" /><published>2025-03-28T03:17:53-05:00</published><updated>2025-03-28T03:17:53-05:00</updated><id>/2025/03/28/smart-drawers_fr</id><content type="html" xml:base="/2025/03/28/smart-drawers_fr.html"><![CDATA[<p><img src="/assets/2025-03-28-smart-drawers/0.jpg" alt="" style="padding-bottom: 1rem" /></p>
-
-<p>Dans cet article je présente l’idée générale et le choix des composants.
-Plus tard je présenterai les avancées du projet.</p>
-
-<h2 id="introduction">Introduction</h2>
-
-<p>Dans un article précédent, j’ai présenté la solution que j’ai conçue et fabriquée pour ranger les pièces de LEGO que je vends sur ma boutique en ligne.
-Je cherche toujours à optimiser le travail de gestion du stock,
-que ce soit lorsque je prélève des pièces pour la préparation de commande (picking)
-ou lorsque je rentre de nouvelles pièces.
-Parallèlement, ces derniers temps j’avais envie de me remettre à l’électronique.</p>
-
-<p>La première idée qui m’est venue consistait à implémenter un système d’indicateurs lumineux
-pour mettre en valeur le tiroir dans lequel se trouvent les pièces recherchées.
-Mais intégrer les composants sur un tiroir qui doit rester mobile ma paraissait complexe.
-Par ailleurs, je pense qu’une seule LED n’aurait pas été assez voyante.
-Il aurait peut-être fallu mettre toute une bande de LED, ou ajouter un bip.</p>
-
-<p>L’idée suivante était l’ouverture automatique du tiroir.
-Une mécanisation complète me paraissait complexe et couteuse,
-et aurait probablement occupé un espace précieux.
-Je suis donc plutôt parti sur juste une impulsion, un peu comme les tiroirs de caisses enregistreuses.
-Le mouvement et le bruit sont efficaces pour attirer l’attention sur le tiroir.
-Au début j’avais pensé à un système qui placerait les tiroirs sur ressorts,
-et un système de vérouillage mécanique qui pourrait être libéré électroniquement.
-Ça me semblait complexe à mettre au point et intégrer,
-et en plus ça aurait empêché l’ouverture manuelle, ce qui n’est pas ce que je voulais.</p>
-
-<p>Et puis j’ai eu une idée toute simple :
-utiliser des électroaimants pour repousser des aimants permanants
-attachés sur les tiroirs.
-Le tout pourrait être intégré dans le fond du meuble, sans prendre beaucoup de place,
-et n’empêcherait pas l’ouverture manuelle des tiroirs.
-C’est une solution extrêmement simple et élégante !</p>
-
-<h3 id="architecture-générale">Architecture générale</h3>
-
-<p>Le système serait piloté par mon logiciel de picking qui commanderait l’ouverture du tiroir approprié au moment où j’ai besoin de prélever les pièces.</p>
-
-<p>Premièrement, il faut une carte de contrôle pour orchestrer les aimants et communiquer avec le PC.
-Le plus simple est sûrement un Rasperry Pi, avec lequel j’ai déjà une bonne expérience.
-Mais je voulais apprendre quelque chose de nouveau.
-J’ai beaucoup entendu parlé d’Arduino mais je n’ai encore jamais testé par moi-même.
-C’est l’occasion d’y remédier.
-Par ailleurs, j’ai envie de travailler à plus bas niveau, notamment au niveau de la communication sans fil.
-Sur le plan logiciel, travailler sur un Rasperry Pi revient à travailler sur un PC Linux, je n’ai pas envie de ça.</p>
-
-<p>Pour la liaison sans fil avec le PC,
-j’opte pour Bluetooth, qui me parait une solution simple en plus d’être très répandue.</p>
-
-<p>Les aimants seront montés dans le fond du meuble, et câblés jusqu’à la carte et le reste du circuit
-qui seront intégrés quelque part sur l’arrière du meuble.</p>
-
-<h3 id="recherche-des-composants">Recherche des composants</h3>
-
-<p>Comme dans tout projet qui implique beaucoup de nouveautés,
-je commence par viser quelque chose qui soit le plus simple possible.
-Le but est de réduire au minimum les sources de complications
-pour obtenir quelque chose qui fonctionne.
-Ça permet déjà de valider le principe de base, et de prendre en main les choses.
-Ensuite on peut itérer pour améliorer et aller vers quelque chose de plus abouti.</p>
-
-<p>J’ai commencé mes recherches sur Amazon par habitude,
-mais je suis vite passé sur AliExpress car les prix sont largement inférieurs.
-Le projet est une expérimentation, je cherche avant tout à apprendre et tester des idées.
-Des composants d’entrée de gamme suffisent.
-Certains resteront peut-être inutilisés, d’autres peuvent être endomagés,
-inutile donc d’investir dans de la qualité.</p>
-
-<p>Si le projet est concluant, je pourrais “mettre au propre”
-en affinant le choix des composants pour l’efficacité et la durabilité.</p>
-
-<p>Dans la même logique, quand c’est pertient je parts sur des composants de prototypage
-plutôt que des composants finaux.
-La mise au propre remplacera ces composants par des version finales
-et libérera les composants de prototypage pour de futurs projets.</p>
-
-<h2 id="carte-de-contrôle">Carte de contrôle</h2>
-
-<p>J’opte pour l’Arduino UNO R4 Wifi.
-C’est le modèle classique, équipé de connectivité sans fil Bluetooth et Wi-Fi.
-Le Wi-Fi est intéressant, ça laisse l’option de l’utiliser pour la liaison PC
-en complément ou en remplacement du Bluetooth.</p>
-
-<p><img src="https://store.arduino.cc/cdn/shop/files/ABX00087_01.iso_65d9153b-9fe3-4d51-8f0a-750fcca31c5e_509x382.jpg" alt="Arduino UNO R4 Wifi sur l'Arduino store" /></p>
-
-<p><a href="https://store.arduino.cc/en-fr/products/uno-r4-wifi">Arduino UNO R4 Wifi sur l’Arduino store</a></p>
-
-<h2 id="electroaimants">Electroaimants</h2>
-
-<p>Avant toute chose il faut avoir une idée de la force nécessaire pour ouvrir un tiroir.
-L’idéal aurait été d’utiliser un dynamomètre, mais je n’en ai pas.
-Après quelques réflexions, j’ai attaché un fil à une poignée,
-tendu le fil sur la table devant le tiroir, et suspendu divers objets au fil
-jusqu’à ce que le tiroir s’ouvre sous l’effet de la gravité agissant sur l’objet et via le fil.
-En pesant ensuite l’objet, j’ai une idée de la force nécessaire.
-En l’occurence un objet d’à peine 100g a suffit.</p>
-
-<p>Il existe apparamment un modèle standard d’électroaimants,
-qui existe en différentes tailles et forces.
-Les forces classiques sont de l’ordre du kilogramme, c’est largement suffisant dans mon cas.
-Les aimants sont alimentés en 12 ou 24V continu,
-et possèdent un filetage à l’arrière pour la fixation.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/Sb93cfd04f3e84579b00a24a26e19ce7fg.jpg_960x960q75.jpg_.avif" alt="Electroaimants sur AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005005712625900.html">Electroaimants sur AliExpress</a></p>
-
-<h2 id="pilotage-des-aimants">Pilotage des aimants</h2>
-
-<p>Une fois les aimants trouvé, reste à voir comment les piloter avec l’Arduino,
-sachant que celle-ci fonctionne en 5V.
-Une recherche me donne
-<a href="https://deepbluembedded.com/arduino-electromagnet-control-circuit-code-example/">ce tuto</a>
-qui fait exactement ce que je cherche à faire.</p>
-
-<h3 id="transistor">Transistor</h3>
-
-<p>Le principe est d’utiliser un transistor pour faire comme un interrupteur
-qui ouvre ou ferme le circuit d’alimentation de l’aimant.
-Le tuto utilise un transistor bipolaire de type NPN, référence TIP120.
-C’est une référence courante, je n’ai pas de mal à la trouver.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/S39a89f0f8b0246e38bbc624e360ee1f19.jpg_960x960q75.jpg_.avif" alt="Transistor TIP120 sur AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005007657188686.html">Transistor TIP120 sur AliExpress</a></p>
-
-<h3 id="résistances">Résistances</h3>
-
-<p>Il faut prévoir une résistance pour la commande du transistor.
-La valeur de la résistance dépend des caractéristiques du transistor et de l’aimant.
-Dans mon cas je n’ai pas beaucoup d’infos sur l’électroaimant que j’ai repéré.
-Pour fixer les idées en attendant mieux, je me base sur la résistance utilisée dans le tuto.
-Une fois l’aimant en main je pourrais mesurer les données dont j’ai besoin.
-En attendant, pour avoir de quoi avancer,
-je trouve sur AliExpress un lot de 300 résistances de différentes valeurs pour moins de 2€.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/S5afe69af1b43434f91b42a4f37a3b4c0Q.jpg_960x960q75.jpg_.avif" alt="Résitances sur AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005005855324735.html">Résitances sur AliExpress</a></p>
-
-<h3 id="diode">Diode</h3>
-
-<p>Enfin, l’électroaimant étant un solénoïde, il faut prévoir une <em>diode de roue libre</em>.
-Un solénoïde s’oppose aux changements brusques de courant,
-et a besoin de pouvoir dissiper son énergie lorsqu’on coupe son alimentation.
-C’est le rôle de la diode de roue libre, qu’on monte en parallèle dans le sens opposé
-et qui vient ainsi former un circuit secondaire dans lequel l’energie va pouvoir se dissiper
-sans endommager le reste du cricuit principal.
-La diode doit être dimensionnée pour supporter la tension et le courant.
-La référence classique est 1N4001 qui supporte 1A et 50V, c’est largement suffisant.
-Je trouve cette référence sans problème sur AliExpress.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/S372589c6b14d453290d0a126206a4b6c3.jpg_960x960q75.jpg_.avif" alt="Diodes 1N4001 sur AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005001552094086.html">Diodes 1N4001 sur AliExpress</a></p>
-
-<h2 id="piloter-de-nombreux-aimants">Piloter de nombreux aimants</h2>
-
-<p>J’ai une trentaine de tiroirs en tout, et j’envisage de mettre au moins deux aimants par tiroir.
-L’Arduino n’ayant qu’une dizaine de ports de sortie, il faut une solution pour ajouter plus de sorties.</p>
-
-<p>En faisant des recherches, je tombe d’abord sur des circuits I2C qui ajoutent des GPIO complets,
-c’est-à-dire des ports qui peuvent être configurés en entrée ou en sortie, avec ou sans pullup, etc.
-Il y a 16 ports par puce, et il est possible de mettre jusqu’à 8 puces sur le meme bus I2C en jouant avec les adresses, pour un total de 128 pins.
-C’est suffisant dans mon cas,
-mais j’ai pour projet de toujours étendre ma capacité de rangement de LEGO,
-et l’idée qu’il existe une limite au nombre d’aimants que je pourrais contrôler me gêne.</p>
-
-<p>Je poursuis mes recherches et tombe sur les registres à décalage.
-Ce sont des circuits très simples qui transforment une sortie série en parallèle.
-Les pins ne fonctionnent qu’en sortie, ce qui n’est pas gênant dans mon cas.
-Il est possible de les connecter les uns à la suite des autres (<em>daisy chaining</em>) sans limite théorique.
-C’est parfait pour moi.
-Le circuit classique est le 74HC595.
-Je trouve la ref sans problème sur AliExpress.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/Sf000bea0f39043eeba141d929dc9001et.jpg_960x960q75.jpg_.avif" alt="Registre à décalage 74HC595 sur AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005004856540723.html">Registre à décalage 74HC595 sur AliExpress</a></p>
-
-<h2 id="alimentation">Alimentation</h2>
-
-<p>Dernier sujet majeur.
-Il faut alimenter l’Arduino et les aimants.
-L’Arduino fonctionne en 5V.
-Les aimants doivent être alimentés en 12V.
-Je pense que les aimants peuvent fonctionner en 5V. La force sera réduite mais ça peut être suffisant dans mon cas.
-Cependant je préfère assurer le coup, quitte à ajuster ensuite.</p>
-
-<p>La doc indique que l’Arduino peut prendre en entrée jusqu’à 24V grâce à un régulateur interne qui abaisse la tension à 5V.
-Ça simplifie les choses puisque je peux donc utiliser une alimentation commune à 12V.</p>
-
-<p>Même si ce serait tout à fait possible, je n’ai pas envie d’utiliser des piles ou des batterie,
-rechargeable ou non.
-Je cherche donc des alimentations à brancher sur secteur.</p>
-
-<p>Je n’ai pas envie de m’embêter à trouver le bon connecteur.
-L’Arduino possède un connecteur <em>barrel jack</em> classique,
-mais la doc indique qu’il peut aussi être alimenté via des pins.
-Je trouve plusieurs modèles d’alimentations fournies avec un adaptateur qui permet de connecter des fils.
-Voilà qui sera plus simple.
-En bonus, je trouve sur AliExpress un modèle réglable 3-24V.
-Ça me permettra de régler la force des aimants,
-et ce sera sûrement très utiles pour de futurs projets.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/Sd13fa0cffb734b0c834870c1d11174d9e.jpg_960x960q75.jpg_.avif" alt="Alimentation réglable 3-24V sur AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005005638098269.html">Alimentation réglable 3-24V sur AliExpress</a></p>
-
-<h2 id="aimants-permanents">Aimants permanents</h2>
-
-<p>La dernière pièce du puzzle.
-J’avais déjà acheté des aimants sur AliExpress pour un précédent projet,
-et je sais qu’il en existe de toute sorte.
-Je cherche des aimants qui soient à la fois assez plats pour ne pas prendre trop de place,
-et assez larges pour maximiser l’interraction avec l’électroaimant.
-Même si à terme j’envisage de les incruster dans le bois du tiroir,
-dans un premier temps je pense simplement les fixer en surface.
-Les meubles n’étant pas prévus pour accueillir des choses dans le fond,
-plus les aimants sont compacts et mieux ce sera.
-Je choisie une référence en 20x2mm avec adhésif fourni.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/Sfcbed82347c64b00a45a704217c2df3a7.jpg_960x960q75.jpg_.avif" alt="Aimants permanents sur AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005008096510030.html">Aimants permanents sur AliExpress</a></p>
-
-<h2 id="matériel-divers">Matériel divers</h2>
-
-<p>L’essentiel est là. Voyons maintenant si j’ai tout ce qu’il faut pour travailler efficacement.</p>
-
-<p>J’ai encore en stock une breadboard quasi neuve.
-Je vais commencer avec ça et voir déjà jusqu’où je peux aller.
-Elle sera trop petite pour implémenter les circuits pour tous les tiroirs,
-mais je pense pouvoir en faire déjà quelques uns pour valider le principe.
-A terme je pourrais mettre au propre avec une carte à souder.
-Je peux même envisager de concevoir et (faire) fabriquer un circuit imprimé sur mesure,
-et faire un boitier en impression 3D.</p>
-
-<p>J’ai aussi en stock quelques jumpers et quelques LEDs.
-Ce sera bien pour expérimenter et prendre en main les composants.</p>
-
-<p>Il faudra de la longueur de fil pour câbler les aimants des tiroirs jusqu’à la carte centrale.
-Il faut 2 fils par aimants, il faut donc assez de longueur totale.
-J’achète donc quelques petites bobines de fil.</p>
-
-<p>Je commande aussi un multimètre premier prix.
-Et voilà qui conclut la liste des composants.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/S225cab5c7b6747cebf09016371dcfcceo.jpg_960x960q75.jpg_.avif" alt="Fil sur AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005007256968315.html">Fil sur AliExpress</a></p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/S2a0fe6eaf6814accb0536a4c467851e75.jpg_960x960q75.jpg_.avif" alt="Multimètre sur AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005005981700177.html">Multimètre sur AliExpress</a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Project: Smart drawers</title><link href="/2025/03/28/smart-drawers_en.html" rel="alternate" type="text/html" title="Project: Smart drawers" /><published>2025-03-28T03:17:53-05:00</published><updated>2025-03-28T03:17:53-05:00</updated><id>/2025/03/28/smart-drawers_en</id><content type="html" xml:base="/2025/03/28/smart-drawers_en.html"><![CDATA[<p><img src="/assets/2025-03-28-smart-drawers/0.jpg" alt="" style="padding-bottom: 1rem" /></p>
-
-<p>In this article, I present the general idea and the choice of components.
-Later, I will share project updates.</p>
-
-<h2 id="introduction">Introduction</h2>
-
-<p>In a previous article, I introduced the solution I designed and built to organize the LEGO pieces I sell in my online store. I am always looking to optimize stock management, whether it’s when I pick pieces for order preparation or when I add new pieces. Meanwhile, I’ve recently wanted to get back into electronics.</p>
-
-<p>The first idea that came to mind was to implement a system of light indicators to highlight the drawer containing the pieces to pick. However, integrating components into a drawer that needs to remain mobile seemed complex. Moreover, I think a single LED wouldn’t be noticeable enough. Perhaps a whole strip of LEDs would be needed, or I could add a beep.</p>
-
-<p>The next idea was to automate the drawer opening. A complete mechanization seemed complex and costly, and it would likely take up valuable space. So I rather leaned towards a simple push mechanism, similar to cash register drawers. The movement and noise are effective for drawing attention to the drawer. Initially, I imagined spring loaded drawers with a mechanical locking system that could be released electronically. That seemed complicated to develop and integrate, and it would also prevent manual opening, which I did not want.</p>
-
-<p>Then I had the very simple idea to use electromagnets to push permanent magnets attached to the drawers. This could be integrated into the back of the furniture without taking up much space and would not prevent manual opening of the drawers. It’s an extremely simple and elegant solution!</p>
-
-<h3 id="general-architecture">General architecture</h3>
-
-<p>The system would be controlled by my picking software, which would command the opening of the appropriate drawer at the moment I need to pick the pieces.</p>
-
-<p>First, I need a control board to orchestrate the magnets and communicate with the PC. The simplest option is probably a Raspberry Pi, which I am already familiar with. However, I wanted to learn something new. I’ve heard a lot about Arduino but have never tested it myself. This is the perfect opportunity to remedy that. Furthermore, I want to work at a lower level, particularly regarding wireless communication. From a software perspective, working on a Raspberry Pi is akin to working on a Linux PC, and I don’t want that.</p>
-
-<p>For wireless communication with the PC, I opt for Bluetooth, which seems to be a simple and widely used solution.</p>
-
-<p>The magnets will be mounted at the back of the furniture and wired to the control board and the rest of the circuit, which will be integrated somewhere at the back of the furniture.</p>
-
-<h3 id="component-research">Component research</h3>
-
-<p>As with any project involving many new elements, I start by aiming for something as simple as possible. The goal is to minimize sources of complications to achieve something that works. This allows me to validate the basic principle and get a handle on things. I can then iterate and refine.</p>
-
-<p>I started my research on Amazon out of habit, but I quickly switched to AliExpress because the prices are significantly lower. The project is an experiment; I’m primarily looking to learn and test ideas. Entry-level components are sufficient. Some may remain unused, and others may be damaged, so there’s no need to invest in quality.</p>
-
-<p>If the project is successful, I can clean it up by refining the component choices for efficiency and durability.</p>
-
-<p>In the same vein, when relevant, I lean towards prototyping components rather than final components. The cleanup will replace these components with final versions and free up the prototyping components for future projects.</p>
-
-<h2 id="control-board">Control board</h2>
-
-<p>I choose the Arduino UNO R4 Wi-Fi. It’s the classic model, equipped with wireless Bluetooth and Wi-Fi connectivity. The presence of Wi-Fi is interesting; it leaves the option to use it for PC communication in addition to or instead of Bluetooth.</p>
-
-<p><img src="https://store.arduino.cc/cdn/shop/files/ABX00087_01.iso_65d9153b-9fe3-4d51-8f0a-750fcca31c5e_509x382.jpg" alt="Arduino UNO R4 Wi-Fi on the Arduino store" /></p>
-
-<p><a href="https://store.arduino.cc/en-fr/products/uno-r4-wifi">Arduino UNO R4 Wi-Fi on the Arduino store</a></p>
-
-<h2 id="electromagnets">Electromagnets</h2>
-
-<p>First and foremost, I need to have an idea of the force required to open a drawer. Ideally, I would have used a dynamometer, but I don’t have one. After some thought, I attached a string to a handle, stretched the string across the table in front of the drawer, and suspended various objects from the string until the drawer opened under the weight of the object acting through the string. By weighing the object afterward, I get an idea of the necessary force. In this case, an object weighing barely 100g was enough.</p>
-
-<p>There apparently exists a kind of standard model of electromagnets, which comes in various sizes and strengths. The typical forces are in the kilogram range, which is more than sufficient for my case. The magnets are powered by 12 or 24V DC and have a threaded back for mounting.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/Sb93cfd04f3e84579b00a24a26e19ce7fg.jpg_960x960q75.jpg_.avif" alt="Electromagnets on AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005005712625900.html">Electromagnets on AliExpress</a></p>
-
-<h2 id="controlling-the-magnets">Controlling the magnets</h2>
-
-<p>Once I found the magnets, I needed to figure out how to control them with the Arduino, knowing that it operates at 5V. A search leads me to <a href="https://deepbluembedded.com/arduino-electromagnet-control-circuit-code-example/">this tutorial</a> that does exactly what I’m trying to achieve.</p>
-
-<h3 id="transistor">Transistor</h3>
-
-<p>The principle is to use a transistor as a switch that opens or closes the power circuit for the magnet. The tutorial uses an NPN bipolar transistor, reference TIP120. It’s a common reference, and I have no trouble finding it.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/S39a89f0f8b0246e38bbc624e360ee1f19.jpg_960x960q75.jpg_.avif" alt="Transistor TIP120 on AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005007657188686.html">Transistor TIP120 on AliExpress</a></p>
-
-<h3 id="resistors">Resistors</h3>
-
-<p>A resistor is required to control the transistor. The value of the resistor depends on the characteristics of the transistor and the magnet. In my case, I don’t have much information about the electromagnet. For now, I’ll go with the resistor used in the tutorial. Once I have the magnet in hand, I can measure the data I need. In the meantime, to move forward, I find a pack of 300 resistors of different values on AliExpress for less than €2.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/S5afe69af1b43434f91b42a4f37a3b4c0Q.jpg_960x960q75.jpg_.avif" alt="Resistors on AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005005855324735.html">Resistors on AliExpress</a></p>
-
-<h3 id="diode">Diode</h3>
-
-<p>Finally, since the electromagnet is a solenoid, a <em>flyback diode</em> is required. A solenoid opposes sudden changes in current and needs to dissipate its energy when its power supply is cut off. This is the role of the flyback diode, which is connected in parallel in the opposite direction and thus forms a secondary circuit where the energy can dissipate without damaging the rest of the main circuit. The diode must be rated to handle the voltage and current. The classic reference is 1N4001, which can handle 1A and 50V, which is more than sufficient. I find this reference easily on AliExpress.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/S372589c6b14d453290d0a126206a4b6c3.jpg_960x960q75.jpg_.avif" alt="Diodes 1N4001 on AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005001552094086.html">Diodes 1N4001 on AliExpress</a></p>
-
-<h2 id="controlling-multiple-magnets">Controlling multiple magnets</h2>
-
-<p>I have about thirty drawers in total and plan to install at least two magnets per drawer. Since the Arduino has only about ten output ports, I need a solution to add more outputs.</p>
-
-<p>While researching, I first came across I2C circuits that add complete GPIOs, meaning ports that can be configured as input or output, with or without pull-up, etc. There are 16 ports per chip, and it’s possible to connect up to 8 chips on the same I2C bus by playing with the addresses for a total of 128 pins. This is sufficient for my case, but I always plan to expand my LEGO storage capacity, and the idea that there is a limit to the number of magnets I could control bothers me.</p>
-
-<p>I continue my research and come across shift registers. These are very simple circuits that transform a serial output into parallel. The pins only function as outputs, which is not an issue in my case. They can be connected in series (<em>daisy chaining</em>) without any theoretical limit. This is perfect for me. The classic circuit is the 74HC595. I find the reference easily on AliExpress.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/Sf000bea0f39043eeba141d929dc9001et.jpg_960x960q75.jpg_.avif" alt="Shift register 74HC595 on AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005004856540723.html">Shift register 74HC595 on AliExpress</a></p>
-
-<h2 id="power-supply">Power supply</h2>
-
-<p>The last major topic. I need to power the Arduino and the magnets. The Arduino operates at 5V. The magnets must be powered by 12V. I think the magnets can operate at 5V. The force will be reduced, but that may be sufficient in my case. However, I prefer to play it safe, even if it means adjusting later.</p>
-
-<p>The documentation indicates that the Arduino can accept up to 24V input via an internal regulator that reduces the voltage to 5V. This simplifies things since I can use a common 12V power supply.</p>
-
-<p>Even though it would be entirely possible, I do not want to use batteries.
-So I look for wall bricks.</p>
-
-<p>I don’t want to deal with finding the right connector. The Arduino has a classic <em>barrel jack</em> connector, but the documentation indicates that it can also be powered via pins. I find several power supply models provided with an adapter that allows wire connections. This will make things simpler. As a bonus, I find a model on AliExpress that is adjustable from 3-24V. This will allow me to adjust the magnet strength and will surely be very useful for future projects.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/Sd13fa0cffb734b0c834870c1d11174d9e.jpg_960x960q75.jpg_.avif" alt="Adjustable power supply 3-24V on AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005005638098269.html">Adjustable power supply 3-24V on AliExpress</a></p>
-
-<h2 id="permanent-magnets">Permanent magnets</h2>
-
-<p>The last piece of the puzzle. I had already bought magnets on AliExpress for a previous project, and I know that there are all sorts. I’m looking for magnets that are both flat enough not to take up too much space and wide enough to maximize interaction with the electromagnet. Even though I plan to embed them in the wood of the drawer in the long run, initially, I think I will simply attach them to the surface. Since the furniture is not designed to accommodate items in the back, the more compact the magnets are, the better. I choose a reference of 20x2mm with adhesive included.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/Sfcbed82347c64b00a45a704217c2df3a7.jpg_960x960q75.jpg_.avif" alt="Permanent magnets on AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005008096510030.html">Permanent magnets on AliExpress</a></p>
-
-<h2 id="miscellaneous">Miscellaneous</h2>
-
-<p>The essentials are there. Now let’s see if I have everything needed to work efficiently.</p>
-
-<p>I still have a nearly new breadboard in stock. I will start with that and see how far I can go. It will be too small to implement the circuits for all the drawers, but I think I can do a few to validate the principle. Ultimately, I could clean it up with a soldering board. I could even consider designing and having a custom printed circuit board made and creating a housing via 3D printing.</p>
-
-<p>I also have a few jumpers and some LEDs in stock. These will be useful for experimenting and getting familiar with the components.</p>
-
-<p>I will need wire to connect the magnets in the drawers to the central board. Two wires are needed per magnet, so I need enough total length. I will buy a few small spools of wire.</p>
-
-<p>I will also order a basic multimeter. And that concludes the list of components.</p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/S225cab5c7b6747cebf09016371dcfcceo.jpg_960x960q75.jpg_.avif" alt="Wire on AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005007256968315.html">Wire on AliExpress</a></p>
-
-<p><img src="https://ae-pic-a1.aliexpress-media.com/kf/S2a0fe6eaf6814accb0536a4c467851e75.jpg_960x960q75.jpg_.avif" alt="Multimeter on AliExpress" style="width:50%" /></p>
-
-<p><a href="https://fr.aliexpress.com/item/1005005981700177.html">Multimeter on AliExpress</a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">My custom LEGO storage system</title><link href="/2025/03/21/lego-storage_en.html" rel="alternate" type="text/html" title="My custom LEGO storage system" /><published>2025-03-21T03:07:57-05:00</published><updated>2025-03-21T03:07:57-05:00</updated><id>/2025/03/21/lego-storage_en</id><content type="html" xml:base="/2025/03/21/lego-storage_en.html"><![CDATA[<p><img src="/assets/2025-03-21-lego-storage/0.jpg" alt="" /></p>
-
-<p>For a few years now, I’ve been selling LEGO pieces online, and I’ve needed to effectively organize and store my inventory. Over the years, I’ve designed and built a custom storage solution. In this article, I reflect on this adventure.</p>
-
-<h2 id="wooden-boxes">Wooden boxes</h2>
-
-<p>There’s a makerspace near my home equipped with a laser cutter. After a training session, I started experimenting with this machine and quickly realized its potential for making wooden boxes to store my LEGO pieces.</p>
-
-<p>Initially, I wanted to create boxes that were as thin as possible to maximize the available space for the pieces. After a first prototype made from 1mm poplar plywood scraps I found at a modeling shop, I settled on using 3mm plywood. The compromise between sturdiness and volume was satisfactory, and it was a material that was easy to find in nearby hardware stores and relatively affordable.</p>
-
-<p>I based the size of the first boxes on the compartments of the storage system I was using at the time, resulting in a square box measuring 75mm on each side. A box with these dimensions can hold an 8-stud-long LEGO piece with just the right amount of margin.</p>
-
-<p>For the height, I wanted to respect the ratio of LEGO bricks, considering that my box was equivalent to a 2x2 brick. LEGO brick experts know that 2 LEGO units correspond to 5 plate heights, and a brick is 3 plates high. For a 75mm square box, the height comes to 75*3/5 = 45mm. I found that too tall, so I reduced it to 2 plates instead of 3, making it 30mm. I think this is the perfect ratio.</p>
-
-<p>From there, assuming my base box is 2x2 units wide and 2 plates high, I experimented with a variety of sizes in 1x1, 1x2, 2x3, 2x4, 3x3, etc., in heights of 1, 2, 3, or 4 plates. I quickly realized that larger, shorter models are useful as trays to hold pieces during builds. I made larger versions that I am still using today.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/7.jpg"><img src="/assets/2025-03-21-lego-storage/7.jpg" alt="" width="49%" style="float: left; padding-bottom: 1rem;" />
-</a></p>
-
-<p><a href="/assets/2025-03-21-lego-storage/9.jpg"><img src="/assets/2025-03-21-lego-storage/9.jpg" alt="" width="49%" style="float: right; padding-bottom: 1rem;" />
-</a></p>
-
-<h2 style="clear: both" id="proto-drawers">Proto-drawers</h2>
-
-<p>I started to have a number of loose boxes and felt the need for a higher level of storage. Still using the laser cutter, I began by creating large boxes designed to hold several smaller boxes. This allowed me to play with the modular system and gave me a first glimpse of what a full drawer might look like. It was very encouraging.</p>
-
-<p>I then made stackable sleeves in which the boxes could slide, and added a tab on the front face to create something resembling drawers. I was getting closer to what I had envisioned from the beginning, and it was very exciting.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/11.jpg"><img src="/assets/2025-03-21-lego-storage/11.jpg" alt="" width="49%" style="float: left; padding-bottom: 1rem;" />
-</a></p>
-
-<p><a href="/assets/2025-03-21-lego-storage/10.jpg"><img src="/assets/2025-03-21-lego-storage/10.jpg" alt="" width="49%" style="float: right; padding-bottom: 1rem;" />
-</a></p>
-
-<h2 style="clear: both" id="real-drawers">Real drawers</h2>
-
-<p>The outcome so far was very encouraging, but I was hitting the limits of what a laser cutter alone can do, and it was time to level up.</p>
-
-<p>I searched for slides to create proper drawers. The feeling of quality when opening and closing the drawers was an important criterion. I wanted my drawers to give a sense of sturdiness and quality, with smooth opening and closing, without tipping as the drawer opens, and without the fear of dislodging the drawer if opened too quickly. I also wanted the drawers to be able to open fully to access even the boxes at the back.</p>
-
-<p>After finding and ordering full-extension metal slides on Amazon, I made a first prototype with 10mm poplar plywood. I cut the pieces with a jigsaw, but the result was very mediocre. Nothing was truly straight, the opening/closing of the drawers was not smooth, and the open drawers collided with each other.</p>
-
-<p>The makerspace that hosts the laser cutter also has a woodshop. After completing the necessary training, I undertook a second prototype, this time using a table saw. The result was much better, and I still use this prototype today, with some minor modifications.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/15.jpg"><img src="/assets/2025-03-21-lego-storage/15.jpg" alt="" width="49%" style="float: left; padding-bottom: 1rem;" />
-</a></p>
-
-<p><a href="/assets/2025-03-21-lego-storage/13.jpg"><img src="/assets/2025-03-21-lego-storage/13.jpg" alt="" width="49%" style="float: right; padding-bottom: 1rem;" />
-</a></p>
-
-<h2 style="clear: both" id="going-larger">Going larger</h2>
-
-<p>Encouraged by this result, I wanted to step it up by creating a piece of furniture on the same model but twice as wide. It mostly worked well, but the large continuous surface of the drawers causes the bottom to sag under the weight. Because of this, the boxes end up tightly packed together, making access more difficult, and also the drawers rub against each other.</p>
-
-<p>The result was still encouraging, and I still use this prototype today. I also added real handles. I chose a simple yet effective model for discreet, elegant, and functional handles.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/3.jpg"><img src="/assets/2025-03-21-lego-storage/3.jpg" alt="" />
-</a></p>
-
-<p>For the next piece of furniture, I kept the same drawer size but increased the number of drawers from 5 to 16. This starts making a good storage unit. To prevent the bottom from sagging, I added a partition that divides the drawer into two parts, helping to support the bottom. I also tested a double-height drawer to store larger pieces.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/4.jpg"><img src="/assets/2025-03-21-lego-storage/4.jpg" alt="" />
-</a></p>
-
-<h2 id="towards-better-quality">Towards better quality</h2>
-
-<p>So far, the furniture has been very satisfactory, and I still use them daily without major issues. However, I’m not fully satisfied with the aesthetics, particularly the inconsistent spacing between the drawers, with some being a bit crooked. I therefore sought to innovate in manufacturing techniques.</p>
-
-<p>The main issue with previous prototypes was the proper positioning of the slides. Until now, I marked the drill points for the slides by hand, measuring directly on the boards. Having heard that another makerspace, a bit further from my home, had a CNC milling machine, I had the idea of creating grooves with the milling machine to accommodate the slides, thus allowing them to be held in place precisely.</p>
-
-<p>After several experiments to get the hang of the machine and determine the ideal groove dimensions, I created a small piece of furniture to validate the concept. I also used the milling machine to drill the holes for the handles to ensure they were well-aligned. I wanted to achieve the best result possible. To this end, I also replaced the 10mm plywood with 19mm three-ply for a better visual finish.</p>
-
-<p>The result met my expectations. The finish is better than all the furniture made previously. However, machining the grooves takes a lot of machine time, leading to a significant cost. This technique isn’t viable for making a large piece of furniture. So I tried something different. Instead of creating a whole groove, I simply made the drill points with the milling machine. To test this technique, I made a wide piece of furniture, but with only 5 drawers. The result wasn’t as good.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/6.jpg"><img src="/assets/2025-03-21-lego-storage/6.jpg" alt="" />
-</a></p>
-
-<h2 id="conclusion-and-future-plans">Conclusion and future plans</h2>
-
-<p>This project has been underway for almost 4 years now. I currently have a total of 5 pieces of furniture of varying capacities that I use daily to store my LEGO pieces for my online shop. The modular box system allows me to take out the boxes easily to retrieve pieces and reconfigure the layout in the drawers as needed, which is really enjoyable.</p>
-
-<p>I still need more storage space, and I plan to build more furniture while always looking to improve the design. The positioning of the drawers is still not ideal without blowing the budget in machining time. I have more ideas, like using a template for drilling. I’m also thinking about a way to position the drawer fronts once the drawers are in place. I think this is the simplest way to achieve an overall optimal result without seeking perfection in the positioning of the slides. Also, the current slides don’t allow the drawer to extend beyond its depth, making access to the boxes at the back difficult, especially when there’s a handle from the drawer above right above it. One option would be to find slides that allow for greater than full extension, but I’m not sure if those exist. The simplest solution is to make the  drawers shorter than the slides.</p>
-
-<p>For the next project, I plan to create a set with a capacity equivalent to all 5 pieces of furniture I have today. I’d like to try adding a large illustration that spans the fronts of the drawers. I’m also considering a system of connected drawers with semi-automatic opening controlled by my picking software.</p>
-
-<p>Stay tuned.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/1.jpg"><img src="/assets/2025-03-21-lego-storage/1.jpg" alt="" />
-</a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">(fr) Mon système de rangement LEGO</title><link href="/2025/03/21/lego-storage_fr.html" rel="alternate" type="text/html" title="(fr) Mon système de rangement LEGO" /><published>2025-03-21T03:07:57-05:00</published><updated>2025-03-21T03:07:57-05:00</updated><id>/2025/03/21/lego-storage_fr</id><content type="html" xml:base="/2025/03/21/lego-storage_fr.html"><![CDATA[<p><img src="/assets/2025-03-21-lego-storage/0.jpg" alt="" /></p>
-
-<p>Depuis quelques années je fais de le vente de pièce de LEGO en ligne, et j’ai besoin de ranger et organiser efficacement mon stock de pièces.
-Au cours des dernières années j’ai conçu et fabriqué une solution de rangement sur mesure.
-Dans cet article je reviens sur cette aventure.</p>
-
-<h2 id="des-boites-en-bois">Des boites en bois</h2>
-
-<p>J’ai près de chez moi un atelier partagé équipé d’une découpeuse LASER.
-Après une séance de formation, j’ai commencé à expérimenter avec cette machine, et en ai vite saisi le potentiel pour fabriquer des boites en bois pour ranger mes pièces de LEGO.</p>
-
-<p>Je voulais au départ faire des boites qui soient les plus fines possible afin de maximiser l’espace disponible pour les pièces.
-Après un premier prototype réalisé avec des chutes de contreplaqué de peuplier de 1mm récupérées dans une boutique de modélisme, je me suis fixé sur du contreplaqué de 3mm.
-Le compromis entre solidité et volume était satisfaisant,
-et c’était un matériau facile à trouver dans les magasins de bricolage proches de chez moi et relativement bon 
-marché.</p>
-
-<p>J’ai calqué la taille des premières boites sur la taille des compartiments du système de rangement que j’utilisais à l’époque, soit une boite carré de 75mm de côté.
-Une boite avec ces dimensions peut accueillir une pièce de LEGO de 8 unités de long avec juste ce qu’il faut de marge.</p>
-
-<p>Pour la hauteur j’ai voulu respecter le ratio des briques LEGO, en considérant que ma boite était équivalente à une brique de 2x2.
-Les experts de la brique danoise savent que 2 unités LEGO correspondent à 5 hauteurs de plaque, et la hauteur d’une brique fait 3 plaques de haut.
-Pour une boite de 75mm de côté on arrive donc à une hauteur de 75*3/5 = 45mm.
-Je trouvais ça trop haut, alors je suis descendu à 2 plaques au lieu de 3, soit 30mm.
-Je trouve que c’est le ratio parfait.</p>
-
-<p>Partant de là, en partant du principe que ma boite de base fait 2x2 unités de large et 2 plaques de haut, j’ai expérimenté avec tout un tas de variantes en 1x1, 1x2, 2x3, 2x4, 3x3, etc en version 1, 2, 3 ou 4 plaques de hauteur. Je me suis vite rendu compte que les modèles de grande taille et faible hauteur sont utiles en tant que plateau pour contenir des pièces lors de constructions par exemples.
-J’en ai fait des plus grands, que j’utilise encore couramment aujourd’hui.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/7.jpg"><img src="/assets/2025-03-21-lego-storage/7.jpg" alt="" width="49%" style="float: left; padding-bottom: 1rem;" />
-</a></p>
-
-<p><a href="/assets/2025-03-21-lego-storage/9.jpg"><img src="/assets/2025-03-21-lego-storage/9.jpg" alt="" width="49%" style="float: right; padding-bottom: 1rem;" />
-</a></p>
-
-<h2 style="clear: both" id="des-proto-tiroirs">Des proto-tiroirs</h2>
-
-<p>Je commençais à avoir un certain nombre de boites en vrac et le besoin d’un niveau supérieur de rangement se faisait sentir.
-Toujours en découpe LASER, j’ai commencé par créer des grandes boites destinées à accueillir plusieurs petites boites.
-Ça m’a permi de jouer avec le système modulaire et donné un premier apperçu de ce qu’un tiroir plein pourrait donner.
-C’était très encourageant.</p>
-
-<p>J’ai ensuite fabriqué des manchons empilables dans lesquels les casiers pouvaient glisser,
-et ajouté une languette sur la face avant,
-pour faire quelque chose qui ressemble à des tiroirs.
-Je me rapprochais de ce que j’avais en tête depuis le début, et c’était très excitant.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/11.jpg"><img src="/assets/2025-03-21-lego-storage/11.jpg" alt="" width="49%" style="float: left; padding-bottom: 1rem;" />
-</a></p>
-
-<p><a href="/assets/2025-03-21-lego-storage/10.jpg"><img src="/assets/2025-03-21-lego-storage/10.jpg" alt="" width="49%" style="float: right; padding-bottom: 1rem;" />
-</a></p>
-
-<h2 style="clear: both" id="des-vrais-tiroirs">Des vrais tiroirs</h2>
-
-<p>Le rendu jusque là était très encourageant, mais je touchais aux limites de la découpe LASER,
-et il était temps de passer au niveau supérieur.</p>
-
-<p>J’ai cherché des glissières pour faire des tiroirs en bonne et due forme.
-La sensation de qualité à l’ouverture et fermeture des tiroirs était un critère important.
-Je voulais que mes tiroirs donnent une impression de solidité et de qualité,
-avec une ouverture et fermeture fluide,
-sans pencher à mesure que le tiroir s’ouvre,
-et sans peur de déloger le tiroir si on ouvre un peu trop vite.
-Je voulais aussi que les tiroirs puissent s’ouvrir sur la totalité de la profondeur pour permettre d’accéder même aux boites du fond.</p>
-
-<p>Après avoir trouvé et commandé des glissières métalliques à sortie totale sur Amazon,
-j’ai fabriqué un premier prototype de meuble avec du contreplaqué de peuplier de 10mm.
-J’ai découpé les pièces avec une scie sauteuse mais le résultat était très moyen.
-Rien n’était vraiment droit, et l’ouverture/fermeture des tiroirs n’était pas fluide
-et les tiroirs ouverts entraient en collision.</p>
-
-<p>L’atelier partagé qui héberge la découpe LASER possède également un atelier bois.
-Après avoir fait les formations nécessaires, 
-j’ai entrepris un second prototype, en utilisant cette fois la scie circulaire sur table.
-Le résultat était nettement meilleur.
-J’utilise encore aujourd’hui ce prototype, avec quelques modification mineures.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/15.jpg"><img src="/assets/2025-03-21-lego-storage/15.jpg" alt="" width="49%" style="float: left; padding-bottom: 1rem;" />
-</a></p>
-
-<p><a href="/assets/2025-03-21-lego-storage/13.jpg"><img src="/assets/2025-03-21-lego-storage/13.jpg" alt="" width="49%" style="float: right; padding-bottom: 1rem;" />
-</a></p>
-
-<h2 style="clear: both" id="des-meubles-plus-grands">Des meubles plus grands</h2>
-
-<p>Fort de ce résultat,
-j’ai voulu passer à la vitesse supérieure en créant un meuble sur le même modèle mais deux fois plus large.
-Ça a globalement bien fonctionné,
-mais la grande surface continue des tiroirs fait que le fond s’affaisse avec le poids du chargement.
-À cause de ça, les boites se retrouvent serrées les unes contre les autres, ce qui rend l’accès plus difficle,
-et les tiroirs frottent les uns sur les autres.</p>
-
-<p>Le résultat était cependant encourageant, et j’utilise encore ce meuble aujourd’hui.
-J’ai également ajouté des vraies poignées.
-J’ai choisi un modèle simples mais efficace, pour des poignées discrètes, élégantes et fonctionnelles.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/3.jpg"><img src="/assets/2025-03-21-lego-storage/3.jpg" alt="" />
-</a></p>
-
-<p>Pour le meuble suivant j’ai gardé la même taille de tiroir 
-mais augmenté le nombre de tiroirs de 5 à 16.
-Là on commence à avoir un bon meuble de rangement.
-Pour éviter que le fond ne s’affaisse, j’ai ajouté une cloison qui coupe le tiroir en deux parties et permet de maintenir le fond.
-J’ai également testé un tiroir double hauteur pour pouvoir ranger des pièces plus volumineuses.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/4.jpg"><img src="/assets/2025-03-21-lego-storage/4.jpg" alt="" />
-</a></p>
-
-<h2 id="vers-plus-de-qualité">Vers plus de qualité</h2>
-
-<p>Jusque là les meubles sont très satisfaisants, et je les utilise encore au quotidien sans soucis majeur.
-Cependant, je ne suis pas pleinement satisfait de l’esthétique,
-notamment le fait que l’espacement entre les tiroirs n’est pas régulier,
-et certains sont même un peu de travers.
-J’ai donc cherché à innover dans les techniques de fabrication.</p>
-
-<p>La problématique principale des prototypes précédents était le bon positionnement des glissières.
-Jusque là je marquais les perçages pour les glissières à la main en mesurant directement sur les planches.
-Ayant eu vent qu’un autre atelier partagé, un peu plus loin de chez moi, possèdait une fraiseuse numérique,
-j’ai eu l’idée de créer à la fraiseuse des rainures qui viendraient accueillir les glissières,
-permettant ainsi de les maintenir en position de manière précise.</p>
-
-<p>Après plusieurs expérimentations pour prendre en main la machine et déterminer les dimensions idéales des rainures, j’ai réalisé un petit meuble pour valider le concept.
-J’ai aussi utilisé la fraiseuse pour percer les trous pour les poignées afin qu’elles soient bien alignées les unes avec les autres.
-Je voulais essayer d’atteindre un résultat le plus parfait possible.
-À cette fin, j’ai également remplacé le CP de 10mm par du 3 plis de 19mm pour un meilleur rendu visuel.</p>
-
-<p>Le résultat a été à la hauteur de mes attentes.
-Le rendu est meilleur que tous les meubles réalisés auparavant.
-Cependant, l’usinage des rainures demande beaucoup de temps machine,
-ce qui engendre un coût non négligeable.
-Cette technique n’est pas viable pour faire un grand meuble.
-J’ai donc essayé autre chose.
-Au lieu de faire toute une rainure, j’ai simplement fait les perçages à la fraiseuse.
-Pour tester cette technique j’ai fait un meuble grande largeur, mais avec seulement 5 tiroirs.
-Le résultat n’est pas aussi bon.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/6.jpg"><img src="/assets/2025-03-21-lego-storage/6.jpg" alt="" />
-</a></p>
-
-<h2 id="bilan-et-perspective">Bilan et perspective</h2>
-
-<p>Ce projet est lancé depuis presque 4 ans maintenant.
-Je dispose aujourd’hui d’un total de 5 meubles de différentes capacités que j’utilise au quotidien pour ranger mes pièces de LEGO pour ma boutique en ligne.
-Le système de boites modulaires me permet de sortir les boîtes pour facilement prélever les pièces,
-et de reconfigurer l’agencement dans les tiroirs en fonction des besoins,
-et c’est vraiment très appréciable.</p>
-
-<p>J’ai toujours besoin de plus de place de rangement,
-et je prévois de fabriquer encore d’autres meubles,
-en cherchant toujours à améliorer la conception.
-Le positionnement des tiroirs n’est toujours pas idéal sans exploser le budger en temps d’usinage.
-J’ai encore des idées, comme l’utilisation d’un gabarit pour les perçages.
-Je réfléchis aussi à une manière de positionner les façades des tiroirs une fois les tiroirs en place.
-Je pense que c’est le plus simple pour atteindre un rendu global optimal sans chercher la perfection
-dans le positionnement des glissières.
-Aussi, les glissières actuelles ne permettent pas au tiroir de sortir plus que sa profondeur,
-ce qui rend encore l’accès aux boites du fond difficile,
-surtout quand il y a la poignée du tiroir du dessus juste au dessus.
-Une option serait de trouver des glissières qui permettent une sortie plus que totale,
-mais je ne suis pas sûr que ça existe.
-La solution la plus simple est de faire des tiroirs plus courts que les glissières.</p>
-
-<p>Pour le prochain projet j’envisage de faire dans le même jet un ensemble de capacité équivalente
-à l’ensemble des 5 meubles que j’ai aujourd’hui.
-Je voudrais essayer d’ajouter une grande illustration qui s’étale sur les façades des tiroirs.
-Je réfléchis également à un système de tiroirs connectés, avec ouverture semie-automatique pilotée par mon logiciel de picking.</p>
-
-<p>Stay tuned.</p>
-
-<p><a href="/assets/2025-03-21-lego-storage/1.jpg"><img src="/assets/2025-03-21-lego-storage/1.jpg" alt="" />
-</a></p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">(fr) Reconnaissance vocale dans une app SwiftUI</title><link href="/2025/03/14/swiftui-speech_fr.html" rel="alternate" type="text/html" title="(fr) Reconnaissance vocale dans une app SwiftUI" /><published>2025-03-14T04:23:06-05:00</published><updated>2025-03-14T04:23:06-05:00</updated><id>/2025/03/14/swiftui-speech_fr</id><content type="html" xml:base="/2025/03/14/swiftui-speech_fr.html"><![CDATA[<p>Dans un précédent article, nous avons vu l’accès au microphone dans une application SwiftUI sur macOS.
+<p><a href="/assets/2025-04-04-photos/EgRU79zVoAI3uLc.jpg"><img src="/assets/2025-04-04-photos/EgRU79zVoAI3uLc.jpg" alt="" /></a></p>]]></content><author><name>Alexandre Bintz</name></author><summary type="html"><![CDATA[Here are some pictures I took. You can see more on my Flickr.]]></summary></entry><entry><title type="html">(fr) Reconnaissance vocale dans une app SwiftUI</title><link href="/2025/03/14/swiftui-speech_fr.html" rel="alternate" type="text/html" title="(fr) Reconnaissance vocale dans une app SwiftUI" /><published>2025-03-14T04:23:06-05:00</published><updated>2025-03-14T04:23:06-05:00</updated><id>/2025/03/14/swiftui-speech_fr</id><content type="html" xml:base="/2025/03/14/swiftui-speech_fr.html"><![CDATA[<p>Dans un précédent article, nous avons vu l’accès au microphone dans une application SwiftUI sur macOS.
 Dans cet article nous allons ajouter la reconnaissance vocale avec le framework <a href="https://developer.apple.com/documentation/speech">Speech</a>.</p>
 
 <h2 id="vérifier-la-permission">Vérifier la permission</h2>
@@ -954,7 +304,7 @@ Les résultats sont envoyés à une closure au fur et à mesure que la personne 
 
 <p>Et voilà, tout est fonctionnel.</p>
 
-<p><img src="/assets/2025-03-14-swiftui-speech/1.gif" alt="" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Dans un précédent article, nous avons vu l’accès au microphone dans une application SwiftUI sur macOS. Dans cet article nous allons ajouter la reconnaissance vocale avec le framework Speech.]]></summary></entry><entry><title type="html">Speech Recognition in a SwiftUI App</title><link href="/2025/03/14/swiftui-speech_en.html" rel="alternate" type="text/html" title="Speech Recognition in a SwiftUI App" /><published>2025-03-14T04:23:06-05:00</published><updated>2025-03-14T04:23:06-05:00</updated><id>/2025/03/14/swiftui-speech_en</id><content type="html" xml:base="/2025/03/14/swiftui-speech_en.html"><![CDATA[<p>In a previous article, we explored microphone access in a SwiftUI application on macOS. In this article, we will add speech recognition using the <a href="https://developer.apple.com/documentation/speech">Speech</a> framework.</p>
+<p><img src="/assets/2025-03-14-swiftui-speech/1.gif" alt="" /></p>]]></content><author><name>Alexandre Bintz</name></author><summary type="html"><![CDATA[Dans un précédent article, nous avons vu l’accès au microphone dans une application SwiftUI sur macOS. Dans cet article nous allons ajouter la reconnaissance vocale avec le framework Speech.]]></summary></entry><entry><title type="html">Speech Recognition in a SwiftUI App</title><link href="/2025/03/14/swiftui-speech_en.html" rel="alternate" type="text/html" title="Speech Recognition in a SwiftUI App" /><published>2025-03-14T04:23:06-05:00</published><updated>2025-03-14T04:23:06-05:00</updated><id>/2025/03/14/swiftui-speech_en</id><content type="html" xml:base="/2025/03/14/swiftui-speech_en.html"><![CDATA[<p>In a previous article, we explored microphone access in a SwiftUI application on macOS. In this article, we will add speech recognition using the <a href="https://developer.apple.com/documentation/speech">Speech</a> framework.</p>
 
 <h2 id="checking-permissions">Checking permissions</h2>
 
@@ -1206,7 +556,7 @@ Similar to the microphone, I create a computed property in the controller to enc
 
 <p>And there, everything is working.</p>
 
-<p><img src="/assets/2025-03-14-swiftui-speech/1.gif" alt="" /></p>]]></content><author><name></name></author><summary type="html"><![CDATA[In a previous article, we explored microphone access in a SwiftUI application on macOS. In this article, we will add speech recognition using the Speech framework.]]></summary></entry><entry><title type="html">Swift Observation: in-depth analysis</title><link href="/2025/03/06/swift-observation_en.html" rel="alternate" type="text/html" title="Swift Observation: in-depth analysis" /><published>2025-03-06T04:23:15-06:00</published><updated>2025-03-06T04:23:15-06:00</updated><id>/2025/03/06/swift-observation_en</id><content type="html" xml:base="/2025/03/06/swift-observation_en.html"><![CDATA[<p>Introduced in 2023, the <a href="https://developer.apple.com/documentation/observation">Observation</a> framework aims to simplify existing reactive mechanisms while improving application performance.</p>
+<p><img src="/assets/2025-03-14-swiftui-speech/1.gif" alt="" /></p>]]></content><author><name>Alexandre Bintz</name></author><summary type="html"><![CDATA[In a previous article, we explored microphone access in a SwiftUI application on macOS. In this article, we will add speech recognition using the Speech framework.]]></summary></entry><entry><title type="html">Swift Observation: in-depth analysis</title><link href="/2025/03/06/swift-observation_en.html" rel="alternate" type="text/html" title="Swift Observation: in-depth analysis" /><published>2025-03-06T04:23:15-06:00</published><updated>2025-03-06T04:23:15-06:00</updated><id>/2025/03/06/swift-observation_en</id><content type="html" xml:base="/2025/03/06/swift-observation_en.html"><![CDATA[<p>Introduced in 2023, the <a href="https://developer.apple.com/documentation/observation">Observation</a> framework aims to simplify existing reactive mechanisms while improving application performance.</p>
 
 <p>This new approach relies on the automatic tracking of data accesses via the <a href="https://developer.apple.com/documentation/observation/withobservationtracking(_:onchange:)"><code class="language-plaintext highlighter-rouge">withObservationTracking(_:onChange:)</code></a> method.</p>
 
@@ -1734,7 +1084,7 @@ str2: new2
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>The Observation framework represents a significant advancement in managing reactivity within Swift applications. By offering fine-grained change tracking, it optimizes performance while simplifying dependency management. Developers must, however, keep in mind the need to transition to reference semantics and to manage read and write accesses judiciously.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Introduced in 2023, the Observation framework aims to simplify existing reactive mechanisms while improving application performance.]]></summary></entry><entry><title type="html">(fr) Swift Observation: étude approfondie</title><link href="/2025/03/06/swift-observation_fr.html" rel="alternate" type="text/html" title="(fr) Swift Observation: étude approfondie" /><published>2025-03-06T04:23:15-06:00</published><updated>2025-03-06T04:23:15-06:00</updated><id>/2025/03/06/swift-observation_fr</id><content type="html" xml:base="/2025/03/06/swift-observation_fr.html"><![CDATA[<p>Introduit en 2023, le framework <a href="https://developer.apple.com/documentation/observation">Observation</a>
+<p>The Observation framework represents a significant advancement in managing reactivity within Swift applications. By offering fine-grained change tracking, it optimizes performance while simplifying dependency management. Developers must, however, keep in mind the need to transition to reference semantics and to manage read and write accesses judiciously.</p>]]></content><author><name>Alexandre Bintz</name></author><summary type="html"><![CDATA[Introduced in 2023, the Observation framework aims to simplify existing reactive mechanisms while improving application performance.]]></summary></entry><entry><title type="html">(fr) Swift Observation: étude approfondie</title><link href="/2025/03/06/swift-observation_fr.html" rel="alternate" type="text/html" title="(fr) Swift Observation: étude approfondie" /><published>2025-03-06T04:23:15-06:00</published><updated>2025-03-06T04:23:15-06:00</updated><id>/2025/03/06/swift-observation_fr</id><content type="html" xml:base="/2025/03/06/swift-observation_fr.html"><![CDATA[<p>Introduit en 2023, le framework <a href="https://developer.apple.com/documentation/observation">Observation</a>
 vise à simplifier les mécanismes existant en matière de réactivité tout en améliorant les performances des applications.</p>
 
 <p>Cette nouvelle approche repose sur le tracking automatique des accès aux données
@@ -2274,4 +1624,565 @@ Un exemple dans une app SwiftUI est plus parlant :</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>Le framework Observation représente une avancée significative dans la gestion de la réactivité au sein des applications Swift. En offrant une granularité fine dans le suivi des changements, il permet d’optimiser les performances tout en simplifiant la gestion des dépendances. Les développeurs doivent cependant garder à l’esprit la nécessité de transitionner vers une sémantique de référence et de gérer judicieusement les accès en lecture et en écriture.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Introduit en 2023, le framework Observation vise à simplifier les mécanismes existant en matière de réactivité tout en améliorant les performances des applications.]]></summary></entry></feed>
+<p>Le framework Observation représente une avancée significative dans la gestion de la réactivité au sein des applications Swift. En offrant une granularité fine dans le suivi des changements, il permet d’optimiser les performances tout en simplifiant la gestion des dépendances. Les développeurs doivent cependant garder à l’esprit la nécessité de transitionner vers une sémantique de référence et de gérer judicieusement les accès en lecture et en écriture.</p>]]></content><author><name>Alexandre Bintz</name></author><summary type="html"><![CDATA[Introduit en 2023, le framework Observation vise à simplifier les mécanismes existant en matière de réactivité tout en améliorant les performances des applications.]]></summary></entry><entry><title type="html">(fr) Accès au micro dans une app SwiftUI</title><link href="/2025/02/28/swiftui-microphone_fr.html" rel="alternate" type="text/html" title="(fr) Accès au micro dans une app SwiftUI" /><published>2025-02-28T04:02:15-06:00</published><updated>2025-02-28T04:02:15-06:00</updated><id>/2025/02/28/swiftui-microphone_fr</id><content type="html" xml:base="/2025/02/28/swiftui-microphone_fr.html"><![CDATA[<p>J’ai une activité de vente en ligne de pièces de LEGO sur la plateforme BrickLink,
+et je développe une application mac en SwiftUI pour m’aider à gérer mes ventes.</p>
+
+<p>Pour le module d’aide au picking, j’ai imaginé une fonctionnalité mains libre basée sur des commandes vocales.
+Dans cette optique, j’ai commencé par expérimenter avec le module de reconnaissance vocale d’Apple.
+Mais au préalable, il faut accéder aux données audio du micro.</p>
+
+<p>Dans cet article je reviens sur comment j’ai implémenté l’accès au micro dans une application Swift UI.</p>
+
+<h2 id="préparation">Préparation</h2>
+
+<p>Pour que l’app puisse avoir accès au micro, il faut cocher <strong>Audio Input</strong> dans <strong>Signing &amp; Capabilities</strong>, et ajouter la clé <strong>NSMicrophoneUsageDescription</strong> dans l’onglet <strong>Info</strong>.</p>
+
+<h2 id="structure-de-base">Structure de base</h2>
+
+<p>Mon app de test comprend une seule vue, avec un bouton pour lancer/arrêter l’écoute du micro.
+Les fonctionnalités d’accès au micro sont gérées dans un objet contrôleur <code class="language-plaintext highlighter-rouge">@Observable</code> utilisé comme <code class="language-plaintext highlighter-rouge">@State</code> dans la vue. Le contrôleur expose des fonctions <code class="language-plaintext highlighter-rouge">start()</code> et <code class="language-plaintext highlighter-rouge">stop()</code>, et une propriété observable <code class="language-plaintext highlighter-rouge">listening</code>, à <code class="language-plaintext highlighter-rouge">true</code> quand le micro est en cours d’écoute, <code class="language-plaintext highlighter-rouge">false</code> sinon.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@main</span>
+<span class="kd">struct</span> <span class="kt">SpeechRecognitionApp</span><span class="p">:</span> <span class="kt">App</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">Scene</span> <span class="p">{</span>
+        <span class="kt">WindowGroup</span> <span class="p">{</span>
+            <span class="kt">SpeechRecognitionRootView</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">struct</span> <span class="kt">SpeechRecognitionRootView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>    
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">SpeechRecognitionController</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>      
+        <span class="kt">HStack</span> <span class="p">{</span>    
+            <span class="k">if</span> <span class="o">!</span><span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                <span class="kt">Button</span><span class="p">(</span><span class="s">"Start"</span><span class="p">)</span> <span class="p">{</span> <span class="n">controller</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span> <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="kt">Button</span><span class="p">(</span><span class="s">"Stop"</span><span class="p">)</span> <span class="p">{</span> <span class="n">controller</span><span class="o">.</span><span class="nf">stop</span><span class="p">()</span> <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Listening"</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">listening</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO</span>
+    <span class="p">}</span>
+    <span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="vérifier-la-permission-daccès-au-micro">Vérifier la permission d’accès au micro</h2>
+
+<p>L’accès au micro peut être autorisé, refusé/restreint ou indéterminé :</p>
+
+<ul>
+  <li>
+    <p>Le cas <em>autorisé</em> correspond au cas où l’utilisateur a explicitement autorisé l’accès.</p>
+  </li>
+  <li>
+    <p>Le cas <em>refusé</em> correspond au cas où l’utilisateur a explicitement refusé l’accès.</p>
+  </li>
+  <li>
+    <p>Le cas <em>restreint</em> correspond au cas où le système impose des restrictions, comme dans le cas d’un contrôle parental par exemple. Ici on considère ce cas équivalent à <em>refusé</em>.</p>
+  </li>
+  <li>
+    <p>Le cas indéterminé correspond à la situation dans laquelle l’app n’a encore jamais demandé la permission.</p>
+  </li>
+</ul>
+
+<p>Dans le contrôleur j’ajoute un un booléen optionnel qui reflètera l’état de l’autorisation d’accès au micro.
+Une valeur <code class="language-plaintext highlighter-rouge">nil</code> correspond à un état indéterminé, <code class="language-plaintext highlighter-rouge">true</code> si autorisé, et <code class="language-plaintext highlighter-rouge">false</code> dans les autres cas.</p>
+
+<p>Dans la vue j’affiche la valeur de l’autorisation.
+Je crée aussi une propriété calculée <code class="language-plaintext highlighter-rouge">ready</code> qui permet d’ajuster l’interface dans le cas où la permission micro est refusée. En l’occurence on désactive le bouton <strong>Start</strong>.</p>
+
+<p>Par la suite on demandera l’autorisation au moment où l’utilisateur•ice clic sur le bouton <strong>Start</strong>.
+Il faut donc que celui-ci soit actif dans le cas où la permission est encore indéterminée.
+De manière générale, quand la permission est encore indéterminée, il est plus engagent pour l’utilisateur•ice de présenter l’interface comme si elle était autorisée, et de ne la désactiver que lorsque la premission est explicitement refusée.
+C’est pour cette raison que <code class="language-plaintext highlighter-rouge">ready</code> ne renvoit <code class="language-plaintext highlighter-rouge">false</code> que dans le cas où la premission est connue et refusée, et <code class="language-plaintext highlighter-rouge">true</code> dans tous les autres cas.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SpeechRecognitionRootView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">SpeechRecognitionController</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="kt">Grid</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">leading</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">GridRow</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Microphone authorisation"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">authorized</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">microphoneAuthorized</span> <span class="p">{</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="n">authorized</span> <span class="p">?</span> <span class="s">"Granted"</span> <span class="p">:</span> <span class="s">"Denied"</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"undetermined"</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="kt">HStack</span> <span class="p">{</span>    
+                <span class="k">if</span> <span class="o">!</span><span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                    <span class="kt">Button</span><span class="p">(</span><span class="s">"Start"</span><span class="p">)</span> <span class="p">{</span> <span class="n">controller</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span> <span class="p">}</span>
+                    <span class="o">.</span><span class="nf">disabled</span><span class="p">(</span><span class="o">!</span><span class="n">ready</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="c1">// ...</span>
+                <span class="p">}</span>
+                <span class="c1">// ...</span>
+            <span class="p">}</span>  
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">var</span> <span class="nv">ready</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span>   
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">authorized</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">microphoneAuthorized</span><span class="p">,</span> <span class="n">authorized</span> <span class="o">==</span> <span class="kc">false</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">false</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>    
+    <span class="c1">// ...</span>
+    <span class="k">var</span> <span class="nv">microphoneAuthorized</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Ensuite dans le contrôleur je crée une propriété calculée pour encapsuler l’appel à la fonction système <code class="language-plaintext highlighter-rouge">AVCaptureDevice.authorizationStatus(for:)</code>, en indiquant qu’on souhaite accéder à l’audio.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">AVFoundation</span>
+
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">var</span> <span class="nv">microphoneAuthorisationStatus</span><span class="p">:</span> <span class="kt">AVAuthorizationStatus</span> <span class="p">{</span>
+        <span class="kt">AVCaptureDevice</span><span class="o">.</span><span class="nf">authorizationStatus</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">audio</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Je crée ensuite une fonction qui met à jour la propriété observable en fonction de la valeur brute de la permission.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="kd">func</span> <span class="nf">updateMicrophoneAuthorisationStatus</span><span class="p">()</span> <span class="p">{</span>   
+        <span class="n">microphoneAuthorized</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="k">switch</span> <span class="n">microphoneAuthorisationStatus</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">notDetermined</span><span class="p">:</span> <span class="kc">nil</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">authorized</span><span class="p">:</span> <span class="kc">true</span>
+            <span class="k">default</span><span class="p">:</span> <span class="kc">false</span>
+            <span class="p">}</span>
+        <span class="p">}()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">microphoneAuthorized</code> pourrait être une propriété calculée, mais on n’aurait alors aucun moyen de communiquer les changements à la vue. L’observation nécessite une propriété stockée. C’est la mise à jour explicite de la propriété qui va déclencher la mise à jour de la vue. La contrepartie est qu’il faut penser à appeler <code class="language-plaintext highlighter-rouge">updateMicrophoneAuthorisationStatus()</code> aux moments opportuns.</p>
+
+<p>Un moment opportun pour mettre à jour la valeur est au démarrage, j’ajoute donc un initialiseur dans le contrôleur qui fait une première mise à jour.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">override</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">()</span>
+        <span class="nf">updateMicrophoneAuthorisationStatus</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Ainsi quand l’app démarre l’affichage reflète la bonne valeur de l’autorisation.</p>
+
+<h2 id="demander-la-permission-daccès-au-micro">Demander la permission d’accès au micro</h2>
+
+<p>Il faut maintenant demander la permission d’accès au micro.</p>
+
+<p>Je crée encore une fois une fonction pour encapsuler l’appel à la fonction système. La fonction est <code class="language-plaintext highlighter-rouge">AVCaptureDevice.requestAccess(for:)</code>, elle renvoie un booléen à <code class="language-plaintext highlighter-rouge">true</code> si autorisé, <code class="language-plaintext highlighter-rouge">false</code> sinon.
+Ma méthode renvoie plutôt la valeur complète de l’autorisation, après avoir mis à jour la propriété.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="kd">func</span> <span class="nf">requestMicrophoneAuthorisation</span><span class="p">()</span> <span class="k">async</span> <span class="o">-&gt;</span> <span class="kt">AVAuthorizationStatus</span> <span class="p">{</span>
+        <span class="k">await</span> <span class="kt">AVCaptureDevice</span><span class="o">.</span><span class="nf">requestAccess</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">audio</span><span class="p">)</span>
+        <span class="nf">updateMicrophoneAuthorisationStatus</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">microphoneAuthorisationStatus</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>A noter que si l’app a déjà demandé la permission et que l’état d’autorisation est donc connu, <code class="language-plaintext highlighter-rouge">AVCaptureDevice.requestAccess(for:)</code> ne fait rien du tout.
+Dans le cas contraire une boîte de dialogue demande à l’utilisateur s’il souhaite autoriser l’accès ou non.
+On peut donc appeler la méthode <code class="language-plaintext highlighter-rouge">requestMicrophoneAuthorisation()</code> de manière systématique pour récupérer l’état de l’autorisation, la question étant préalablement posée à l’utilisateur si nécessaire.</p>
+
+<p>Techniquement, demander la permission d’accès au micro et utiliser le micro sont deux choses différentes qui peuvent se produire à des moments différents. Et on pourrait tout à fait demander la permission au démarrage de l’application ou à l’arrivée sur l’écran. Cependant, demander la permission à l’utilisateur•ice lui donne l’impression qu’on va utiliser le micro immédiatement. Il est donc préférable de faire la demande au moment où on va réellement l’utiliser.</p>
+
+<p>C’est pourquoi j’appelle la méthode <code class="language-plaintext highlighter-rouge">requestMicrophoneAuthorisation()</code> dans la fonction <code class="language-plaintext highlighter-rouge">start()</code> et non dans l’<code class="language-plaintext highlighter-rouge">init()</code>.
+Comme <code class="language-plaintext highlighter-rouge">requestMicrophoneAuthorisation()</code> est <code class="language-plaintext highlighter-rouge">async</code>, je modifie <code class="language-plaintext highlighter-rouge">start()</code> pour l’être également, et je modifie l’action du bouton <strong>Start</strong> en conséquence.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SpeechRecognitionRootView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">SpeechRecognitionController</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="kt">Grid</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">leading</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ...</span>
+            <span class="kt">HStack</span> <span class="p">{</span>    
+                <span class="k">if</span> <span class="o">!</span><span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                    <span class="kt">Button</span><span class="p">(</span><span class="s">"Start"</span><span class="p">)</span> <span class="p">{</span> <span class="kt">Task</span> <span class="p">{</span> <span class="k">await</span> <span class="n">controller</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span> <span class="p">}}</span>
+                    <span class="o">.</span><span class="nf">disabled</span><span class="p">(</span><span class="o">!</span><span class="n">ready</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="c1">// ...</span>
+                <span class="p">}</span>
+                <span class="c1">// ...</span>
+            <span class="p">}</span>  
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>    
+    <span class="c1">// ...</span>
+    <span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="k">async</span> <span class="p">{</span>
+        <span class="c1">// check permission, ask if needed</span>
+        <span class="k">let</span> <span class="nv">microphoneStatus</span> <span class="o">=</span> <span class="k">await</span> <span class="nf">requestMicrophoneAuthorisation</span><span class="p">()</span>
+        <span class="k">guard</span> <span class="n">microphoneStatus</span> <span class="o">==</span> <span class="o">.</span><span class="n">authorized</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Microphone not authorized"</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+        <span class="c1">// next steps will follow here</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Une fois que l’app a demandé une première fois la permission, une entrée est créé dans les réglages de <strong>Confidentialité</strong> dans les <strong>Réglages système</strong>.
+L’utilisateur•ice peut ensuite modifier à loisir la permission.</p>
+
+<p>Une fois que l’entrée existe dans les réglages de <strong>Confidentialité</strong>, la boîte de dialogue d’autorisation ne s’affiche plus à l’utilisateur•ice.
+C’est embêtant pour le développement, où on aimerait pouvoir revenir dans un état de permission indéterminée.</p>
+
+<p>La commande suivante permet de supprimer l’entrée dans les réglages de <strong>Confidentialité</strong>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tccutil reset Microphone &lt;bundle.id&gt;
+</code></pre></div></div>
+
+<p>Attention si <code class="language-plaintext highlighter-rouge">&lt;bundle id&gt;</code> n’est pas précisé, la permission est réinitialisée pour <strong>toutes</strong> les apps du système.</p>
+
+<h2 id="accéder-aux-données-audio">Accéder aux données audio</h2>
+
+<p>Tout est enfin prêt pour recevoir les données audio !
+Pour ça on utilise <code class="language-plaintext highlighter-rouge">AVAudioEngine</code>.</p>
+
+<p>Je crée une nouvelle fonction <code class="language-plaintext highlighter-rouge">startAudio()</code> qui initialise une instance de <code class="language-plaintext highlighter-rouge">AVAudioEngine</code> dans et récupère le noeud d’entrée.
+On configure ensuite un “tap” sur le noeud d’entrée qui nous permet de récupérer les données audio brute dans un buffer. La callback est appelée à de multiples reprises avec le flux de données.
+Enfin on appelle <code class="language-plaintext highlighter-rouge">.prepare()</code> et <code class="language-plaintext highlighter-rouge">.start()</code> sur <code class="language-plaintext highlighter-rouge">audioEngine</code> pour lancer l’écoute.</p>
+
+<p>Je crée aussi une fonction <code class="language-plaintext highlighter-rouge">stopAudio()</code> qui arrête l’<code class="language-plaintext highlighter-rouge">audioEngine</code> et supprime le tap.
+On appelle <code class="language-plaintext highlighter-rouge">startAudio()</code> dans <code class="language-plaintext highlighter-rouge">start()</code> et <code class="language-plaintext highlighter-rouge">stopAudio()</code> dans <code class="language-plaintext highlighter-rouge">stop()</code>, et on peut mettre à jour le flag <code class="language-plaintext highlighter-rouge">listening</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">var</span> <span class="nv">audioEngine</span><span class="p">:</span> <span class="kt">AVAudioEngine</span><span class="o">!</span>
+    <span class="k">var</span> <span class="nv">inputNode</span><span class="p">:</span> <span class="kt">AVAudioInputNode</span><span class="o">!</span>
+
+    <span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="k">async</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="k">try</span> <span class="nf">startAudio</span><span class="p">()</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Failed to start audio: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+        <span class="n">listening</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span> <span class="p">{</span>   
+        <span class="nf">stopAudio</span><span class="p">()</span>
+        <span class="n">listening</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">startAudio</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+        <span class="n">audioEngine</span> <span class="o">=</span> <span class="kt">AVAudioEngine</span><span class="p">()</span>
+        <span class="n">inputNode</span> <span class="o">=</span> <span class="n">audioEngine</span><span class="o">.</span><span class="n">inputNode</span>
+        
+        <span class="k">let</span> <span class="nv">recordingFormat</span> <span class="o">=</span> <span class="n">inputNode</span><span class="o">.</span><span class="nf">outputFormat</span><span class="p">(</span><span class="nv">forBus</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">inputNode</span><span class="o">.</span><span class="nf">installTap</span><span class="p">(</span><span class="nv">onBus</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">bufferSize</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span> <span class="nv">format</span><span class="p">:</span> <span class="n">recordingFormat</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span> <span class="k">in</span>
+            <span class="c1">// receive audio data from buffer</span>
+        <span class="p">}</span>
+        
+        <span class="n">audioEngine</span><span class="o">.</span><span class="nf">prepare</span><span class="p">()</span>
+        <span class="k">try</span> <span class="n">audioEngine</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">stopAudio</span><span class="p">()</span> <span class="p">{</span>   
+        <span class="n">audioEngine</span><span class="o">.</span><span class="nf">stop</span><span class="p">()</span>
+        <span class="n">inputNode</span><span class="o">.</span><span class="nf">removeTap</span><span class="p">(</span><span class="nv">onBus</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Et voilà, tout est prêt pour transmettre les données audio au module de reconnaissance vocale.</p>]]></content><author><name>Alexandre Bintz</name></author><summary type="html"><![CDATA[J’ai une activité de vente en ligne de pièces de LEGO sur la plateforme BrickLink, et je développe une application mac en SwiftUI pour m’aider à gérer mes ventes.]]></summary></entry><entry><title type="html">Microphone access in a SwiftUI app</title><link href="/2025/02/28/swiftui-microphone_en.html" rel="alternate" type="text/html" title="Microphone access in a SwiftUI app" /><published>2025-02-28T04:02:15-06:00</published><updated>2025-02-28T04:02:15-06:00</updated><id>/2025/02/28/swiftui-microphone_en</id><content type="html" xml:base="/2025/02/28/swiftui-microphone_en.html"><![CDATA[<p>I run an online store for LEGO parts on the BrickLink platform, and I’m developing a macOS application in SwiftUI to help manage my sales.</p>
+
+<p>For the picking assistance module, I envisioned a hands-free feature based on voice commands. To this end, I started experimenting with Apple’s speech recognition framework. However, first, we need to access the audio data from the microphone.</p>
+
+<p>In this article, I’ll discuss how I implemented microphone access in a SwiftUI application.</p>
+
+<h2 id="preparation">Preparation</h2>
+
+<p>To allow the app to access the microphone, you need to check <strong>Audio Input</strong> in <strong>Signing &amp; Capabilities</strong> and add the <strong>NSMicrophoneUsageDescription</strong> key in the <strong>Info</strong> tab.</p>
+
+<h2 id="basic-structure">Basic Structure</h2>
+
+<p>My test app consists of a single view, with a button to start/stop listening to the microphone. The microphone access functionalities are managed in an <code class="language-plaintext highlighter-rouge">@Observable</code> controller used as <code class="language-plaintext highlighter-rouge">@State</code> in the view. The controller exposes <code class="language-plaintext highlighter-rouge">start()</code> and <code class="language-plaintext highlighter-rouge">stop()</code> functions, and an observable property <code class="language-plaintext highlighter-rouge">listening</code>, which is <code class="language-plaintext highlighter-rouge">true</code> when the microphone is listening and <code class="language-plaintext highlighter-rouge">false</code> otherwise.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">SwiftUI</span>
+
+<span class="kd">@main</span>
+<span class="kd">struct</span> <span class="kt">SpeechRecognitionApp</span><span class="p">:</span> <span class="kt">App</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">Scene</span> <span class="p">{</span>
+        <span class="kt">WindowGroup</span> <span class="p">{</span>
+            <span class="kt">SpeechRecognitionRootView</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">struct</span> <span class="kt">SpeechRecognitionRootView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>    
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">SpeechRecognitionController</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>      
+        <span class="kt">HStack</span> <span class="p">{</span>    
+            <span class="k">if</span> <span class="o">!</span><span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                <span class="kt">Button</span><span class="p">(</span><span class="s">"Start"</span><span class="p">)</span> <span class="p">{</span> <span class="n">controller</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span> <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="kt">Button</span><span class="p">(</span><span class="s">"Stop"</span><span class="p">)</span> <span class="p">{</span> <span class="n">controller</span><span class="o">.</span><span class="nf">stop</span><span class="p">()</span> <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Listening"</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">listening</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO</span>
+    <span class="p">}</span>
+    <span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="checking-microphone-access-permission">Checking Microphone Access Permission</h2>
+
+<p>Microphone access can be authorized, denied/restricted, or undetermined:</p>
+
+<ul>
+  <li>The <em>authorized</em> case corresponds to when the user has explicitly granted access.</li>
+  <li>The <em>denied</em> case corresponds to when the user has explicitly denied access.</li>
+  <li>The <em>restricted</em> case corresponds to when the system imposes restrictions, such as in the case of parental controls. Here we consider this case equivalent to <em>denied</em>.</li>
+  <li>The <em>undetermined</em> case corresponds to the situation where the app has never asked for permission.</li>
+</ul>
+
+<p>In the controller, I add an optional boolean that will reflect the microphone access authorization status. A <code class="language-plaintext highlighter-rouge">nil</code> value corresponds to an undetermined status, <code class="language-plaintext highlighter-rouge">true</code> if authorized, and <code class="language-plaintext highlighter-rouge">false</code> in other cases.</p>
+
+<p>In the view, I display the authorization status. I also create a computed property <code class="language-plaintext highlighter-rouge">ready</code> that adjusts the interface in case microphone permission is denied, specifically disabling the <strong>Start</strong> button.</p>
+
+<p>Subsequently, we will request permission when the user clicks the <strong>Start</strong> button. Therefore, this button should be active when the permission is still undetermined. Generally, when the permission is still undetermined, it is more engaging for the user to present the interface as if it were authorized, disabling it only when permission is explicitly denied. This is why <code class="language-plaintext highlighter-rouge">ready</code> only returns <code class="language-plaintext highlighter-rouge">false</code> when the permission is known and denied, and <code class="language-plaintext highlighter-rouge">true</code> in all other cases.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SpeechRecognitionRootView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">SpeechRecognitionController</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="kt">Grid</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">leading</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">GridRow</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Microphone authorization"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="k">let</span> <span class="nv">authorized</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">microphoneAuthorized</span> <span class="p">{</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="n">authorized</span> <span class="p">?</span> <span class="s">"Granted"</span> <span class="p">:</span> <span class="s">"Denied"</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"undetermined"</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="kt">HStack</span> <span class="p">{</span>    
+                <span class="k">if</span> <span class="o">!</span><span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                    <span class="kt">Button</span><span class="p">(</span><span class="s">"Start"</span><span class="p">)</span> <span class="p">{</span> <span class="n">controller</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span> <span class="p">}</span>
+                    <span class="o">.</span><span class="nf">disabled</span><span class="p">(</span><span class="o">!</span><span class="n">ready</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="c1">// ...</span>
+                <span class="p">}</span>
+                <span class="c1">// ...</span>
+            <span class="p">}</span>  
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">var</span> <span class="nv">ready</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span>   
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">authorized</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">microphoneAuthorized</span><span class="p">,</span> <span class="n">authorized</span> <span class="o">==</span> <span class="kc">false</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">false</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>    
+    <span class="c1">// ...</span>
+    <span class="k">var</span> <span class="nv">microphoneAuthorized</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Next, in the controller, I create a computed property to encapsulate the call to the system function <code class="language-plaintext highlighter-rouge">AVCaptureDevice.authorizationStatus(for:)</code>, indicating that we want to access audio.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">AVFoundation</span>
+
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">var</span> <span class="nv">microphoneAuthorizationStatus</span><span class="p">:</span> <span class="kt">AVAuthorizationStatus</span> <span class="p">{</span>
+        <span class="kt">AVCaptureDevice</span><span class="o">.</span><span class="nf">authorizationStatus</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">audio</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>I then create a function that updates the observable property based on the raw value of the permission.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="kd">func</span> <span class="nf">updateMicrophoneAuthorizationStatus</span><span class="p">()</span> <span class="p">{</span>   
+        <span class="n">microphoneAuthorized</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="k">switch</span> <span class="n">microphoneAuthorizationStatus</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">notDetermined</span><span class="p">:</span> <span class="kc">nil</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">authorized</span><span class="p">:</span> <span class="kc">true</span>
+            <span class="k">default</span><span class="p">:</span> <span class="kc">false</span>
+            <span class="p">}</span>
+        <span class="p">}()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">microphoneAuthorized</code> could be a computed property, but then we wouldn’t have a way to communicate changes to the view. Observability requires a stored property. It’s the explicit update of the property that triggers the view update. The trade-off is that we need to remember to call <code class="language-plaintext highlighter-rouge">updateMicrophoneAuthorizationStatus()</code> at the appropriate times.</p>
+
+<p>An appropriate moment to update the value is at startup, so I add an initializer in the controller that performs an initial update.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">override</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">()</span>
+        <span class="nf">updateMicrophoneAuthorizationStatus</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Thus, when the app starts, the view shows the correct authorization value.</p>
+
+<h2 id="requesting-microphone-access-permission">Requesting Microphone Access Permission</h2>
+
+<p>Now we need to request permission to access the microphone.</p>
+
+<p>I create another function to encapsulate the call to the system function. The function is <code class="language-plaintext highlighter-rouge">AVCaptureDevice.requestAccess(for:)</code>, which returns a boolean <code class="language-plaintext highlighter-rouge">true</code> if authorized, <code class="language-plaintext highlighter-rouge">false</code> otherwise. My method returns the complete authorization status after updating the property.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="kd">func</span> <span class="nf">requestMicrophoneAuthorization</span><span class="p">()</span> <span class="k">async</span> <span class="o">-&gt;</span> <span class="kt">AVAuthorizationStatus</span> <span class="p">{</span>
+        <span class="k">await</span> <span class="kt">AVCaptureDevice</span><span class="o">.</span><span class="nf">requestAccess</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">audio</span><span class="p">)</span>
+        <span class="nf">updateMicrophoneAuthorizationStatus</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">microphoneAuthorizationStatus</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Note that if the app has already requested permission and the authorization status is known, <code class="language-plaintext highlighter-rouge">AVCaptureDevice.requestAccess(for:)</code> does nothing at all. In the opposite case, a dialog box will ask the user whether they want to grant access or not. Therefore, we can systematically call the <code class="language-plaintext highlighter-rouge">requestMicrophoneAuthorization()</code> method to retrieve the authorization status, asking the question to the user if necessary.</p>
+
+<p>Technically, requesting permission to access the microphone and using the microphone are two different things that can happen at different times. We could very well ask for permission at app startup or when arriving on the screen. However, asking the user for permission gives the impression that we will use the microphone immediately. It is therefore preferable to make the request at the moment we will actually use it.</p>
+
+<p>That’s why I call the <code class="language-plaintext highlighter-rouge">requestMicrophoneAuthorization()</code> method in the <code class="language-plaintext highlighter-rouge">start()</code> function and not in the <code class="language-plaintext highlighter-rouge">init()</code>. Since <code class="language-plaintext highlighter-rouge">requestMicrophoneAuthorization()</code> is <code class="language-plaintext highlighter-rouge">async</code>, I also modify <code class="language-plaintext highlighter-rouge">start()</code> to be <code class="language-plaintext highlighter-rouge">async</code> and change the action of the <strong>Start</strong> button accordingly.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">SpeechRecognitionRootView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">controller</span> <span class="o">=</span> <span class="kt">SpeechRecognitionController</span><span class="p">()</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="kt">Grid</span><span class="p">(</span><span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">leading</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ...</span>
+            <span class="kt">HStack</span> <span class="p">{</span>    
+                <span class="k">if</span> <span class="o">!</span><span class="n">controller</span><span class="o">.</span><span class="n">listening</span> <span class="p">{</span>
+                    <span class="kt">Button</span><span class="p">(</span><span class="s">"Start"</span><span class="p">)</span> <span class="p">{</span> <span class="kt">Task</span> <span class="p">{</span> <span class="k">await</span> <span class="n">controller</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span> <span class="p">}}</span>
+                    <span class="o">.</span><span class="nf">disabled</span><span class="p">(</span><span class="o">!</span><span class="n">ready</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="c1">// ...</span>
+                <span class="p">}</span>
+                <span class="c1">// ...</span>
+            <span class="p">}</span>  
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="kd">@Observable</span>
+<span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>    
+    <span class="c1">// ...</span>
+    <span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="k">async</span> <span class="p">{</span>
+        <span class="c1">// check permission, ask if needed</span>
+        <span class="k">let</span> <span class="nv">microphoneStatus</span> <span class="o">=</span> <span class="k">await</span> <span class="nf">requestMicrophoneAuthorization</span><span class="p">()</span>
+        <span class="k">guard</span> <span class="n">microphoneStatus</span> <span class="o">==</span> <span class="o">.</span><span class="n">authorized</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Microphone not authorized"</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+        <span class="c1">// next steps will follow here</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Once the app has requested permission for the first time, an entry is created in the <strong>Privacy</strong> settings in <strong>System Preferences</strong>. The user can then modify the permission at will.</p>
+
+<p>Once the entry exists in the <strong>Privacy</strong> settings, the authorization dialog no longer appears to the user. This can be troublesome during development, as you might want to return to an undetermined permission state.</p>
+
+<p>The following command allows you to delete the entry in the <strong>Privacy</strong> settings:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tccutil reset Microphone &lt;bundle.id&gt;
+</code></pre></div></div>
+
+<p>Be careful; if <code class="language-plaintext highlighter-rouge">&lt;bundle.id&gt;</code> is not specified, the permission is reset for <strong>all</strong> apps on the system.</p>
+
+<h2 id="accessing-audio-data">Accessing Audio Data</h2>
+
+<p>Everything is finally ready to receive audio data! We use <code class="language-plaintext highlighter-rouge">AVAudioEngine</code> for this.</p>
+
+<p>I create a new function <code class="language-plaintext highlighter-rouge">startAudio()</code> that initializes an instance of <code class="language-plaintext highlighter-rouge">AVAudioEngine</code> and retrieves the input node. We then configure a “tap” on the input node that allows us to retrieve raw audio data in a buffer. The callback is called multiple times with the data stream. Finally, we call <code class="language-plaintext highlighter-rouge">.prepare()</code> and <code class="language-plaintext highlighter-rouge">.start()</code> on <code class="language-plaintext highlighter-rouge">audioEngine</code> to start listening.</p>
+
+<p>I also create a <code class="language-plaintext highlighter-rouge">stopAudio()</code> function that stops the <code class="language-plaintext highlighter-rouge">audioEngine</code> and removes the tap. We call <code class="language-plaintext highlighter-rouge">startAudio()</code> in <code class="language-plaintext highlighter-rouge">start()</code> and <code class="language-plaintext highlighter-rouge">stopAudio()</code> in <code class="language-plaintext highlighter-rouge">stop()</code>, and we can update the <code class="language-plaintext highlighter-rouge">listening</code> flag.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">SpeechRecognitionController</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="k">var</span> <span class="nv">audioEngine</span><span class="p">:</span> <span class="kt">AVAudioEngine</span><span class="o">!</span>
+    <span class="k">var</span> <span class="nv">inputNode</span><span class="p">:</span> <span class="kt">AVAudioInputNode</span><span class="o">!</span>
+
+    <span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="k">async</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="k">try</span> <span class="nf">startAudio</span><span class="p">()</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Failed to start audio: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
+        <span class="n">listening</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span> <span class="p">{</span>   
+        <span class="nf">stopAudio</span><span class="p">()</span>
+        <span class="n">listening</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">startAudio</span><span class="p">()</span> <span class="k">throws</span> <span class="p">{</span>
+        <span class="n">audioEngine</span> <span class="o">=</span> <span class="kt">AVAudioEngine</span><span class="p">()</span>
+        <span class="n">inputNode</span> <span class="o">=</span> <span class="n">audioEngine</span><span class="o">.</span><span class="n">inputNode</span>
+        
+        <span class="k">let</span> <span class="nv">recordingFormat</span> <span class="o">=</span> <span class="n">inputNode</span><span class="o">.</span><span class="nf">outputFormat</span><span class="p">(</span><span class="nv">forBus</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">inputNode</span><span class="o">.</span><span class="nf">installTap</span><span class="p">(</span><span class="nv">onBus</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">bufferSize</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span> <span class="nv">format</span><span class="p">:</span> <span class="n">recordingFormat</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span> <span class="k">in</span>
+            <span class="c1">// receive audio data from buffer</span>
+        <span class="p">}</span>
+        
+        <span class="n">audioEngine</span><span class="o">.</span><span class="nf">prepare</span><span class="p">()</span>
+        <span class="k">try</span> <span class="n">audioEngine</span><span class="o">.</span><span class="nf">start</span><span class="p">()</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">stopAudio</span><span class="p">()</span> <span class="p">{</span>   
+        <span class="n">audioEngine</span><span class="o">.</span><span class="nf">stop</span><span class="p">()</span>
+        <span class="n">inputNode</span><span class="o">.</span><span class="nf">removeTap</span><span class="p">(</span><span class="nv">onBus</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>And there you go, everything is ready to transmit audio data to the speech recognition module.</p>]]></content><author><name>Alexandre Bintz</name></author><summary type="html"><![CDATA[I run an online store for LEGO parts on the BrickLink platform, and I’m developing a macOS application in SwiftUI to help manage my sales.]]></summary></entry></feed>
