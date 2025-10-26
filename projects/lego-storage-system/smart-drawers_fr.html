@@ -3,21 +3,22 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Smart Drawers | The making of something great</title>
+<title>Smart Drawers | Alexandre Bintz</title>
 <meta name="generator" content="Jekyll v4.2.2" />
 <meta property="og:title" content="Smart Drawers" />
 <meta name="author" content="Alexandre Bintz" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Alexandre Bintz - maker, coder, thinker" />
 <meta property="og:description" content="Alexandre Bintz - maker, coder, thinker" />
-<meta property="og:site_name" content="The making of something great" />
+<meta property="og:site_name" content="Alexandre Bintz" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Smart Drawers" />
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Alexandre Bintz"},"description":"Alexandre Bintz - maker, coder, thinker","headline":"Smart Drawers","url":"/projects/lego-storage-system/smart-drawers_fr.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="The making of something great" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="stylesheet" href="/assets/main.css">
+    <link rel="stylesheet" href="/assets/css/custom.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -25,7 +26,7 @@
 </head><body><header class="site-header" role="banner">
 
   <div class="wrapper">
-    <a class="site-title" rel="author" href="/">The making of something great</a>
+    <a class="site-title" rel="author" href="/">Alexandre Bintz</a>
 
       <nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -38,6 +39,8 @@
         </label>
 
         <div class="trigger">
+          <a class="page-link" href="/interests">Interests</a>
+          <a class="page-link" href="/projects">Projects</a>
           <a class="page-link" href="/blog">Blog</a>
         </div>
       </nav>
@@ -48,24 +51,48 @@
       <div class="wrapper">
         <article class="post">
 
-  <h1><u>Project</u>:<br>Smart Drawers</h1>
+  <h2 style="margin-bottom: 0"><u>Project</u>:
+  
+    <a href="../lego-storage-system">LEGO Storage System</a>
+  
+  </h2>
+  <h1>Smart Drawers</h1>
+
+  <div class="post-status" style="margin-top: -1rem; margin-bottom: 2rem; float: right;">
+    
+      <strong>Project status:</strong> <span>active</span>
+    
+    
+  </div>
 
   
-    <div class="post-tags" style="margin-top: -1rem; margin-bottom: 2rem">
+    <div class="post-topics" style="margin-top: -1rem; margin-bottom: 2rem">
       
-        <a href="/tags/LEGO"><i>#LEGO</i></a>
+        <a href="/LEGO"><i>#LEGO</i></a>
       
-        <a href="/tags/3dprinting"><i>#3dprinting</i></a>
+        <a href="/3dprinting"><i>#3dprinting</i></a>
       
-        <a href="/tags/electronics"><i>#electronics</i></a>
-      
-        <a href="/tags/engineering"><i>#engineering</i></a>
+        <a href="/electronics"><i>#electronics</i></a>
       
     </div>
   
 
   <div class="post-content">
     <p><img src="/assets/2025-03-28-smart-drawers/0.jpg" alt="" style="padding-bottom: 1rem" /></p>
+
+<p>L’objectif est de créer un système automatique d’ouverture des tiroirs de mes meubles de rangement de pièces de LEGO.</p>
+
+<p>Je voulais initialement utiliser des aimants mais les premiers tests n’ont pas été concluants.</p>
+
+<p>J’ai finalement conçu un système de poussoir mécanique sur ressort actionné par une languette coulissante.</p>
+
+<p>La languette devait initialement être commandée par un solenoid, mais la force n’était pas suffisante. La version finale utilise un servo moteur.</p>
+
+<p>J’ai passé beaucoup de temps à concevoir le mécanisme mais aujourd’hui j’ai quelque chose qui fonctionne de manière satisfaisante et avec un bon niveau de fiabilité.</p>
+
+<p>La suite est d’équiper les 5 tiroirs du petit meuble que j’utilise pour tester, et de transformer l’électronique qui fonctionne aujoud’hui sur une breadboard en quelque chose de plus permanent. Les réflexions sont en cours sur ce sujet.</p>
+
+<p>–</p>
 
 <p>Dans cet article je présente l’idée générale et le choix des composants.
 Plus tard je présenterai les avancées du projet.</p>
@@ -331,27 +358,36 @@ Et voilà qui conclut la liste des composants.</p>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/"></data>
 
-  <div class="wrapper">
+  <div class="wrapper" style="display: flex; justify-content: space-between">
 
-    <h2 class="footer-heading">The making of something great</h2>
+    <p> Alexandre Bintz - maker, coder, thinker </p>
 
-    <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li class="p-name">Alexandre Bintz</li><li><a class="u-email" href="mailto:alexandre@bintz.xyz">alexandre@bintz.xyz</a></li></ul>
-      </div>
-
-      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/alexbinary"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">alexbinary</span></a></li><li><a href="https://www.twitter.com/AlexFrom1991"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">AlexFrom1991</span></a></li></ul>
-</div>
-
-      <div class="footer-col footer-col-3">
-        <p> Alexandre Bintz - maker, coder, thinker </p>
-      </div>
-    </div>
+    <ul class="social-media-list" style="text-align: left">
+        <li>
+            <a href="https://github.com/alexbinary">
+                <svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg>
+                <span class="username">alexbinary</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://www.twitter.com/AlexFrom1991">
+                <svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg>
+                <span class="username">AlexFrom1991</span>
+            </a>
+        </li>
+        <li>
+            <a href="mailto:alexandre@bintz.xyz">
+                <svg fill="#828282" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#828282" width=18><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M22,5V9L12,13,2,9V5A1,1,0,0,1,3,4H21A1,1,0,0,1,22,5ZM2,11.154V19a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V11.154l-10,4Z"></path></g></svg>
+                &nbsp;alexandre@bintz.xyz
+            </a>
+        </li>
+    </ul>
 
   </div>
 
 </footer>
-</body>
+<script src="/assets/js/external-links.js"></script>
+
+  </body>
 
 </html>

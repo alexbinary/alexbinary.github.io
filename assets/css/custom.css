@@ -1,0 +1,142 @@
+table {
+    border: none;
+    color: black;
+}
+
+table td {
+    border: none;
+}
+
+.intro {
+    display: flex;
+    gap: 2rem;
+}
+
+.intro-item-1 {
+    flex: 2;
+}
+
+.intro-item-2 {
+    flex: 1;
+}
+
+.heading-with-icon {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 20px;
+}
+
+.social-media-list a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.external-link .external-icon {
+    margin-left: 0.5em;
+}
+
+.external-link .external-icon path {
+    fill: gray;
+    stroke: gray;
+}
+
+@media (max-width: 768px) {
+
+    .intro {
+        flex-direction: column-reverse;
+    }
+
+    .intro-item-2 {
+        text-align: center;
+    }
+
+    .heading-with-icon {
+        justify-content: space-between;
+    }
+
+    .heading-with-icon .icon {
+        font-size: 1.2em;
+    }
+
+    footer .wrapper {
+        flex-direction: column;
+    }
+}
+
+
+/* ---- Cards */
+
+.card {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    align-items: stretch;
+}
+
+.card img {
+    max-width: 120px;
+    height: auto;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .card img {
+        aspect-ratio: 155/255;
+    }
+
+    .yt-cards-container .card img {
+        max-width: 60px;
+        aspect-ratio: inherit;
+    }
+}
+
+.card-content {
+    padding: 10px;
+    padding-left: 15px;
+    text-align: left;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-subtitle {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.cards-container .card {
+    flex: 1 1 calc(50% - 1rem);
+    max-width: calc(50% - 1rem);
+    min-width: 220px;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .cards-container {
+        flex-direction: column;
+    }
+
+    .cards-container .card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
