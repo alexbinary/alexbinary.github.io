@@ -1,3 +1,6 @@
+/* ---- General */
+
+
 table {
     border: none;
     color: black;
@@ -20,26 +23,10 @@ table td {
     flex: 1;
 }
 
-.heading-with-icon {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 20px;
-}
-
 .social-media-list a {
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.external-link .external-icon {
-    margin-left: 0.5em;
-}
-
-.external-link .external-icon path {
-    fill: gray;
-    stroke: gray;
 }
 
 @media (max-width: 768px) {
@@ -51,14 +38,19 @@ table td {
     .intro-item-2 {
         text-align: center;
     }
+}
 
-    .heading-with-icon {
-        justify-content: space-between;
-    }
 
-    .heading-with-icon .icon {
-        font-size: 1.2em;
-    }
+
+/* ---- Footer */
+
+
+.site-footer {
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+}
+
+@media (max-width: 768px) {
 
     footer .wrapper {
         flex-direction: column;
@@ -66,77 +58,112 @@ table td {
 }
 
 
-/* ---- Cards */
+/* ---- aerospace-icons */
 
-.card {
-    display: flex;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    align-items: stretch;
+
+.aerospace-icons {
+    font-size: 3em;
+    text-align: center;
 }
 
-.card img {
-    max-width: 120px;
+
+
+/* ---- External link icon */
+
+
+.external-link .external-icon {
+    margin-left: 0.5em;
+}
+
+.external-link .external-icon path {
+    fill: gray;
+    stroke: gray;
+}
+
+
+
+/* ---- Heading with icon */
+
+
+.heading-with-icon {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+}
+
+
+
+/* ---- Links */
+
+
+.link {
+    display: flex;
+    margin-bottom: 14px;
+    background: #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+}
+
+.link:hover {
+    text-decoration: none;
+    background: #e7e7e7;
+    transform: scale(1.01);
+}
+
+.link img {
+    max-width: 40px;
     height: auto;
     object-fit: cover;
 }
 
-@media (max-width: 768px) {
-    .card img {
-        aspect-ratio: 155/255;
-    }
-
-    .yt-cards-container .card img {
-        max-width: 60px;
-        aspect-ratio: inherit;
-    }
-}
-
-.card-content {
+.link-content {
     padding: 10px;
     padding-left: 15px;
-    text-align: left;
-}
-
-.card-title {
-    font-weight: bold;
-}
-
-.card-subtitle {
-    font-style: italic;
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.card-text {
-    font-size: 1em;
-    margin-bottom: 10px;
-}
-
-.cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: stretch;
-}
-
-.cards-container .card {
-    flex: 1 1 calc(50% - 1rem);
-    max-width: calc(50% - 1rem);
-    min-width: 220px;
-    margin: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
 }
 
 @media (max-width: 768px) {
-    .cards-container {
-        flex-direction: column;
-    }
 
-    .cards-container .card {
-        flex: 1 1 100%;
-        max-width: 100%;
+    .link-content {
+        padding-left: 10px;
+    }
+}
+
+.link-title-and-text {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.link-title {
+    font-weight: bold;
+    color: #1756a9;
+}
+
+.link-text {
+    font-size: 1em;
+    color: black;
+    flex: 1;
+}
+
+.link-text .text {
+    flex: 1;
+}
+
+.link-url {
+    font-style: italic;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+
+    .link-url {
+        font-size: 0.8em;
     }
 }
