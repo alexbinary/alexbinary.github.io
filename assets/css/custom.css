@@ -23,6 +23,67 @@
 
 
 
+/* ---- Header */
+
+
+header .wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+header .wrapper .lang-and-menu {
+    display: flex;
+    gap: 2rem;
+    line-height: 54px;
+}
+
+header .wrapper::after {
+    display: none;
+}
+
+
+
+/* ---- Lang select */
+
+
+.lang-select .lang {
+    padding: 5px;
+}
+
+
+.lang-select .lang.active,
+.lang-select .lang:hover {
+    background: lightgray;
+    border-radius: 15px;
+    text-decoration: none;
+}
+
+
+
+/* ---- Lang available banner */
+
+
+.lang-available-banner p {
+    margin: 0;
+}
+
+.lang-available-banner {
+    display: flex;
+    padding: 1rem;
+    justify-content: center;
+
+    background: rgb(243, 243, 243);
+    border-radius: 0.5rem;
+}
+
+.lang-available-banner-content {
+    display: flex;
+    gap: 1rem;
+
+}
+
+
+
 /* ---- General */
 
 
