@@ -362,6 +362,109 @@ section:last-of-type {
 
 
 
+/* ---- Inspiration cards */
+
+
+.inspiration-card {
+    margin-top: 1rem;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+    /* border: 1px solid #c8c8c8; */
+}
+
+.inspiration-card .external-link {
+    position: absolute;
+    right: 0.8rem;
+    top: 0.5rem;
+}
+
+.inspiration-card .background-image {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    filter: blur(0.8rem);
+    opacity: 0.4;
+}
+
+.inspiration-card .img-container {
+    width: 15%;
+    padding: 8px;
+    aspect-ratio: 1;
+}
+
+.inspiration-card img {
+    height: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: right;
+}
+
+.inspiration-card-content {
+    color: black;
+    padding: 1rem 0.2rem;
+    padding-right: 2rem
+}
+
+.inspiration-card-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.inspiration-card-title-and-picto {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.inspiration-card-picto {
+    border-radius: 100px;
+    background: lightgray;
+    padding: 0.4rem 1rem;
+}
+
+.inspiration-card-subtitle {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: -0.4rem;
+}
+
+@media (max-width: 768px) {
+
+    .inspiration-card {
+        align-items: start;
+        padding: 0.6rem;
+    }
+
+    .inspiration-card .img-container {
+        padding: 0;
+        text-align: center;
+        width: 5rem;
+    }
+
+    .inspiration-card-content {
+        padding: 0;
+        margin-top: -0.2rem;
+        padding-left: 0.4rem;
+        padding-bottom: 0.7rem;
+        padding-right: 1.6rem;
+
+    }
+
+    .inspiration-card-subtitle {
+        margin-top: 0;
+    }
+}
+
+.inspiration-card-text {
+    margin-top: 0.5rem;
+}
+
+
+
 /* ---- Link cards */
 
 
