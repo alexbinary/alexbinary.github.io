@@ -152,9 +152,6 @@ section:last-of-type {
 
 
 
-
-
-
 /* ---- Footer */
 
 
@@ -373,7 +370,6 @@ section:last-of-type {
     display: flex;
     gap: 0.7rem;
     align-items: center;
-    /* border: 1px solid #c8c8c8; */
 }
 
 .inspiration-card .external-link {
@@ -721,4 +717,14 @@ ul.minus li::before {
     width: 10%;
     border-top: 1px solid lightgray;
     margin-bottom: 1rem;
+}
+
+
+
+/* ---- AI disclaimer */
+
+
+.ai-disclaimer {
+    font-size: 0.8rem;
+    margin-top: 1rem;
 }
