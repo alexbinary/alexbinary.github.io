@@ -10,9 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
             link.setAttribute("rel", "noopener noreferrer");
         });
 
-    const externalLinks = document.querySelectorAll('.external-link')
+    document.querySelectorAll('.external-link,.external-link-icon')
         .forEach(link => {
-
             // Add icon
             const icon = document.createElement("span");
             icon.className = "external-icon";

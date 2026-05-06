@@ -15,7 +15,7 @@
     --activity-card-bg-color: #fafafa;
     --activity-card-border-color: #eee;
 
-    --link-card-bg-color: #fafafa;
+    --link-card-bg-color: var(--bg-color-1);
     --link-card-border-color: #eee;
 
     --project-header-bg-color: #fafafaf0;
@@ -36,12 +36,9 @@
 
         --link-color-0: #2f88fd;
 
-        --header-footer-border-color: var(--fg-color-0);
-
         --activity-card-bg-color: var(--bg-color-1);
         --activity-card-border-color: clear;
 
-        --link-card-bg-color: var(--bg-color-1);
         --link-card-border-color: clear;
 
         --project-header-bg-color: var(--bg-color-1);
@@ -105,7 +102,7 @@ a:visited {
     border-bottom: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
     .site-footer .wrapper {
         flex-direction: column;
@@ -209,11 +206,11 @@ table td {
 /* ---- External link icon */
 
 
-.external-link .external-icon {
+.external-icon {
     margin-left: 0.5em;
 }
 
-.external-link .external-icon path {
+.external-icon path {
     fill: gray;
     stroke: gray;
 }
@@ -271,7 +268,7 @@ ul.list-pointer-style li::before {
     border-radius: 8px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
     .inline-image-container-row.mobile-column {
         flex-direction: column;
@@ -298,7 +295,7 @@ ul.list-pointer-style li::before {
     display: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     .inline-image-container-row#casier img {
         height: 450px;
@@ -323,7 +320,7 @@ ul.list-pointer-style li::before {
     flex: 1;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
     .intro {
         flex-direction: column-reverse;
@@ -332,87 +329,6 @@ ul.list-pointer-style li::before {
     .intro-item-2 {
         text-align: center;
     }
-}
-
-.aerospace-icons {
-    font-size: 3em;
-    text-align: center;
-}
-
-
-
-/* ---- Activity cards */
-
-
-.activity-card {
-    margin-top: 1rem;
-    background: var(--activity-card-bg-color);
-    border: 1px solid var(--activity-card-border-color);
-    padding: 0.7rem;
-    padding-left: 2rem;
-    padding-bottom: 1rem;
-    border-radius: 8px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-.activity-card:hover {
-    text-decoration: none;
-}
-
-.activity-card .external-link {
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
-}
-
-.activity-card img {
-    width: 20%;
-}
-
-.activity-card-img-and-content {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    justify-content: space-between;
-    flex: 1;
-    padding-right: 2rem;
-}
-
-@media (max-width: 768px) {
-
-    .activity-card-img-and-content {
-        flex-direction: column;
-        padding-right: 0;
-    }
-
-    .activity-card img {
-        width: 60%;
-        margin-bottom: 1rem;
-    }
-}
-
-.activity-card-content {
-    color: var(--fg-color-0);
-}
-
-.activity-card:hover .activity-card-content {
-    text-decoration: underline;
-}
-
-.activity-card-title-and-subtitle {
-    display: flex;
-}
-
-.activity-card-subtitle {
-    font-style: italic;
-    color: var(--fg-color-1);
-}
-
-.activity-card-text {
-    font-weight: bold;
 }
 
 
@@ -453,7 +369,7 @@ ul.list-pointer-style li::before {
     justify-content: space-between;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
     .project-card img {
         height: 100%;
@@ -553,7 +469,7 @@ ul.list-pointer-style li::before {
     margin-top: -0.4rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
     .inspiration-card {
         align-items: start;
@@ -595,7 +511,7 @@ ul.list-pointer-style li::before {
     padding: 2rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
     .reflexion-card {
         padding: 1rem;
@@ -607,92 +523,58 @@ ul.list-pointer-style li::before {
 /* ---- Link cards */
 
 
+.links-cards-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 8px;
+    justify-content: space-between;
+}
+
 .link-card {
     display: flex;
-    margin-bottom: 14px;
+    flex-direction: column;
     overflow: hidden;
-
+    text-align: center;
     background: var(--link-card-bg-color);
     border: 1px solid var(--link-card-border-color);
     border-radius: 12px;
 }
 
+.link-card:hover {
+    text-decoration: none;
+}
+
 .link-card img {
-    max-width: 60px;
+    border-radius: 8px;
+    width: calc(100% - 16px);
+    margin: 8px;
     object-fit: cover;
     aspect-ratio: 1;
-    border-radius: 8px;
-    margin: 8px;
-    margin-right: 0;
 }
 
 .link-card-content {
-    padding: 10px;
-    padding-left: 15px;
-    flex: 1 1 auto;
-    overflow: hidden;
+    padding: 5px 12px;
+    padding-bottom: 12px;
+    color: var(--fg-color-0);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
-    .link-card {
-        display: flex;
-        margin-bottom: 14px;
-        overflow: hidden;
-
-        background: none;
-        border: none;
-    }
-
-    .link-card img {
-        max-width: 40px;
-        object-fit: cover;
-        height: auto;
-        aspect-ratio: inherit;
-        margin: 0px;
-        margin-right: 4px;
-    }
-
-    .link-card-content {
-        padding-left: 10px;
-        background: var(--link-card-bg-color);
-        border: 1px solid var(--link-card-border-color);
-        border-radius: 8px;
+    .links-cards-container {
+        grid-template-columns: auto auto auto;
     }
 }
 
-.link-card-title-and-text {
-    display: inline-flex;
-    justify-content: space-between;
-    width: 100%;
+@media (max-width: 600px) {
+
+    .links-cards-container {
+        grid-template-columns: auto auto;
+    }
 }
 
 .link-card-title {
     font-weight: bold;
     color: var(--link-color-0);
-}
-
-.link-card-text {
-    font-size: 1em;
-    color: var(--fg-color-0);
-    flex: 1;
-}
-
-.link-card-text .text {
-    flex: 1;
-}
-
-.link-card-url {
-    font-style: italic;
-    color: var(--fg-color-1);
-    white-space: nowrap;
-}
-
-@media (max-width: 768px) {
-
-    .link-card-url {
-        font-size: 0.8em;
-    }
 }
 
 
@@ -747,7 +629,7 @@ article.project .content-type {
     color: rgb(0, 0, 0);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
     article.project header {
         display: block;
@@ -823,13 +705,17 @@ article.project h3 {
     opacity: 0;
 }
 
-@media (min-width: 768px) {
+.no-wrap {
+    white-space: nowrap;
+}
+
+@media (min-width: 800px) {
     .mobile-only {
         display: none;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .desktop-only {
         display: none;
     }
