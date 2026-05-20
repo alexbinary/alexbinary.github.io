@@ -345,6 +345,10 @@ ul.list-pointer-style li::before {
     align-items: center;
 }
 
+.project-card:hover {
+    text-decoration: none;
+}
+
 .project-card img {
     position: absolute;
     transform: scale(1);

@@ -1,4 +1,7 @@
 case "$1" in
+	open)
+		code .
+		;;
 	start)
 		docker run --rm -it -v .:/app -v ../build:/build -w /app -p 4000:4000 -p 35729:35729 jekyll/minimal jekyll serve --livereload --drafts
 		;;

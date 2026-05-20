@@ -4,6 +4,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)">
+    
     <title>Alexandre Bintz</title>
     <meta name="description" content="Alexandre Bintz" />
     <meta name="author" content="Alexandre Bintz" />
@@ -18,7 +22,7 @@
     <meta property="twitter:title" content="Alexandre Bintz" />
 
     <link rel="stylesheet" href="/assets/main.css">
-    <link rel="stylesheet" href="/assets/css/custom.css?v=20260506094038"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260520103121"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -80,7 +84,7 @@
         <article class="post project">
 
   <header>
-    <img src="/assets/projects/lego-storage-system/4.jpg">
+    <img src="/assets/projects/lego-storage-system/illus2.jpg">
 
     <div class="header-content">
       <div>
@@ -95,7 +99,7 @@
               
                 Status:
               
-            </strong> <span>complete ✅</span>
+            </strong> <span>ongoing 🧑‍💻</span>
           
           
         </div>
@@ -112,6 +116,9 @@
             
             #woodworking
           
+            
+            #3dprinting
+          
         </div>
       
     </div>
@@ -121,9 +128,11 @@
   <div class="separator"></div>
 
   <div class="post-content">
-    <p>Since 2019, I have been running an <a href="https://store.bricklink.com/alexbinary">online store for LEGO parts</a> on BrickLink. Customers can order individual parts from several thousand unique references. Good stock organization is therefore critical. At first, I used a commercial solution, which helped me get started but eventually showed its limitations. I then undertook to create a completely custom storage solution.</p>
+    <p>I have always been a fan of LEGO, and nowadays I have many parts that I need to store. I also want them to be neatly organized so that I can quickly find the ones I need when I want to build something. Since 2019 I have also been running an <a href="https://store.bricklink.com/alexbinary">online shop on BrickLink</a> where customers can order individual parts, and good organization is critical.</p>
 
-<p>Let’s start by presenting the commercial solution.</p>
+<p>At first, I used a commercial solution, which helped me get started but eventually showed its limitations. I then undertook to create a completely custom storage solution, first using LASER cut wooden boxes in custom built cabinets, and later 3D printed boxes in custom modules for IKEA shelves.</p>
+
+<p>Let’s start by presenting the original commercial solution I used and its limitations.</p>
 
 <h3 id="the-pros-and-cons-of-papi-max-stackx-drawers">The pros and cons of <em>Papi Max StackX Drawers</em></h3>
 
@@ -228,7 +237,7 @@ After a training session, I started experimenting with this machine, and I quick
             <img src="/assets/projects/lego-storage-system/laser2.jpg" alt="A photo showing a wooden plate with a shape cut out with the word &quot;Alex&quot; engraved on it" width="350" height="330" style="width:350" />
         </a>
     </p>
-    <p class="image-legend">First creation</p>
+    <p class="image-legend">First tests</p>
 </div>
 
     </div>
@@ -260,8 +269,8 @@ A simple solution as I like them.</p>
 A box with these dimensions can accommodate a LEGO piece 8 units long with just enough margin.
 For the height, I wanted to respect the LEGO brick ratio, considering that my box was equivalent to a 2x2 brick.
 LEGO experts know that the height of a 2x2 brick equals 3/5th of its width.
-For a 75mm side box, we thus get a height of 75*3/5 = 45mm.
-I found this too high, so I removed one third (which in the LEGO world corresponds to going from brick height to two plate height) which gives 30mm.
+For a 75mm side box, we thus get a height of 45mm.
+I found this too high, so I removed one third (which in the LEGO world corresponds to going from one brick height to two plate height) which gives 30mm.
 I find this to be the perfect ratio.</p>
 
 <p>From there, assuming my base box is 2x2 units wide and 2 plates high, I experimented with all kinds of variants in 1x1, 1x2, 2x3, 2x4, 3x3, etc. in versions of 1, 2, 3, or 4 plates high.</p>
@@ -323,9 +332,9 @@ I find this to be the perfect ratio.</p>
 <p>I quickly realized that large size and low height models are useful as trays for containing pieces during construction, for example.
 I made bigger ones, which I still commonly use today.</p>
 
-<h3 id="some-drawers-to-store-the-boxes">Some drawers to store the boxes</h3>
+<h3 id="next-step-drawers">Next step: drawers</h3>
 
-<p>When I started having a certain number of loose boxes, the need for a higher level of storage became apparent. I started experimenting with a module system similar to <em>Papi Max</em>, using the same LASER cutting manufacturing technique as for the boxes. It wasn’t perfect but it was very encouraging and motivated me to continue.</p>
+<p>The boxes were a good start, but now I needed a place to store them. I started experimenting with a module system similar to <em>Papi Max</em>, using the same LASER cutting manufacturing technique as for the boxes. It wasn’t perfect but it was very encouraging and motivated me to continue.</p>
 
 <div class="inline-image-container mobile-only">
     <div class="inline-image-container-row mobile-column" id="casier">
@@ -383,7 +392,7 @@ I made bigger ones, which I still commonly use today.</p>
     </div>
 </div>
 
-<p>For the next step, I wanted a quality feel when opening and closing the drawers.
+<p>For the real drawers, I wanted a quality feel when opening and closing the drawers.
 This was important to me.
 I wanted my drawers to give an impression of solidity and quality,
 with smooth opening and closing,
@@ -486,10 +495,9 @@ Compared to the previous model, I added a partition that cuts the drawer in two 
     </div>
 </div>
 
-<h3 id="conclusion-and-next-steps">Conclusion and next steps</h3>
-
-<p>I now have a total of 5 pieces of furniture of different capacities that I use daily to store my LEGO pieces for my online store.
-The modular box system allows carrying, moving, and arranging compartments in drawers at will. Drawer opening is smooth, effortless, and gives a quality feel that I really like.</p>
+<p>After that I continued experimenting with new techniques and designs.
+I ended up with a total of 5 pieces of furniture of different capacities and each one with its own identity.
+The modular box system allows carrying, moving, and arranging compartments in drawers at will. Drawer opening is smooth, effortless, and gives a quality feel that I really like. I was very happy.</p>
 
 <div class="inline-image-container">
 
@@ -503,7 +511,7 @@ The modular box system allows carrying, moving, and arranging compartments in dr
             <img src="/assets/projects/lego-storage-system/phase1/1.jpg" alt="A photo showing a stack composed from bottom to top of a large cabinet with 16 drawers, two cabinets with 5 drawers, and two small half-width cabinets with 5 drawers each" width="" height="250" style="width:" />
         </a>
     </p>
-    <p class="image-legend">The complete setup I use today</p>
+    <p class="image-legend">The complete setup I ended up with</p>
 </div>
 
         
@@ -520,7 +528,48 @@ The modular box system allows carrying, moving, and arranging compartments in dr
     </div>
 </div>
 
-<p>I always need more storage space,
+<p>I wanted to continue to expand the storage capacity, and I took some time to think about the next thing I wanted to do. For a while I wanted to take the latest design and make a big integrated unit that would basically be equivalent of the whole set of what I had so far, and maybe adding more general compartments and shelves. I even started to design a first draft.</p>
+
+<p>Time passed, life happened, and the project was left dormant for some time. When I started thinking about it again, I wanted to go for something that was simple, flexible and easily scalable. My long term goal was to make a storage system that could evolve and adapt to my needs, while looking good and consistent all the way through. A name came to my mind: KALLAX.</p>
+
+<p>KALLAX is a series of products from IKEA that offer modular shelving. The main feature is that all compartements are identical, and IKEA offers a wide variety of accessories that can be inserted into the compartment to add doors, drawers, additional shelves, etc. The units come in various configurations like 2x2, 4x4, 2x4, 5x5, etc, and can be combined however you like.</p>
+
+<div class="inline-image-container">
+    
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/lego-storage-system/kallax 3.jpg" title="Click to view full size image">
+            <img src="/assets/projects/lego-storage-system/kallax 3.jpg" alt="A catalog image showcasing a 3x4 KALLAX with wooden finish. The piece has 4 rows of 3 compartements each. The bottom compartments have storage boxes that fit exactly. The other compartments are filled with various items." width="350" height="330" style="width:350" />
+        </a>
+    </p>
+    <p class="image-legend">3x4 KALLAX unit</p>
+</div>
+        
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/lego-storage-system/kallax 4.jpg" title="Click to view full size image">
+            <img src="/assets/projects/lego-storage-system/kallax 4.jpg" alt="A catalog image showcasing a 4x4 KALLAX with white finish. The piece has 4 rows of 4 compartements each. Some of them have drawers and one has a door. The other compartments are filled with various items." width="350" height="330" style="width:350" />
+        </a>
+    </p>
+    <p class="image-legend">4x4 KALLAX unit</p>
+</div>
+
+    </div>
+</div>
+
+<p>I decide to change route a bit.</p>
+
+<p>Although the units I had built so far were good, I did not</p>
+
+<p>Instead of making yet another cabinet</p>
+
+<p>need more storage space,
 and I plan to make more furniture,
 always seeking to improve the design.
 I’d like to succeed in better aligning the drawers with each other.
@@ -536,7 +585,7 @@ especially when there’s the handle of the drawer above just overhead.</p>
 
   <div class="last-updated">
     
-    Last updated Oct 31, 2025
+    Last updated May 20, 2026
     
 </div>
 
