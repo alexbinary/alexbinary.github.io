@@ -1,8 +1,13 @@
 case "$1" in
 	open)
+		open .
 		code .
+		clear
+		git status
 		;;
 	start)
+		open --background -a Docker
+		while ! docker system info > /dev/null 2>&1; do sleep 1; done
 		docker run --rm -it -v .:/app -v ../build:/build -w /app -p 4000:4000 -p 35729:35729 jekyll/minimal jekyll serve --livereload --drafts
 		;;
 	deploy)
