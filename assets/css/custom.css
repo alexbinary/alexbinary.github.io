@@ -371,6 +371,10 @@ ul.list-pointer-style li::before {
     transition: transform 10s;
 }
 
+.project-card img.image_top_0 {
+    top: 0;
+}
+
 .project-card:hover img {
     transform: scale(10);
     transition: transform 100s;

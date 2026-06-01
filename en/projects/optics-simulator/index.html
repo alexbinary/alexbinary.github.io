@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)"><title>Optics simulator - Alexandre Bintz</title>
+    <meta name="description" content="Alexandre Bintz" />
+    <meta name="author" content="Alexandre Bintz" />
+
+    <meta property="og:title" content="Optics simulator - Alexandre Bintz" />
+    <meta property="og:site_name" content="Alexandre Bintz" />
+    <meta property="og:description" content="Alexandre Bintz" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:type" content="website" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Alexandre Bintz" />
+
+    <link rel="stylesheet" href="/assets/main.css">
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260601090140"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+</head><body><header class="site-header" role="banner">
+
+  
+
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">Alexandre Bintz</a>
+
+    <div class="lang-and-menu">
+
+      
+
+      <nav class="lang-select">
+        
+        
+          
+          
+          
+
+          
+            <span class="lang active" title="You are viewing the English version of this page">🇺🇸</span>
+          
+        
+          
+          
+          
+
+          
+            <a href="/fr/projets/simulateur-optique" class="lang" title="Passer en français">🇫🇷</a>
+          
+        
+
+      </nav>
+
+    </div>
+    
+  </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+
+      
+
+      
+      
+      
+
+      
+
+        <div class="lang-available-banner">
+          <div class="lang-available-banner-content">
+            <p>Cette page est disponible <a href='/fr/projets/simulateur-optique'>en français 🇫🇷</a></p>
+          </div>  
+        </div>
+
+        <article class="post project">
+
+  <header>
+    <div class="image-container">
+      <img src="/assets/projects/optics-simulator/screenshot1.png">
+    </div>
+
+    <div class="header-content">
+      <div>
+        <span class="content-type">
+          
+            Project
+          
+        </span>
+        <div class="project-status">
+          
+            <strong>
+              
+                Status:
+              
+            </strong> <span>active 🧑‍💻</span>
+          
+        </div>
+      </div>
+      
+      <div class="title">
+        <h1>Optics simulator</h1>
+
+        
+      </div>
+    
+      
+        <div class="project-topics">
+          
+            #swiftui
+          
+            #programming
+          
+            #optics
+          
+            #physics
+          
+        </div>
+      
+
+      
+        <div class="project-topics">
+          <a href="https://github.com/alexbinary/OpticsSimulator">
+            
+              The code for this project is on GitHub
+            
+          </a>
+        </div>
+      
+
+    </div>
+
+  </header>
+
+  <div class="separator"></div>
+
+  <div class="post-content">
+    <p>For some time now, I’ve been interested in augmented reality, and more specifically in projection systems that can integrate virtual objects into our real field of view. Most current augmented reality devices, whether headsets or glasses, rely on conventional projection paradigms and while they can create the illusion of depth through stereoscopy, it is just that, an illusion. They do not faithfully reproduce the way we naturally perceive the world.</p>
+
+<p>To better understand the challenges as well as the solutions that are currently being developed, I am building a geometric optics simulation software in Swift. The goal is to help develop intuition for the behavior of light, the operation of optical systems, and the formation of images.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/optics-simulator/video.gif" title="Click to view full size image">
+            <img src="/assets/projects/optics-simulator/video.gif" alt="An animated image showing the software in action. A source at infinity is placed, then a screen, a converging lens, and a second lens. Light rays are drawn and adapt in real time." width="" height="" style="width:" />
+        </a>
+    </p>
+    <p class="image-legend">Current state of the app</p>
+</div>
+    </div>
+
+</div>
+
+<h2 id="learning-by-doing">Learning by doing</h2>
+
+<p>For someone new to optics the concepts can feel abstract. It is relatively easy to understand what happens when a light ray passes through a lens or reflects off a mirror, but it is harder to see how that affect the final image. What do we see at the end?</p>
+
+<p>I have studied geometric optics in high school and wanted to revisit it from a more hands-on perspective. I learn more effectively by experimenting directly with concepts, and I want this software to be an interactive tool that allows users to modify the parameters of an optical system and immediately observe the consequences in a visual and intuitive way.</p>
+
+<p>At the moment, the application supports:</p>
+
+<ul>
+  <li>converging lenses;</li>
+  <li>diverging lenses;</li>
+  <li>plane mirrors;</li>
+  <li>concave spherical mirrors;</li>
+  <li>convex spherical mirrors;</li>
+  <li>objects located at infinity.</li>
+</ul>
+
+<p>It is also possible to add an observation screen and precisely choose which rays should be displayed or hidden. For now, the simulation is limited to a single optical axis, but I plan to move toward a free two-dimensional representation. This will likely be an interesting challenge.</p>
+
+<h2 id="how-i-am-building-it">How I am building it</h2>
+
+<p>My development process is incremental. I add features one at a time and evolve the code architecture as new requirements emerge, rather than attempting to design the entire system upfront. This approach is heavily inspired by the <a href="https://www.youtube.com/watch?v=Ee3EtYb8d1o">Handmade Hero video series by Casey Muratori</a>.</p>
+
+<p>The application is built entirely with SwiftUI and the Canvas API, with no external dependencies. Development takes place in Xcode, making extensive use of SwiftUI previews. I have implemented a system for saving and loading optical configurations, which greatly speeds up iteration cycles.</p>
+
+<h2 id="technical-challenges">Technical challenges</h2>
+
+<p>One of the main challenges of the project is ray tracing. There are many cases to handle, some of them quite complex: distinguishing between the real and virtual portions of rays, extending trajectories to reveal relevant construction points, avoiding unnecessary overlaps, and maintaining a clear representation of the scene.</p>
+
+<p>After several iterations, I arrived at a multi-stage architecture. First, I define the pedagogically relevant rays and the points they must connect. This is where most of the optical logic resides. Next, each ray is analyzed to determine which portions are real and which are virtual, based on the relative positions of sources, optical elements, and images. Finally, a deduplication phase ensures that every segment is drawn only once.</p>
+
+<h2 id="whats-next">What’s next</h2>
+
+<p>In the future, I would like to expand the simulator with additional features:</p>
+
+<ul>
+  <li>free positionning on a 2D space;</li>
+  <li>mechanical constraints between elements to simulate simple mechanisms;</li>
+  <li>semi-transparent mirrors;</li>
+  <li>apertures;</li>
+  <li>image rendering capabilities to visualize what would actually appear on a screen or through an optical system.</li>
+</ul>
+
+<p>The objective is to create a tool that helps people understand optics through direct experimentation, making visible phenomena that often remain abstract when presented only through static diagrams or equations.</p>
+
+  </div>
+
+  <div class="last-updated">
+    
+    Last updated Jun 1st, 2026
+    
+</div>
+
+</article>
+
+
+        <p class="ai-disclaimer">
+          
+            I use generative AI to write and/or translate the content featured on this website. AI serves only as a tool for productivity and inspiration, I make sure that the final texts always reflect my personal voice and style.
+          
+        </p>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper" style="display: flex; justify-content: space-between">
+
+    <div class="description">
+        <p>Alexandre Bintz</p>
+        <p>👨‍💻🧑‍🔬🥽🍣🥨🚴‍♂️🎮🛰️🎆📺🔭</p>
+    </div>
+
+    <ul class="social-media-list" style="text-align: left">
+        <li>
+            <a href="https://github.com/alexbinary">
+                <svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg>
+                <span class="username">alexbinary</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://www.twitter.com/AlexFrom1991">
+                <svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg>
+                <span class="username">AlexFrom1991</span>
+            </a>
+        </li>
+        <li>
+            <a href="mailto:alexandre@bintz.xyz">
+                <svg fill="#828282" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#828282" width=18><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M22,5V9L12,13,2,9V5A1,1,0,0,1,3,4H21A1,1,0,0,1,22,5ZM2,11.154V19a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V11.154l-10,4Z"></path></g></svg>
+                &nbsp;alexandre@bintz.xyz
+            </a>
+        </li>
+    </ul>
+
+  </div>
+
+</footer>
+<script src="/assets/js/external-links.js"></script>
+
+  </body>
+
+</html>

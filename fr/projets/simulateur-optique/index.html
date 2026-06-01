@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)"><title>Simulateur optique - Alexandre Bintz</title>
+    <meta name="description" content="Alexandre Bintz" />
+    <meta name="author" content="Alexandre Bintz" />
+
+    <meta property="og:title" content="Simulateur optique - Alexandre Bintz" />
+    <meta property="og:site_name" content="Alexandre Bintz" />
+    <meta property="og:description" content="Alexandre Bintz" />
+    <meta property="og:locale" content="fr" />
+    <meta property="og:type" content="website" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Alexandre Bintz" />
+
+    <link rel="stylesheet" href="/assets/main.css">
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260601090140"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+</head><body><header class="site-header" role="banner">
+
+  
+
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/fr">Alexandre Bintz</a>
+
+    <div class="lang-and-menu">
+
+      
+
+      <nav class="lang-select">
+        
+        
+          
+          
+          
+
+          
+            <a href="/en/projects/optics-simulator" class="lang" title="Switch to English">🇺🇸</a>
+          
+        
+          
+          
+          
+
+          
+            <span class="lang active" title="Vous lisez la version en français de cette page">🇫🇷</span>
+          
+        
+
+      </nav>
+
+    </div>
+    
+  </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+
+      
+
+      
+      
+      
+
+      
+
+        <div class="lang-available-banner">
+          <div class="lang-available-banner-content">
+            <p>This page is available <a href='/en/projects/optics-simulator'>in English 🇺🇸</a></p>
+          </div>  
+        </div>
+
+        <article class="post project">
+
+  <header>
+    <div class="image-container">
+      <img src="/assets/projects/optics-simulator/screenshot1.png">
+    </div>
+
+    <div class="header-content">
+      <div>
+        <span class="content-type">
+          
+            Projet
+          
+        </span>
+        <div class="project-status">
+          
+            <strong>
+              
+                Statut:
+              
+            </strong> <span>en cours 🧑‍💻</span>
+          
+        </div>
+      </div>
+      
+      <div class="title">
+        <h1>Simulateur optique</h1>
+
+        
+      </div>
+    
+      
+        <div class="project-topics">
+          
+            #swiftui
+          
+            #programmation
+          
+            #optique
+          
+            #physique
+          
+        </div>
+      
+
+      
+        <div class="project-topics">
+          <a href="https://github.com/alexbinary/OpticsSimulator">
+            
+              Le code de ce projet est sur GitHub
+            
+          </a>
+        </div>
+      
+
+    </div>
+
+  </header>
+
+  <div class="separator"></div>
+
+  <div class="post-content">
+    <p>Depuis quelque temps je m’intéresse à la réalité augmentée, et plus particulièrement aux systèmes de projection capables d’intégrer des objets virtuels dans notre champ de vision réel. La plupart des dispositifs de réalité augmentée actuels, qu’il s’agisse de casques ou de lunettes, utilisent le même principe de projection d’image que les écrans conventionnels et bien qu’ils puissent créer l’illusion de profondeur grâce notamment à la stéréoscopie, ça reste une illusion. Ils ne reproduisent pas fidèlement la manière dont nous percevons naturellement le monde.</p>
+
+<p>Pour mieux comprendre les enjeux et les solutions alternatives en cours de développement je développe un logiciel de simulation d’optique géométrique en Swift. L’objectif est de développer une compréhension intuitive du comportement de la lumière, du fonctionnement des systèmes optiques et de la formation des images.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/optics-simulator/video.gif" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/optics-simulator/video.gif" alt="Une image animée montrant le logiciel en action. On voit la mise en place d&#39;une source à l&#39;infini, un écran, une lentille convergente, puis une seconde lentille. Les rayons lumineux sont dessinés et s&#39;adaptent en temps réel." width="" height="" style="width:" />
+        </a>
+    </p>
+    <p class="image-legend">Démo de l'état actuel du logiciel</p>
+</div>
+    </div>
+
+</div>
+
+<h2 id="apprendre-par-la-pratique">Apprendre par la pratique</h2>
+
+<p>Pour quelqu’un qui découvre l’optique, les concepts ne sont pas franchement intuitifs. Il est relativement simple de comprendre comment un rayon lumineux est dévié quand il traverse une lentille ou se réfléchit sur un miroir, mais il est moins simple de se représenter ce que ça signifie en terme d’image. Comment ce qu’on voit est modifié ?</p>
+
+<p>J’ai eu des cours d’optique géométrique au lycée, et j’ai eu envie de m’y replonger avec une approche plus pratique. J’apprends généralement mieux quand je peux manipuler directement les concepts. Ce logiciel est conçu comme un outil interactif permettant de modifier les paramètres d’un système optique et d’observer immédiatement les conséquences de manière visuelle et compréhensible.</p>
+
+<p>À l’heure actuelle, le logiciel prend en charge :</p>
+
+<ul>
+  <li>les lentilles convergentes ;</li>
+  <li>les lentilles divergentes ;</li>
+  <li>les miroirs plans ;</li>
+  <li>les miroirs sphériques concaves ;</li>
+  <li>les miroirs sphériques convexes ;</li>
+  <li>les objets situés à l’infini.</li>
+</ul>
+
+<p>Il est également possible d’ajouter un écran d’observation et de choisir précisément quels rayons afficher ou masquer. Pour le moment, la simulation est limitée à un axe optique unique, mais j’envisage de passer à une représentation libre en deux dimensions. Ce sera probablement un bon challenge.</p>
+
+<h2 id="méthodologie">Méthodologie</h2>
+
+<p>Je travaille de manière incrémentale. J’ajoute les fonctionnalités une par une et je fais évoluer l’architecture du code au fur et à mesure des besoins, plutôt que de chercher à concevoir l’ensemble du système à l’avance. Une approche inspirée par la série de vidéos <a href="https://www.youtube.com/watch?v=Ee3EtYb8d1o">Handmade Hero de Casey Muratori</a> que je regarde en ce moment.</p>
+
+<p>L’application est entièrement développée avec SwiftUI et l’API Canvas, sans dépendance externe. Je travaille dans Xcode en utilisant intensivement les previews SwiftUI. J’ai mis en place un système de sauvegarde et de chargement des configurations optiques, ce qui accélère énormément les itérations.</p>
+
+<h2 id="challenges-techniques">Challenges techniques</h2>
+
+<p>L’un des principaux défis du projet est le tracé des rayons lumineux. Les cas à gérer sont nombreux et parfois complexes : il faut distinguer les parties réelles et virtuelles des rayons, prolonger certaines trajectoires pour faire apparaître les points de construction pertinents, éviter les superpositions inutiles et conserver une représentation claire de la scène.</p>
+
+<p>Je suis arrivé à une architecture en plusieurs étapes : dans un premier temps, je définis les rayons pédagogiquement pertinents ainsi que les points qu’ils doivent relier. C’est à ce niveau que se concentre l’essentiel de la logique physique. Ensuite, chaque rayon est analysé afin de déterminer quelles portions sont réelles et lesquelles sont virtuelles, en fonction de la position relative des sources, des dispositifs optiques et des images. Enfin, une phase de déduplication garantit que chaque segment n’est tracé qu’une seule fois pour un rendu propre et net.</p>
+
+<h2 id="la-suite">La suite</h2>
+
+<p>J’aimerais enrichir le simulateur avec de nouvelles fonctionnalités :</p>
+
+<ul>
+  <li>un positionnement libre en 2 dimensions ;</li>
+  <li>des contraintes mécaniques entre les éléments pour simuler des mécanismes simples ;</li>
+  <li>des miroirs semi-transparents ;</li>
+  <li>des diaphragmes ;</li>
+  <li>un rendu d’image permettant de visualiser ce qui apparaîtrait réellement sur un écran ou à travers un système optique.</li>
+</ul>
+
+<p>L’objectif reste le même : créer un outil qui permette de comprendre l’optique par l’expérimentation directe, en rendant visibles des phénomènes qui restent souvent abstraits lorsqu’ils sont présentés uniquement sous forme de schémas statiques ou d’équations.</p>
+
+  </div>
+
+  <div class="last-updated">
+    
+    Dernière mise à jour le 1er juin 2026
+    
+</div>
+
+</article>
+
+
+        <p class="ai-disclaimer">
+          
+            J'utilise des outils à base d'IA générative pour rédiger et/ou traduire le contenu de ce site.
+            J'utilise l'IA comme un outil de productivité et d'inspiration, je m'assure toujours que les textes finaux reflètent fidèlement ma voix.
+            
+        </p>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper" style="display: flex; justify-content: space-between">
+
+    <div class="description">
+        <p>Alexandre Bintz</p>
+        <p>👨‍💻🧑‍🔬🥽🍣🥨🚴‍♂️🎮🛰️🎆📺🔭</p>
+    </div>
+
+    <ul class="social-media-list" style="text-align: left">
+        <li>
+            <a href="https://github.com/alexbinary">
+                <svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg>
+                <span class="username">alexbinary</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://www.twitter.com/AlexFrom1991">
+                <svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg>
+                <span class="username">AlexFrom1991</span>
+            </a>
+        </li>
+        <li>
+            <a href="mailto:alexandre@bintz.xyz">
+                <svg fill="#828282" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#828282" width=18><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M22,5V9L12,13,2,9V5A1,1,0,0,1,3,4H21A1,1,0,0,1,22,5ZM2,11.154V19a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V11.154l-10,4Z"></path></g></svg>
+                &nbsp;alexandre@bintz.xyz
+            </a>
+        </li>
+    </ul>
+
+  </div>
+
+</footer>
+<script src="/assets/js/external-links.js"></script>
+
+  </body>
+
+</html>
