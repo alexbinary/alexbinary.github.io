@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)"><title>Hardware emulation - Alexandre Bintz</title>
+    <meta name="description" content="Alexandre Bintz" />
+    <meta name="author" content="Alexandre Bintz" />
+
+    <meta property="og:title" content="Hardware emulation - Alexandre Bintz" />
+    <meta property="og:site_name" content="Alexandre Bintz" />
+    <meta property="og:description" content="Alexandre Bintz" />
+    <meta property="og:locale" content="en" />
+    <meta property="og:type" content="website" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Alexandre Bintz" />
+
+    <link rel="stylesheet" href="/assets/main.css">
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260602075223"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+</head><body><header class="site-header" role="banner">
+
+  
+
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">Alexandre Bintz</a>
+
+    <div class="lang-and-menu">
+
+      
+
+      <nav class="lang-select">
+        
+        
+          
+          
+          
+
+          
+            <span class="lang active" title="You are viewing the English version of this page">🇺🇸</span>
+          
+        
+          
+          
+          
+
+          
+            <a href="/fr/projets/emulation" class="lang" title="Passer en français">🇫🇷</a>
+          
+        
+
+      </nav>
+
+    </div>
+    
+  </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+
+      
+
+      
+      
+      
+
+      
+
+        <div class="lang-available-banner">
+          <div class="lang-available-banner-content">
+            <p>Cette page est disponible <a href='/fr/projets/emulation'>en français 🇫🇷</a></p>
+          </div>  
+        </div>
+
+        <article class="post project">
+
+  <header>
+    <div class="image-container">
+      <img src="/assets/projects/emulation/IMG_7377.JPG">
+    </div>
+
+    <div class="header-content">
+      <div>
+        <span class="content-type">
+          
+            Project
+          
+        </span>
+        <div class="project-status">
+          
+            <strong>
+              
+                Status:
+              
+            </strong> <span>active 🧑‍💻</span>
+          
+        </div>
+      </div>
+      
+      <div class="title">
+        <h1>Hardware emulation</h1>
+
+        
+      </div>
+    
+      
+        <div class="project-topics">
+          
+            #emulation
+          
+            #electronics
+          
+            #programming
+          
+            #6502
+          
+        </div>
+      
+
+      
+
+    </div>
+
+  </header>
+
+  <div class="separator"></div>
+
+  <div class="post-content">
+    <p>I play video games on emulators and I understand the basic principles of emulation, but I want to learn more and get my hands dirty. I’d like to know how to write a Game Boy emulator, and it’s probably doable with enough patience, but I like to start with the basics. And the basics are: “What exactly is emulation?”</p>
+
+<p>I’m building a simple hardware system that I can program and that will serve as a reference for writing an emulator for this system. The system is based on the 6502 processor, and will have buttons and LEDs, maybe a screen. For now I am getting familiar with the 6502.</p>
+
+<h2 id="understanding-emulation">Understanding emulation</h2>
+
+<p>Let’s take the Game Boy as an example. A Game Boy game is a program designed to be read by the Game Boy’s hardware in order to produce images and sound based on the user’s button presses. The goal of a “Game Boy emulator” is to take this program as input and recreate the gaming experience on a PC, that is, to generate sound and image based on the user’s actions, but on a completely different hardware stack.</p>
+
+<p>The aim when writing an emulator is to understand the effect of each instruction in the program on the original hardware and to recreate a faithful overall result on the new hardware. Writing an emulator therefore requires a good understanding of the original hardware and the hardware/software interaction, but it’s not necessarily about faithfully reproducing the internal workings of the hardware. What matters is the <em>observable</em> result.</p>
+
+<p>To put these ideas into practice and test them against reality, I want to create a simple, programmable hardware system from scratch, and then write an emulator for this system. Creating the hardware system to be emulated provides a precise reference and allows for comparison of program execution and validation of the emulator. If I write the emulator by “imagining” the emulated hardware, what allows me to say that the result is accurate?</p>
+
+<h2 id="hardware-choice">Hardware Choice</h2>
+
+<p>I chose to build a system based on the 6502 microprocessor. The 6502 is a relatively simple microprocessor, ideal for beginners. It’s also very well-known, having been at the heart of many consumer devices in the 1980s, notably the Apple II, Commodore 64 and Atari 2600. Modernized versions are still in production today, and there’s a large community of enthusiasts.</p>
+
+<p>My goal is to create a system capable of executing an assembly program and producing an observable result based on user actions. Simple buttons will suffice for user actions, and initially, I plan to use a few LEDs for outputs. Later, I might try incorporating an OLED screen I have on hand; that would make it closer to a game console 🎮.</p>
+
+<h2 id="first-steps-with-the-6502">First Steps with the 6502</h2>
+
+<p>Being a microprocessor, the 6502’s main function is to execute instructions. Unlike a microcontroller, it has no internal memory or peripherals. It interacts with the outside world via a data and address bus, on which it can read and write data. The instructions to be executed, the data to be processed, and the output data all pass through the bus. Generally, a memory containing the program and working data is connected to the bus, along with peripherals such as a display, a sound card, etc.</p>
+
+<p>To get started, I’m following Ben Eater’s <a href="https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH">video series</a> dedicated to building a computer based on the 6502. I begin by mounting the 6502 on a breadboard, connecting the power supply and basic control signals, and adding a reset button. The clock signal is generated by a module based on a 555 timer circuit that I built previously following Ben Eater’s <a href="https://www.youtube.com/watch?v=kRlSFm519Bo">videos</a> on the subject. I’m using an Arduino Uno as a power source and for making observations afterward.</p>
+
+<p>To verify that something is happening in the processor, I connect the four least significant bits of the address bus to four LEDs, and they indeed show activity. I also connected the data bus lines directly to the power supply or ground using resistors so that every time the CPU reads data from the bus, it retrieves the value 0xEA, which corresponds to the NOP (“No Operation”) instruction. When observing the address lines, we see a count, which corresponds to the CPU reading instructions one after another from memory.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/IMG_7380.gif" title="Click to view full size image">
+            <img src="/assets/projects/emulation/IMG_7380.gif" alt="A video showing an experimental electronic circuit. It shows a breadboard with a rapidly blinking LED, and a second module containing the 6502 connected to four LEDs that light up sequentially in a counting pattern." width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <p class="image-legend">My 6502 in operation</p>
+</div>
+
+    </div>
+
+</div>
+
+<p>I then connected the address lines to the Arduino along with the clock signal and wrote a simple program to read and display the data at each clock tick via an interrupt. Ben Eater uses an Arduino Mega to observe all 16 address lines and 8 data lines, but my Arduino Uno doesn’t have enough pins to allow me to observe all the lines, so I focused on just the 4 least significant bits of the address.</p>
+
+<p>When the processor starts or is reset, it looks for the address of the first instruction to execute. To do this, it reads a 16 bit address from addresses 0xFFFC and 0xFFFD, then starts fetching instructions from that address. Since I’m only observing the last 4 bits of the address, I expect to see the values ​​C and D, which correspond to the binary values ​​1100 and 1101 respectively. When I press the reset button, I do indeed see these addresses. Since the data bus is wired to return 0xEA, the CPU will start reading instructions from address 0xEAEA. The binary value A is 1010, and it’s indeed the first address we see after C and D. Very cool!</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/ADDR.gif" title="Click to view full size image">
+            <img src="/assets/projects/emulation/ADDR.gif" alt="A video capture of the Arduino software showing a program and 4-bit data scrolling by. The data shows a counting pattern." width="" height="550" style="width:" />
+        </a>
+    </p>
+    <p class="image-legend">Reading the address bus in real time</p>
+</div>
+
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/FFFC.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/FFFC.png" alt="A screenshot of the Arduino software showing a data capture. The value 1100 is highlighted, the next value is 1101, then 1010, and the values ​​increment" width="" height="550" style="width:" />
+        </a>
+    </p>
+    <p class="image-legend">Reading the address bus after pressing the reset button</p>
+</div>
+
+    </div>
+
+</div>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>The next step is to provide the CPU with dynamic data based on the address it requests, to form a meaningful program. This is typically done by a memory chip. But Arduino can also be used.</p>
+
+  </div>
+
+  <div class="last-updated">
+    
+    Last updated Jun 2nd, 2026
+    
+</div>
+
+</article>
+
+
+        <p class="ai-disclaimer">
+          
+            I use generative AI to write and/or translate the content featured on this website. AI serves only as a tool for productivity and inspiration, I make sure that the final texts always reflect my personal voice and style.
+          
+        </p>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper" style="display: flex; justify-content: space-between">
+
+    <div class="description">
+        <p>Alexandre Bintz</p>
+        <p>👨‍💻🧑‍🔬🥽🍣🥨🚴‍♂️🎮🛰️🎆📺🔭</p>
+    </div>
+
+    <ul class="social-media-list" style="text-align: left">
+        <li>
+            <a href="https://github.com/alexbinary">
+                <svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg>
+                <span class="username">alexbinary</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://www.twitter.com/AlexFrom1991">
+                <svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg>
+                <span class="username">AlexFrom1991</span>
+            </a>
+        </li>
+        <li>
+            <a href="mailto:alexandre@bintz.xyz">
+                <svg fill="#828282" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#828282" width=18><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M22,5V9L12,13,2,9V5A1,1,0,0,1,3,4H21A1,1,0,0,1,22,5ZM2,11.154V19a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V11.154l-10,4Z"></path></g></svg>
+                &nbsp;alexandre@bintz.xyz
+            </a>
+        </li>
+    </ul>
+
+  </div>
+
+</footer>
+<script src="/assets/js/external-links.js"></script>
+
+  </body>
+
+</html>
