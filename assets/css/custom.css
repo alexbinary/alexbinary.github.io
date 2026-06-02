@@ -265,7 +265,8 @@ ul.list-pointer-style li::before {
     position: relative;
 }
 
-.inline-image-item img {
+.inline-image-item img,
+.inline-image-item video {
     object-fit: cover;
     width: 100%;
     border-radius: 8px;
@@ -281,7 +282,8 @@ ul.list-pointer-style li::before {
         margin-bottom: 1rem;
     }
 
-    .inline-image-item img {
+    .inline-image-item img,
+    .inline-image-item video {
         width: 100% !important;
     }
 }

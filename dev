@@ -30,6 +30,9 @@ case "$1" in
 		ffmpeg -i $2 -i palette.png -filter_complex "fps=15,scale=$3:-1:flags=lanczos[x];[x][1:v]paletteuse" $2.gif
 		rm palette.png
 		;;
+	video)
+		ffmpeg -i $2 -an -c:v libx264 -crf 30 -preset slow -vf "fps=15,scale=640:-2" -movflags +faststart $2.mp4
+		;;
 	*)
 		echo "Usage: dev {open|start|deploy|newproject|gif}"
 		;;
