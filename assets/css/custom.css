@@ -296,9 +296,12 @@ ul.list-pointer-style li::before {
 .inline-image-item {
     text-align: center;
     margin-bottom: 1rem;
-    font-size: 0.8rem;
     flex: 1;
     position: relative;
+}
+
+.inline-image-item figcaption {
+    font-size: 0.8rem;
 }
 
 .inline-image-item img,

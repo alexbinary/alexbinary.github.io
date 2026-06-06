@@ -6,7 +6,8 @@
     
     <meta name="color-scheme" content="light dark">
     <meta name="theme-color" content="#fdfdfd" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)"><title>Emulation matérielle - Alexandre Bintz</title>
+    <meta name="theme-color" content="#212121" media="(prefers-color-scheme: dark)">
+    <meta name="format-detection" content="telephone=no"><title>Emulation matérielle - Alexandre Bintz</title>
     <meta name="description" content="Alexandre Bintz" />
     <meta name="author" content="Alexandre Bintz" />
 
@@ -20,7 +21,7 @@
     <meta property="twitter:title" content="Alexandre Bintz" />
 
     <link rel="stylesheet" href="/assets/main.css">
-    <link rel="stylesheet" href="/assets/css/custom.css?v=20260606065501"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260606094343"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -113,24 +114,38 @@
       
         <div class="project-topics">
           
-            #emulation
+            #6502
+          
+            #arduino
           
             #electronique
           
             #programmation
           
-            #6502
+            #emulation
           
         </div>
       
 
       
         <div class="project-topics">
-          <a href="https://github.com/alexbinary/arduino-6502">
+
+          
+          
+
+          
             
-              Le code de ce projet est sur GitHub
+              <p>Le code de ce projet est disponible sur GitHub
+                
+                  
+                  <a href="https://github.com/alexbinary/arduino-6502">ici</a>
+                
+                   et 
+                  <a href="https://github.com/alexbinary/arduino-eeprom-programmer">ici</a>
+                
+              </p>
             
-          </a>
+          
         </div>
       
 
@@ -161,9 +176,9 @@
 
 <h2 id="premiers-pas-avec-le-6502">Premiers pas avec le 6502</h2>
 
-<p>Le 6502 est un microprocesseur, et sa fonction principale est donc d’exécuter des instructions. Contrairement à un microcontrôleur, il n’a aucune mémoire interne et aucun périphérique. Il interragit avec le monde extérieur via un bus de données et un bus d’addresse, sur lesquels il peut lire et écrire des données. Les instructions à éxécuter, les données à traiter, et les données produites, tout passe par le bus. En général on connecte sur le bus une mémoire qui contient le programme et les données de travail, et des périphérique comme un afficheur, une carte son, etc.</p>
+<p>Le <a href="https://www.westerndesigncenter.com/wdc/documentation/w65c02s.pdf">6502</a> est un microprocesseur, et sa fonction principale est donc d’exécuter des instructions. Contrairement à un microcontrôleur, il n’a aucune mémoire interne et aucun périphérique. Il interragit avec le monde extérieur via un bus de données et un bus d’addresse, sur lesquels il peut lire et écrire des données. Les instructions à éxécuter, les données à traiter, et les données produites, tout passe par le bus. En général on connecte sur le bus une mémoire qui contient le programme et les données de travail, et des périphérique comme un afficheur, une carte son, etc.</p>
 
-<p>Pour commencer en douceur je suis la <a href="https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH">série de vidéos de Ben Eater consacrée à la construction d’un ordinateur basé sur le 6502</a>. Je commence par installer le 6502 sur une breadboard, je connecte l’alimentation et les signaux de contrôle de base, et j’ajoute un bouton reset. Le signal d’horloge est généré par un module basé sur un circuit 555 que j’ai construit précédemment en suivant les <a href="https://www.youtube.com/watch?v=kRlSFm519Bo">vidéos de Ben Eater sur le sujet</a>. J’utilise un Arduino Uno comme source d’alimentation et pour faire des observations par la suite.</p>
+<p>Pour commencer en douceur je suis la <a href="https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH">série de vidéos de Ben Eater consacrée à la construction d’un ordinateur basé sur le 6502</a>. Je commence par installer le 6502 sur une breadboard, je connecte l’alimentation et les signaux de contrôle de base, et j’ajoute un bouton reset. Le signal d’horloge est généré par un module basé sur un circuit 555 que j’ai construit précédemment en suivant les <a href="https://www.youtube.com/watch?v=kRlSFm519Bo">vidéos de Ben Eater sur le sujet</a>. J’utilise mon <a href="https://docs.arduino.cc/resources/datasheets/ABX00087-datasheet.pdf">Arduino Uno R4 Wi-Fi</a> comme source d’alimentation et pour faire des observations par la suite.</p>
 
 <p>Pour vérifier qu’il se passe quelque chose dans le processeur j’ai connecté les 4 bits de poids faible du bus d’adresse sur 4 LEDs, et j’ai constaté une activité. J’ai également connecté les lignes du bus de données directement sur l’alim ou la masse avec des résitances pour faire en sorte qu’à chaque fois que le CPU lit une donnée sur le bus il récupère la valeur <code class="language-plaintext highlighter-rouge">0xEA</code>, qui correspond à l’instruction <code class="language-plaintext highlighter-rouge">NOP</code> (« No Operation »). Quand on observe les lignes d’adresse, on constate un comptage, qui correspond au fait que le CPU lit les instructions les unes après les autres dans la mémoire.</p>
 
@@ -173,14 +188,14 @@
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p>
         <a href="/assets/projects/emulation/IMG_7380.mp4" title="Cliquer pour agrandir l'image">
             <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/IMG_7380.mp4" alt="Une vidéo montrant un montage éléctronique expérimental. On voit une première breadboard avec une LED qui clignote rapidement, et un second module comprenant le 6502 connecté à 4 LEDs qui s&#39;allument successivement dans un motif de comptage." width="50%" height="" style="width:50%" />
         </a>
     </p>
-    <p class="image-legend">Mon 6502 en fonctionnement</p>
-</div>
+    <figcaption class="image-legend">Mon 6502 en fonctionnement</figcaption>
+</figure>
 
     </div>
 
@@ -196,25 +211,25 @@
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p>
         <a href="/assets/projects/emulation/ADDR.mp4" title="Cliquer pour agrandir l'image">
             <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/ADDR.mp4" alt="Une capture vidéo du logiciel Arduino où l&#39;on voit un programme et des données 4 bits qui défilent. Les données montrent un motif de comptage." width="" height="" style="width:" />
         </a>
     </p>
-    <p class="image-legend">Lecture du bus d'adresse en temps réel</p>
-</div>
+    <figcaption class="image-legend">Lecture du bus d'adresse en temps réel</figcaption>
+</figure>
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p class="image-p">
         <a href="/assets/projects/emulation/FFFC.png" title="Cliquer pour agrandir l'image">
             <img src="/assets/projects/emulation/FFFC.png" alt="Une capture d&#39;écran du logiciel Arduino où l&#39;on voit une capture de données. La donnée 1100 est mise en subrillance, la donnée suivante est 1101, et encore après on lit 1010, puis les valeurs s&#39;incrémentent." width="" height="" style="width:" />
         </a>
     </p>
-    <p class="image-legend">Lecture du bus d'adresse après un reset</p>
-</div>
+    <figcaption class="image-legend">Lecture du bus d'adresse après un reset</figcaption>
+</figure>
 
     </div>
 
@@ -238,25 +253,25 @@
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p class="image-p">
         <a href="/assets/projects/emulation/IMG_7383.JPG" title="Cliquer pour agrandir l'image">
             <img src="/assets/projects/emulation/IMG_7383.JPG" alt="" width="" height="" style="width:" />
         </a>
     </p>
-    <p class="image-legend">L'Arduino connecté aux 4 LSBs du bus d'adresse et aux 8 lignes du bus de données du 6502</p>
-</div>
+    <figcaption class="image-legend">L'Arduino connecté aux 4 LSBs du bus d'adresse et aux 8 lignes du bus de données du 6502</figcaption>
+</figure>
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p>
         <a href="/assets/projects/emulation/EA.mp4" title="Cliquer pour agrandir l'image">
             <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/EA.mp4" alt="" width="" height="" style="width:" />
         </a>
     </p>
-    <p class="image-legend">L'Arduino écrit 0xEA sur le bus quand il détecte que le 6502 est en lecture</p>
-</div>
+    <figcaption class="image-legend">L'Arduino écrit 0xEA sur le bus quand il détecte que le 6502 est en lecture</figcaption>
+</figure>
 
     </div>
 
@@ -444,14 +459,14 @@
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p>
         <a href="/assets/projects/emulation/pgm.mp4" title="Cliquer pour agrandir l'image">
             <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/pgm.mp4" alt="" width="70%" height="" style="width:70%" />
         </a>
     </p>
-    <p class="image-legend">Exécution du premier programme</p>
-</div>
+    <figcaption class="image-legend">Exécution du premier programme</figcaption>
+</figure>
 
     </div>
 
@@ -461,7 +476,7 @@
 
 <h2 id="découverte-de-leeprom">Découverte de l’EEPROM</h2>
 
-<p>L’Arduino est bien sympatique, mais dans le système final les données sont stockées dans une puce mémoire. J’utilise ici une puce EEPROM de 32ko. C’est une mémoire destinée à être utilisée en lecture seule, mais qu’on peut effacer et programmer éléctroniquement.</p>
+<p>L’Arduino est bien sympatique, mais dans le système final les données sont stockées dans une puce mémoire. J’utilise ici une puce EEPROM <a href="https://ww1.microchip.com/downloads/en/DeviceDoc/doc0006.pdf">AT28C256</a>. C’est une mémoire de 32ko destinée à être utilisée en lecture seule, mais qu’on peut effacer et programmer éléctroniquement.</p>
 
 <p>Je veux commencer par la base, en faisant des lectures et écritures en manipulant directement les signaux de contrôle. Sur une breadboard je connecte huit LEDs au bus de données de la ROM et je force toutes les lignes d’adresse à zéro à l’aide de cavaliers, sauf les quatre bits de poids faible que je connecte avec des fils de connexion repositionnables facilement.</p>
 
@@ -502,14 +517,14 @@
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p class="image-p">
         <a href="/assets/projects/emulation/IMG_7389.JPG" title="Cliquer pour agrandir l'image">
             <img src="/assets/projects/emulation/IMG_7389.JPG" alt="" width="50%" height="" style="width:50%" />
         </a>
     </p>
-    <p class="image-legend">Montage de test de la ROM</p>
-</div>
+    <figcaption class="image-legend">Montage de test de la ROM</figcaption>
+</figure>
 
     </div>
 
@@ -610,14 +625,14 @@
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p class="image-p">
         <a href="/assets/projects/emulation/writeByte.png" title="Cliquer pour agrandir l'image">
             <img src="/assets/projects/emulation/writeByte.png" alt="" width="50%" height="" style="width:50%" />
         </a>
     </p>
-    <p class="image-legend">Fonction d'écriture d'un octet dans la ROM</p>
-</div>
+    <figcaption class="image-legend">Fonction d'écriture d'un octet dans la ROM</figcaption>
+</figure>
 
     </div>
 
@@ -629,14 +644,14 @@
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p>
         <a href="/assets/projects/emulation/ROM.mp4" title="Cliquer pour agrandir l'image">
             <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/ROM.mp4" alt="" width="50%" height="" style="width:50%" />
         </a>
     </p>
-    <p class="image-legend">Ecriture des 14 premiers octets puis relecture</p>
-</div>
+    <figcaption class="image-legend">Ecriture des 14 premiers octets puis relecture</figcaption>
+</figure>
 
     </div>
 
@@ -756,14 +771,14 @@
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p>
         <a href="/assets/projects/emulation/IMG_7393.mp4" title="Cliquer pour agrandir l'image">
             <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/IMG_7393.mp4" alt="" width="" height="" style="width:" />
         </a>
     </p>
-    <p class="image-legend">Observation des données qui transitent sur le bus</p>
-</div>
+    <figcaption class="image-legend">Observation des données qui transitent sur le bus</figcaption>
+</figure>
 
     </div>
 
@@ -879,14 +894,14 @@
 
         
 
-<div class="inline-image-item">
+<figure class="inline-image-item">
     <p class="image-p">
         <a href="/assets/projects/emulation/IMG_7399.JPG" title="Cliquer pour agrandir l'image">
             <img src="/assets/projects/emulation/IMG_7399.JPG" alt="" width="50%" height="" style="width:50%" />
         </a>
     </p>
-    <p class="image-legend">L'EEPROM connectée au 6502</p>
-</div>
+    <figcaption class="image-legend">L'EEPROM connectée au 6502</figcaption>
+</figure>
 
     </div>
 
@@ -980,9 +995,179 @@
 
 <p>Tout fonctionne comme prévu 🎉</p>
 
+<h2 id="les-registres-à-décalage">Les registres à décalage</h2>
+
+<p>Maintenant que le système est en mesure de lire des programmes arbitrairement longs, il est nécessaire de pouvoir programmer la ROM plus de 16 octets à la fois. Jusque là je n’utilisais que 4 lignes d’adresses car l’Arduino n’a pas assez de broches pour utiliser les 15 lignes en même temps, mais il est possible de produire plus de sortie grâce à un composant qu’on appelle <em>registre à décalage</em>.</p>
+
+<p>Un registre à décalage est capable de produire plusieurs sorties à partir d’un seul bit d’entrée. On envoie les valeurs une par une et elles sont distribuées sur les lignes de sorties, dans l’ordre. Chaque nouvelle donnée “pouse” les données déjà présente d’un cran. Il est possible de connecter plusieurs registres les uns à la suite des autres pour produire un nombre arbitraire de sorties. On peut également figer la sortie le temps qu’on pousse toutes les données pour éviter que les appareils connectés ne voient les données se déplacer d’une ligne à l’autre, ce qui pourrait avoir des conséquences indésirables.</p>
+
+<p>J’utilise le circuit <a href="https://www.ti.com/lit/ds/symlink/sn74hc595.pdf">74HC595</a> que j’avais en stock. C’est un registre à décalage qui possède 8 lignes de sortie. Pour contrôler 15 lignes d’adresse il en faut donc deux. Comme d’habitude je commence par les bases, avec un montage minimal pour me familiariser avec le fonctionnement. Je place un registre à décalage et 8 LEDs avec leur résistances.</p>
+
+<p>Le 74HC595 possède en tout 5 signaux de contrôle :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Signal</th>
+      <th>Signification</th>
+      <th>Fonction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">/OE</code></td>
+      <td>Output Enabled</td>
+      <td>Active la sortie des données</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">SER</code></td>
+      <td>Serial input</td>
+      <td>Reçoit la donnée d’entrée</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">SRCLK</code></td>
+      <td>Shift register clock</td>
+      <td>Pousse la donnée d’entrée dans le registre et décale les données existantes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">RCLK</code></td>
+      <td>Storage register clock</td>
+      <td>Libère la sortie pour refléter les données internes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">/SRCLR</code></td>
+      <td>Overriding clear</td>
+      <td>Efface tout</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Je connecte l’alimentation et la masse, et je mets <code class="language-plaintext highlighter-rouge">/SRCLR</code> à <code class="language-plaintext highlighter-rouge">1</code> car je ne prévois pas de l’utiliser. Je mets <code class="language-plaintext highlighter-rouge">/OE</code> à <code class="language-plaintext highlighter-rouge">0</code> pour activer la sortie, et le reste sera piloté manuellement. Je passe <code class="language-plaintext highlighter-rouge">SER</code> à <code class="language-plaintext highlighter-rouge">1</code>, puis passe <code class="language-plaintext highlighter-rouge">SRCLK</code> à <code class="language-plaintext highlighter-rouge">1</code> puis à nouveau à <code class="language-plaintext highlighter-rouge">0</code>. J’essaie plusieurs fois avec différentes valeurs mais les tests ne sont pas très concluants. J’ai soit toutes les LEDs allumées, soit toutes éteintes. Je soupçonne des mauvais contacts, mais à un moment j’ai les 4 premières éteintes et les autres allumées. Je me dit que mes manipulations manuelles provoquent peut-être plusieurs pulse sur <code class="language-plaintext highlighter-rouge">SRCLK</code> ce qui a pour effet de pousser plusieurs données d’un coup. Je décide donc de passer au pilotage par Arduino.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/IMG_7402.JPG" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/IMG_7402.JPG" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Premier montage expérimental du registre à décalage avec Arduino</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Je connecte les signaux de contrôle sur l’Arduino et code un programme de test. Je commence par essayer de pousser un bit à la fois. Ça a l’air de bien fonctionner. J’écris une fonction de test qui pousse alternativement un <code class="language-plaintext highlighter-rouge">1</code> et un <code class="language-plaintext highlighter-rouge">0</code> avec un délai entre chaque. Ça fonctionne comme attendu. Je teste ensuite une fonction capable de pousser un octet. Tout fonctionne bien. Au début j’avais mis des temporisations mais en fait elles ne sont pas nécessaire. J’ai connecté une LED supplémentaire pour afficher la valeur du dernier bit de donnée dans le registre. Contrairement aux autres cette donnée est toujours à jour avec l’état interne même si on fige la sortie, car elle est destinée à être connectée au registre suivant quand on chaine plusieurs.</p>
+
+<div class="inline-image-container mobile-column">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<figure class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/IMG_7403.mp4" title="Cliquer pour agrandir l'image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/IMG_7403.mp4" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Injection de 1, 0, 1, 0, etc</figcaption>
+</figure>
+
+        
+
+<figure class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/IMG_7405.mp4" title="Cliquer pour agrandir l'image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/IMG_7405.mp4" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Injection de 0xEA</figcaption>
+</figure>
+
+    </div>
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/push.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/push.png" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Code pour pousser les données dans le registre à décalage</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Arduino fournit une fonction <code class="language-plaintext highlighter-rouge">shiftOut()</code> qui permet de pousser 8 bits de données. Je teste en lui passant les pins que j’ai configurées pour la donnée d’entrée et pour la clock et vérifie que ça fonctionne bien. La fonction pousse les données mais ne met pas à jour la sortie, donc il faut toujours faire ça manuellement.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/shift.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/shift.png" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">La fonction shiftOut() permet de pousser 8 bits</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Je teste maintenant d’ajouter un registre. Je le place sur la breadboard à côté du premier, je connecte l’alimentation, <code class="language-plaintext highlighter-rouge">/OE</code> et <code class="language-plaintext highlighter-rouge">/SRCLR</code>. Je ne peux pas ajouter d’autres LEDs donc je laisse les 4 premières connectées au 4 premières sorties du premier registre, et je connecte les 4 dernières au 4 dernières sorties du second registre. Et au début, rien ne fonctionne. C’est parce que j’avais oublié de connecter les signaux <code class="language-plaintext highlighter-rouge">SER</code>, <code class="language-plaintext highlighter-rouge">RCLK</code> et <code class="language-plaintext highlighter-rouge">SRCLK</code> du premier registre sur le second. Une fois fait ça fonctionne bien. Je teste en poussant un <code class="language-plaintext highlighter-rouge">1</code> puis que des <code class="language-plaintext highlighter-rouge">0</code> pour voir avancer le <code class="language-plaintext highlighter-rouge">1</code>. Comme attendu il traverse les 4 premières LEDs, puis après un temps réapparait sur les 4 suivantes.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/IMG_7408.JPG" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/IMG_7408.JPG" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Montage avec deux registres</figcaption>
+</figure>
+
+        
+
+<figure class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/IMG_7410.mp4" title="Cliquer pour agrandir l'image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/IMG_7410.mp4" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Déplacement d'un bit au travers de deux registres</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Le code Arduino est disponible <a href="https://github.com/alexbinary/arduino-eeprom-programmer">sur GitHub</a>.</p>
+
 <h2 id="la-suite">La suite</h2>
 
-<p>Le système est désormais capable de lire des programmes abritrairement longs. Encore faut-il être capable de programmer la ROM sur plus que 16 octets. J’ai quelques idées pour ça. L’objectif ensuite est d’utiliser une puce d’entrées-sorties qui permettra de connecter des périphériques et d’avoir enfin des résultats observables.</p>
+<p>Les registres à décalage vont permettre de créer un circuit de programmation complète de la ROM avec Arduino malgré la limitation du nombre de broches. Une fois capable d’écrire des programmes arbitrairement longs, je pourrai commencer à installer une puce d’entrées-sorties qui permettra de connecter des périphériques au 6502 et d’avoir enfin des résultats observables sans instruments.</p>
 
   </div>
 

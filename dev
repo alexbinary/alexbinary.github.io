@@ -33,6 +33,17 @@ case "$1" in
 	video)
 		ffmpeg -i $2 -an -c:v libx264 -crf 30 -preset slow -vf "fps=15,scale=1040:-2" -movflags +faststart $2.mp4
 		;;
+	stab)
+		ffmpeg -i $2 -vf vidstabdetect=result=transforms.trf -f null -
+		ffmpeg -i $2 -vf "vidstabtransform=input=transforms.trf:smoothing=30" $2.stab.mp4
+  		rm transforms.trf
+		rm $2
+		mv $2.stab.mp4 $2
+		;;
+	crop)
+		ffmpeg -i $2 -vf "crop=$3" $2.crop.mp4
+		mv $2.crop.mp4 $2
+		;;
 	photo)
 		magick $2 -strip -interlace Plane -quality 75 $2
 		;;
