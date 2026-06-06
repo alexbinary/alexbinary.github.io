@@ -20,7 +20,7 @@
     <meta property="twitter:title" content="Alexandre Bintz" />
 
     <link rel="stylesheet" href="/assets/main.css">
-    <link rel="stylesheet" href="/assets/css/custom.css?v=20260606040841"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260606065501"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -153,13 +153,13 @@
 
 <p>To put these ideas into practice and test them against reality, I want to create a simple, programmable hardware system from scratch, and then write an emulator for this system. Creating the hardware system to be emulated provides a precise reference and allows for comparison of program execution and validation of the emulator. If I write the emulator by “imagining” the emulated hardware, what allows me to say that the result is accurate?</p>
 
-<h2 id="hardware-choice">Hardware Choice</h2>
+<h2 id="the-target-hardware">The target hardware</h2>
 
 <p>I chose to build a system based on the 6502 microprocessor. The 6502 is a relatively simple microprocessor, ideal for beginners. It’s also very well-known, being the CPU of many consumer devices in the 1980s, notably the Apple II, Commodore 64 and Atari 2600. Modernized versions are still in production today, and there’s a large community of enthusiasts.</p>
 
 <p>My goal is to create a system capable of executing an assembly program and producing an observable result based on user actions. Simple buttons will suffice for user actions, and initially, I plan to use a few LEDs for outputs. Later, I might try incorporating an OLED screen I have on hand; that would make it closer to a game console 🎮.</p>
 
-<h2 id="first-steps-with-the-6502">First Steps with the 6502</h2>
+<h2 id="first-steps-with-the-6502">First steps with the 6502</h2>
 
 <p>Being a microprocessor, the 6502’s main function is to execute instructions. Unlike a microcontroller, it has no internal memory or peripherals. It interacts with the outside world via a data and address bus, on which it can read and write data. The instructions to be executed, the data to be processed, and the output data all pass through the bus. Generally, a memory containing the program and working data is connected to the bus, along with peripherals such as a display, a sound card, etc.</p>
 
@@ -222,7 +222,7 @@
 
 <p>Arduino code is available <a href="https://github.com/alexbinary/arduino-6502">on GitHub</a>.</p>
 
-<h2 id="dynamic-data">Dynamic Data</h2>
+<h2 id="first-program">First program</h2>
 
 <p>The next step is to provide the CPU with dynamic data based on the address it requests, so that it can execute a meaningful program. Traditionally, this is the role of a memory chip. For now, however, I am experimenting with an Arduino.</p>
 
@@ -644,7 +644,7 @@
 
 <p>Arduino code is available <a href="https://github.com/alexbinary/arduino-6502">on GitHub</a>.</p>
 
-<h2 id="connecting-to-the-6502">Connecting to the 6502</h2>
+<h2 id="connecting-the-eeprom-to-the-6502">Connecting the EEPROM to the 6502</h2>
 
 <p>The goal now is to connect the ROM to the CPU so that it can read and execute the program. Leaving the ROM on its breadboard, I connect the four address lines and the data bus to the corresponding pins on the 6502. While doing this, I realize that the address lines I choose to manipulate on the ROM were not actually the four least significant bits as I intended. They were in fact lines 13, 8, 9, and 11. That is actually not an issue. As long as I connect the same line to the CPU in the same way, it will find the data at the expected address.</p>
 
@@ -769,11 +769,220 @@
 
 </div>
 
-<h2 id="whats-next">What’s Next</h2>
+<p>Now I want to connect the ROM in a semi-permanent way to the 6502 on the same breadboard and wire all the address and data lines correctly. But before that I need to revise the ROM programming, because this time the address lines will be correctly wired and the CPU will therefore not find the data I previously programmed using the wrong address lines. There is also the fact that at startup, the CPU reads the reset vector at addresses <code class="language-plaintext highlighter-rouge">0xFFFC</code> and <code class="language-plaintext highlighter-rouge">0xFFFD</code> to know where it should start executing instructions from. With 4 address lines it was possible to place the reset vector at addresses <code class="language-plaintext highlighter-rouge">0x000C</code> and <code class="language-plaintext highlighter-rouge">0x000D</code>, but this will no longer work with full addressing.</p>
 
-<p>The next step is to connect the ROM to the 6502 in a more permanent way on the same breadboard, wiring up all address and data lines as well as the chip-enable logic. To do that, it will be useful to be able to program the entire memory space, and I have a few ideas about how to achieve this.</p>
+<p>The ROM uses 15 address lines (32KB addressable), while the CPU uses 16 (64KB addressable). For now I connect the first 15 lines and leave the CPU’s 16th line unconnected. Thus, when the CPU requests address <code class="language-plaintext highlighter-rouge">0xFFFC</code>, it will correspond to address <code class="language-plaintext highlighter-rouge">0x7FFC</code> in the ROM. That is therefore where the reset vector must go. We can then place the program anywhere in memory, as long as we specify the corresponding address in the reset vector.</p>
 
-<p>After that, I can start installing the I/O chip that will make it possible to produce more directly observable results, and maybe drive some peripherals?</p>
+<p>I decide to start by writing the program at address <code class="language-plaintext highlighter-rouge">0x0000</code>, write the reset vector later. I go back to my programming setup and connect all address lines to <code class="language-plaintext highlighter-rouge">0</code>, while making sure to leave the actual 4 least significant address lines adjustable. I run the programming using the same Arduino code as before.</p>
+
+<p>To write the reset vector, I decide for simplicity to write the entire program again at address <code class="language-plaintext highlighter-rouge">0x7FF0</code>, which allows me to repear the same operation but with the address lines set to <code class="language-plaintext highlighter-rouge">1</code>. The reset vector being <code class="language-plaintext highlighter-rouge">00 00</code>, it should work, however to make things more interesting I decide to modify the value and set it to <code class="language-plaintext highlighter-rouge">0xFFF0</code>, which will cause the program located at <code class="language-plaintext highlighter-rouge">0x7FF0</code> to execute instead of the one at <code class="language-plaintext highlighter-rouge">0x0000</code>.</p>
+
+<p>Summary of the writes to the ROM:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Addr</th>
+      <th>Data</th>
+      <th>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">AD 09 00</code></td>
+      <td><code class="language-plaintext highlighter-rouge">LDA $0009</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0003</code></td>
+      <td><code class="language-plaintext highlighter-rouge">AD 0A 00</code></td>
+      <td><code class="language-plaintext highlighter-rouge">LDA $000A</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0006</code></td>
+      <td><code class="language-plaintext highlighter-rouge">6D 0B 00</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ADC $000B</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0009</code></td>
+      <td><code class="language-plaintext highlighter-rouge">28</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">02</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000B</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0A</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000C</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000D</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">AD 09 00</code></td>
+      <td><code class="language-plaintext highlighter-rouge">LDA $0009</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF3</code></td>
+      <td><code class="language-plaintext highlighter-rouge">AD 0A 00</code></td>
+      <td><code class="language-plaintext highlighter-rouge">LDA $000A</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF6</code></td>
+      <td><code class="language-plaintext highlighter-rouge">6D 0B 00</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ADC $000B</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF9</code></td>
+      <td><code class="language-plaintext highlighter-rouge">28</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FFA</code></td>
+      <td><code class="language-plaintext highlighter-rouge">02</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FFB</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0A</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FFC</code></td>
+      <td><code class="language-plaintext highlighter-rouge">F0</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FFD</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The ROM now ready, I install it on the breadboard next to the 6502. I force <code class="language-plaintext highlighter-rouge">/CE</code> to <code class="language-plaintext highlighter-rouge">0</code>, <code class="language-plaintext highlighter-rouge">/OE</code> to <code class="language-plaintext highlighter-rouge">0</code>, and <code class="language-plaintext highlighter-rouge">/WE</code> to <code class="language-plaintext highlighter-rouge">1</code>, making the ROM always active and in read mode. I then connect the address lines and data lines. I try to do something nice, inspired by <a href="https://www.youtube.com/watch?v=PE-_rJqvDhQ">Ben Eater’s techniques</a>.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<div class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/IMG_7399.JPG" title="Click to view full size image">
+            <img src="/assets/projects/emulation/IMG_7399.JPG" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <p class="image-legend">The EEPROM connected to the 6502</p>
+</div>
+
+    </div>
+
+</div>
+
+<p>For observation I use ribbon cables for the buses; it’s cleaner than loose jumper wires. As before, the Arduino provides the clock, and I only observe the 4 least significant bits of the address.</p>
+
+<p>I power up the board, reset the CPU, and here is the result:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Theoretical address</th>
+      <th>Observed address</th>
+      <th>Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFC</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xC</code></td>
+      <td><code class="language-plaintext highlighter-rouge">f0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFD</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xD</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ff</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ad</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">09</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF2</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x2</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0009</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x9</code></td>
+      <td><code class="language-plaintext highlighter-rouge">28</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF3</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x3</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ad</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF4</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x4</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0a</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF5</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x5</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000a</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xA</code></td>
+      <td><code class="language-plaintext highlighter-rouge">02</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF6</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x6</code></td>
+      <td><code class="language-plaintext highlighter-rouge">6d</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF7</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x7</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0b</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x7FF8</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x8</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000b</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xB</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0a</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Everything works as expected 🎉</p>
+
+<h2 id="next">Next</h2>
+
+<p>The system is now capable of reading arbitrary long programs, which is nice, but we still need to be able to program more than 16 bytes at a time. I have a few ideas for that. The next goal is to use an input/output chip that will allow peripherals to be connected and finally produce observable results.</p>
 
   </div>
 
