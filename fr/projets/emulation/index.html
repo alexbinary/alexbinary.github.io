@@ -20,7 +20,7 @@
     <meta property="twitter:title" content="Alexandre Bintz" />
 
     <link rel="stylesheet" href="/assets/main.css">
-    <link rel="stylesheet" href="/assets/css/custom.css?v=20260602081323"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260606040841"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -125,6 +125,14 @@
       
 
       
+        <div class="project-topics">
+          <a href="https://github.com/alexbinary/arduino-6502">
+            
+              Le code de ce projet est sur GitHub
+            
+          </a>
+        </div>
+      
 
     </div>
 
@@ -135,7 +143,7 @@
   <div class="post-content">
     <p>Je joue régulièrement à des jeux vidéo sur émulateur et je comprends dans les grandes lignes le principe de l’émulation mais j’ai envie d’en apprendre plus et de “mettre les mains dedans”. J’aimerais bien savoir écrire un émulateur de GameBoy, et c’est probablement faisable avec suffisamment de patience, mais j’aime commencer par la base. Et la base c’est : “Au fond, l’émulation, c’est quoi ?”</p>
 
-<p>Je construis un système matériel simple que je peux programmer et qui servira de référence pour écrire un émulateur pour ce système. Le système se base sur le processeur 6502 et comprendra des boutons et des LEDs, et peut-être un écran. Pour l’instant j’en suis à me familiariser avec le 6502.</p>
+<p>Je suis en train de construire un système matériel simple que je peux programmer, avec pour projet d’écrire un émulateur pour ce système. J’utilise le processeur 6502, des boutons et des LEDs, et peut-être à terme un écran. Pour l’instant j’en suis à me familiariser avec le 6502 et divers composants annexes.</p>
 
 <h2 id="comprendre-lémulation">Comprendre l’émulation</h2>
 
@@ -143,11 +151,11 @@
 
 <p>Le but quand on écrit un émulateur est de comprendre l’effet de chaque instruction du programme sur le matériel d’origine et de recréer un résultat global fidèle sur le nouveau hardware. Écrire un émulateur demande donc de bien connaître le hardware d’origine et l’interraction hardware/software, mais il ne s’agit pas nécessairement de reproduire fidèlement le fonctionnement interne du matériel. Ce qui compte c’est le résultat <em>observable</em>.</p>
 
-<p>Pour mettre en pratique ces réflexions et les confronter à la réalité, je voudrais créer de zéro un système matériel simple qui puisse être programmé, et ensuite écrire un émulateur pour ce système. Créer le système matériel à émuler permet d’avoir une référence précise et permet de comparer l’exécution des programmes et valider l’émulateur. Si j’écris l’émulateur en “imaginant” le hardware émulé, qu’est-ce qui me permet de dire que le résultat est juste ?</p>
+<p>Pour mettre en pratique ces réflexions et les confronter à la réalité, mon but est de créer de zéro un système matériel simple qui puisse être programmé, et ensuite écrire un émulateur pour ce système. Créer le système matériel à émuler permet d’avoir une référence précise et permet de comparer l’exécution des programmes et valider l’émulateur. Si j’écris l’émulateur en “imaginant” le hardware émulé, qu’est-ce qui me permet de dire que le résultat est juste ?</p>
 
 <h2 id="le-choix-du-hardware">Le choix du hardware</h2>
 
-<p>J’ai choisi de construire un système basé sur le microprocesseur 6502. Le 6502 est un microprocesseur relativement simple idéal pour débuter. Il est aussi très célèbre puisqu’il se trouvait au cœur de nombreux appareils grand public dans les années 1980, notamment l’Apple II, le Commodore 64 et l’Atari 2600. Des versions modernisées sont toujours en production aujourd’hui et il existe une large communauté de passionnés.</p>
+<p>J’ai choisi de construire un système basé sur le microprocesseur 6502. Le 6502 est un microprocesseur relativement simple idéal pour débuter. Il est aussi très célèbre puisque c’est le processeur utilisé par de nombreux appareils grand public des années 1980, notamment l’Apple II, le Commodore 64 et l’Atari 2600. Des versions modernisées sont toujours en production aujourd’hui et il existe une large communauté de passionnés.</p>
 
 <p>Mon objectif est de créer un système capable d’exécuter un programme assembleur et de produire un résultat observable en fonction d’actions de l’utilisateur. De simples boutons feront l’affaire pour les actions utilisateurs, et dans un premier temps je prévois d’utiliser quelques LEDs pour les sorties. Par la suite j’essairai peut-être d’incorporer un écran OLED que j’ai en stock, ça permettrait de se rapprocher d’une console de jeu 🎮.</p>
 
@@ -155,9 +163,9 @@
 
 <p>Le 6502 est un microprocesseur, et sa fonction principale est donc d’exécuter des instructions. Contrairement à un microcontrôleur, il n’a aucune mémoire interne et aucun périphérique. Il interragit avec le monde extérieur via un bus de données et un bus d’addresse, sur lesquels il peut lire et écrire des données. Les instructions à éxécuter, les données à traiter, et les données produites, tout passe par le bus. En général on connecte sur le bus une mémoire qui contient le programme et les données de travail, et des périphérique comme un afficheur, une carte son, etc.</p>
 
-<p>Pour commencer en douceur je suis la <a href="https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH">série de vidéos de Ben Eater</a> consacrée à la construction d’un ordinateur basé sur le 6502. Je commence par installer le 6502 sur une breadboard, je connecte l’alimentation et les signaux de contrôle de base, et j’ajoute un bouton reset. Le signal d’horloge est généré par un module basé sur un circuit 555 que j’ai construit précédemment en suivant les <a href="https://www.youtube.com/watch?v=kRlSFm519Bo">vidéos de Ben Eater</a> sur le sujet. J’utilise un Arduino Uno comme source d’alimentation et pour faire des observations par la suite.</p>
+<p>Pour commencer en douceur je suis la <a href="https://www.youtube.com/playlist?list=PLowKtXNTBypFbtuVMUVXNR0z1mu7dp7eH">série de vidéos de Ben Eater consacrée à la construction d’un ordinateur basé sur le 6502</a>. Je commence par installer le 6502 sur une breadboard, je connecte l’alimentation et les signaux de contrôle de base, et j’ajoute un bouton reset. Le signal d’horloge est généré par un module basé sur un circuit 555 que j’ai construit précédemment en suivant les <a href="https://www.youtube.com/watch?v=kRlSFm519Bo">vidéos de Ben Eater sur le sujet</a>. J’utilise un Arduino Uno comme source d’alimentation et pour faire des observations par la suite.</p>
 
-<p>Pour vérifier qu’il se passe quelque chose dans le processeur j’ai connecté les 4 bits de poids faible du bus d’adresse sur 4 LEDs, et j’ai constaté une activité. J’ai également connecté les lignes du bus de données directement sur l’alim ou la masse avec des résitances pour faire en sorte qu’à chaque fois que le CPU lit une donnée sur le bus il récupère la valeur 0xEA, qui correspond à l’instruction NOP (« No Operation »). Quand on observe les lignes d’adresse, on constate un comptage, qui correspond au fait que le CPU lit les instructions les unes après les autres dans la mémoire.</p>
+<p>Pour vérifier qu’il se passe quelque chose dans le processeur j’ai connecté les 4 bits de poids faible du bus d’adresse sur 4 LEDs, et j’ai constaté une activité. J’ai également connecté les lignes du bus de données directement sur l’alim ou la masse avec des résitances pour faire en sorte qu’à chaque fois que le CPU lit une donnée sur le bus il récupère la valeur <code class="language-plaintext highlighter-rouge">0xEA</code>, qui correspond à l’instruction <code class="language-plaintext highlighter-rouge">NOP</code> (« No Operation »). Quand on observe les lignes d’adresse, on constate un comptage, qui correspond au fait que le CPU lit les instructions les unes après les autres dans la mémoire.</p>
 
 <div class="inline-image-container">
 
@@ -180,7 +188,7 @@
 
 <p>J’ai ensuite connecté les lignes d’adresses à l’Arduino ainsi que le signal d’horloge, et écrit un programme simple pour lire et afficher les données à chaque tic d’horloge via une interruption. Ben Eater utilise un Arduino Mega pour observer les 16 lignes d’adresse et les 8 lignes de données, mais mon Arduino Uno n’a pas assez de pins pour me permettre d’observer toutes les lignes, je suis donc resté sur les 4 bits de poids faible de l’adresse uniquement.</p>
 
-<p>Lorsque le processeur démarre ou est réinitialisé, il va chercher l’adresse de la première instruction à exécuter. Pour cela il va lire une donnée de 16 bits aux adresses 0xFFFC et 0xFFFD, puis commence à récupérer les instructions à partir de cette adresse. Comme je n’observe que les 4 derniers bits de l’adresse, je m’attends à voir passer les valeurs C et D, qui correspondent aux valeurs binaires 1100 et 1101 respectivement. Lorsque j’appuie sur le bouton reset, je vois effectivement passer ces adresses. Comme le bus de données est câblé pour renvoyer 0xEA, le CPU va commencer à lire les instructions à partir de l’adresse 0xEAEA. La valeur A en binaire s’écrit 1010, et c’est effectivement la première adresse qu’on voit après C et D. Très cool !</p>
+<p>Lorsque le processeur démarre ou est réinitialisé, il va chercher l’adresse de la première instruction à exécuter. Pour cela il va lire une donnée de 16 bits aux adresses <code class="language-plaintext highlighter-rouge">0xFFFC</code> et <code class="language-plaintext highlighter-rouge">0xFFFD</code>, puis commence à récupérer les instructions à partir de cette adresse. Comme je n’observe que les 4 derniers bits de l’adresse, je m’attends à voir passer les valeurs <code class="language-plaintext highlighter-rouge">C</code> et <code class="language-plaintext highlighter-rouge">D</code>, qui correspondent aux valeurs binaires <code class="language-plaintext highlighter-rouge">1100</code> et <code class="language-plaintext highlighter-rouge">1101</code> respectivement. Lorsque j’appuie sur le bouton reset, je vois effectivement passer ces adresses. Comme le bus de données est câblé pour renvoyer <code class="language-plaintext highlighter-rouge">0xEA</code>, le CPU va commencer à lire les instructions à partir de l’adresse <code class="language-plaintext highlighter-rouge">0xEAEA</code>. La valeur <code class="language-plaintext highlighter-rouge">A</code> en binaire s’écrit <code class="language-plaintext highlighter-rouge">1010</code>, et c’est effectivement la première adresse qu’on voit après <code class="language-plaintext highlighter-rouge">C</code> et <code class="language-plaintext highlighter-rouge">D</code>. Très cool !</p>
 
 <div class="inline-image-container">
 
@@ -191,7 +199,7 @@
 <div class="inline-image-item">
     <p>
         <a href="/assets/projects/emulation/ADDR.mp4" title="Cliquer pour agrandir l'image">
-            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/ADDR.mp4" alt="Une capture vidéo du logiciel Arduino où l&#39;on voit un programme et des données 4 bits qui défilent. Les données montrent un motif de comptage." width="" height="550" style="width:" />
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/ADDR.mp4" alt="Une capture vidéo du logiciel Arduino où l&#39;on voit un programme et des données 4 bits qui défilent. Les données montrent un motif de comptage." width="" height="" style="width:" />
         </a>
     </p>
     <p class="image-legend">Lecture du bus d'adresse en temps réel</p>
@@ -200,12 +208,561 @@
         
 
 <div class="inline-image-item">
-    <p>
+    <p class="image-p">
         <a href="/assets/projects/emulation/FFFC.png" title="Cliquer pour agrandir l'image">
-            <img src="/assets/projects/emulation/FFFC.png" alt="Une capture d&#39;écran du logiciel Arduino où l&#39;on voit une capture de données. La donnée 1100 est mise en subrillance, la donnée suivante est 1101, et encore après on lit 1010, puis les valeurs s&#39;incrémentent." width="" height="550" style="width:" />
+            <img src="/assets/projects/emulation/FFFC.png" alt="Une capture d&#39;écran du logiciel Arduino où l&#39;on voit une capture de données. La donnée 1100 est mise en subrillance, la donnée suivante est 1101, et encore après on lit 1010, puis les valeurs s&#39;incrémentent." width="" height="" style="width:" />
         </a>
     </p>
-    <p class="image-legend">Lecture du bus d'adresse après un appui sur le bouton reset</p>
+    <p class="image-legend">Lecture du bus d'adresse après un reset</p>
+</div>
+
+    </div>
+
+</div>
+
+<p>Le code Arduino est disponible <a href="https://github.com/alexbinary/arduino-6502">sur GitHub</a>.</p>
+
+<h2 id="données-dynamiques">Données dynamiques</h2>
+
+<p>La prochaine étape est de fournir au CPU des données dynamiques en fonction de l’adresse qu’il demande, de sorte à former un programme qui ait du sens. Classiquement c’est le rôle d’une puce mémoire. Mais dans un premier temps j’expérimente avec Arduino.</p>
+
+<p>En plus des 4 lignes d’adresses utilisées jusque là, j’ajoute les 8 lignes du bus de données. Je connecte également le signal read/write pour détecter quand le CPU cherche à lire sur le bus.</p>
+
+<p>Avant d’aller plus loin je retravaille le programme pour afficher les nouvelles données, et je fais également en sorte que ce soit l’Arduino qui génère le signal d’horloge. Ça permet de mieux coordonner les actions sur le bus en fonction de l’horloge, et au passage de pouvoir régler librement la vitesse. Le module à base de 555 que j’utilise, bien que réglable, ne va pas aussi bas que je voudrais.</p>
+
+<p>Ces modifications en place, j’écris un code qui envoie <code class="language-plaintext highlighter-rouge">0xEA</code> sur le bus lorsque le CPU est en lecture.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<div class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/IMG_7383.JPG" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/IMG_7383.JPG" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <p class="image-legend">L'Arduino connecté aux 4 LSBs du bus d'adresse et aux 8 lignes du bus de données du 6502</p>
+</div>
+
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/EA.mp4" title="Cliquer pour agrandir l'image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/EA.mp4" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <p class="image-legend">L'Arduino écrit 0xEA sur le bus quand il détecte que le 6502 est en lecture</p>
+</div>
+
+    </div>
+
+</div>
+
+<p>Maintenant qu’on est capable d’envoyer des données dynamiques au CPU, on peut essayer de lui faire exécuter une petit programme. Très petit en l’occurrence puisque comme je travaille avec seulement 4 bits d’adresse on ne peut fournir que 16 octets au total, dans lesquels il faut compter les deux bits d’adresse du vecteur reset situés aux adresses <code class="language-plaintext highlighter-rouge">0xC</code> et <code class="language-plaintext highlighter-rouge">0xD</code>. Techniquement j’aurais pu ajouter un fil ou deux ce qui pourrait respectivement doubler ou quadrupler l’espace disponible, mais je trouvais que c’était un bon challenge.</p>
+
+<p>Pour que ce soit intéressant, je choisi des instructions qui provoquent des accès à la mémoire en lecture et en écriture. L’instruction <code class="language-plaintext highlighter-rouge">LDA</code> (Load Accumulator) charge dans l’accumulateur la valeur stockée à l’adresse indiquée. <code class="language-plaintext highlighter-rouge">ADC</code> (Add with Carry) additionne à l’accumulateur la valeur lue à l’adresse spécifiée. <code class="language-plaintext highlighter-rouge">STA</code> (Store Accumulator) écrit le contenu de l’accumulateur en mémoire. Chacun de ces trois instructions prennent en paramètre l’adresse mémoire à utiliser sur deux octets, les poids faibles en premier. Avec 3 instructions on a déjà rempli 9 octets. Immédiatement après je place les deux octets de données qui seront additionnés par le CPU. Il reste juste un octet libre avant le vecteur de reset.</p>
+
+<p>Voici le programme final (données en hexadécimal):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Addr</th>
+      <th>Instruction</th>
+      <th>Données</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">LDA $0009</code></td>
+      <td><code class="language-plaintext highlighter-rouge">AD 09 00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x3</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ADC $000A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">6D 0A 00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x6</code></td>
+      <td><code class="language-plaintext highlighter-rouge">STA $000B</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 0B 00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x9</code></td>
+      <td> </td>
+      <td><code class="language-plaintext highlighter-rouge">28</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xA</code></td>
+      <td> </td>
+      <td><code class="language-plaintext highlighter-rouge">02</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xB</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xC</code></td>
+      <td> </td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xD</code></td>
+      <td> </td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xE</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xF</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Explications :</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">LDA</code><span class="fixed-space"> </span><code class="language-plaintext highlighter-rouge">$0009</code> : Charger la valeur à l’adresse <code class="language-plaintext highlighter-rouge">0x09</code> dans l’accumulateur</li>
+  <li><code class="language-plaintext highlighter-rouge">ADC</code><span class="fixed-space"> </span><code class="language-plaintext highlighter-rouge">$000A</code> : Ajouter la valeur à l’adresse <code class="language-plaintext highlighter-rouge">0x0A</code> à la valeur présente dans l’accumulateur</li>
+  <li><code class="language-plaintext highlighter-rouge">STA</code><span class="fixed-space"> </span><code class="language-plaintext highlighter-rouge">$000B</code> : Écrire la valeur présente dans l’accumulateur à l’adresse <code class="language-plaintext highlighter-rouge">0x0B</code></li>
+</ol>
+
+<p>On devrait donc voir passer sur le bus les événements suivants :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Addr</th>
+      <th>R/W</th>
+      <th>Data</th>
+      <th>Événement</th>
+    </tr>
+  </thead>
+  <tbody class="monospace">
+    <tr>
+      <td>0xC</td>
+      <td>R</td>
+      <td>00</td>
+      <td class="normal-font" owspan="2">Lecture du vecteur reset</td>
+    </tr>
+    <tr>
+      <td>0xD</td>
+      <td>R</td>
+      <td>00</td>
+    </tr>
+    <tr><td></td><td></td><td></td><td></td></tr>
+    <tr>
+      <td>0x0</td>
+      <td>R</td>
+      <td>AD</td>
+      <td class="normal-font" rowspan="3">Lecture de la première instruction</td>
+    </tr>
+    <tr>
+      <td>0x1</td>
+      <td>R</td>
+      <td>09</td>
+    </tr>
+    <tr>
+      <td>0x2</td>
+      <td>R</td>
+      <td>00</td>
+    </tr>
+    <tr><td></td><td></td><td></td><td></td></tr>
+    <tr>
+      <td>0x9</td>
+      <td>R</td>
+      <td>28</td>
+      <td class="normal-font">Lecture de la donnée</td>
+    </tr>
+    <tr><td></td><td></td><td></td><td></td></tr>
+    <tr>
+      <td>0x3</td>
+      <td>R</td>
+      <td>6D</td>
+      <td class="normal-font" rowspan="3">Lecture de la deuxième instruction</td>
+    </tr>
+    <tr>
+      <td>0x4</td>
+      <td>R</td>
+      <td>09</td>
+    </tr>
+    <tr>
+      <td>0x5</td>
+      <td>R</td>
+      <td>00</td>
+    </tr>
+    <tr><td></td><td></td><td></td><td></td></tr>
+    <tr>
+      <td>0xA</td>
+      <td>R</td>
+      <td>02</td>
+      <td class="normal-font">Lecture de la donnée</td>
+    </tr>
+    <tr><td></td><td></td><td></td><td></td></tr>
+    <tr>
+      <td>0x6</td>
+      <td>R</td>
+      <td>8D</td>
+      <td class="normal-font" rowspan="3">Lecture de la troisième instruction</td>
+    </tr>
+    <tr>
+      <td>0x7</td>
+      <td>R</td>
+      <td>0B</td>
+    </tr>
+    <tr>
+      <td>0x8</td>
+      <td>R</td>
+      <td>00</td>
+    </tr>
+    <tr><td></td><td></td><td></td><td></td></tr>
+    <tr>
+      <td>0xB</td>
+      <td>W</td>
+      <td>2A</td>
+      <td class="normal-font">Ecriture de la donnée</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Le résultat correspond bien à ce qui est attendu :</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/pgm.mp4" title="Cliquer pour agrandir l'image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/pgm.mp4" alt="" width="70%" height="" style="width:70%" />
+        </a>
+    </p>
+    <p class="image-legend">Exécution du premier programme</p>
+</div>
+
+    </div>
+
+</div>
+
+<p>Le code Arduino est disponible <a href="https://github.com/alexbinary/arduino-6502">sur GitHub</a>.</p>
+
+<h2 id="utilisation-dune-eeprom">Utilisation d’une EEPROM</h2>
+
+<p>L’Arduino est bien sympatique, mais dans le système final les données sont stockées dans une puce mémoire. J’utilise ici une puce EEPROM de 32ko. C’est une mémoire destinée à être utilisée en lecture seule, mais qu’on peut effacer et programmer éléctroniquement.</p>
+
+<p>Je veux commencer par la base, en faisant des lectures et écritures en manipulant directement les signaux de contrôle. Sur une breadboard je connecte huit LEDs au bus de données de la ROM et je force toutes les lignes d’adresse à zéro à l’aide de cavaliers, sauf les quatre bits de poids faible que je connecte avec des fils de connexion repositionnables facilement.</p>
+
+<p>Il y a 3 signaux de contrôle sur la ROM :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Signal</th>
+      <th>Signification</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">/CE</code></td>
+      <td>Chip Enabled</td>
+      <td>Active la puce</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">/OE</code></td>
+      <td>Output Enabled</td>
+      <td>Active la sortie de données</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">/WE</code></td>
+      <td>Write Enabled</td>
+      <td>Déclenche l’écriture</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Sur la breadboard je connecte CE à 0, et je gère manuellement OE et WE.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<div class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/IMG_7389.JPG" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/IMG_7389.JPG" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <p class="image-legend">Montage de test de la ROM</p>
+</div>
+
+    </div>
+
+</div>
+
+<p>Je commence par tester la lecture. Je mets <code class="language-plaintext highlighter-rouge">/OE</code> à <code class="language-plaintext highlighter-rouge">0</code> pour activer la sortie et <code class="language-plaintext highlighter-rouge">/WE</code> à <code class="language-plaintext highlighter-rouge">1</code> pour être en mode lecture, et je fais défiler les adresses en repositionnant les 4 fils prévus à cet effet. Les LEDs affichent le contenu stocké dans la mémoire à chaque adresse.</p>
+
+<p>Voici mon relevé :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Adresse</th>
+      <th>Donnée</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0001</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0003</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0004</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0005</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0006</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0007</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0008</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0009</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000B</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000C</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000D</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000E</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x000F</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Je teste maintenant une écriture. Le fonctionnement est le suivant : En temps normal (mode lecture) <code class="language-plaintext highlighter-rouge">/WE</code> est à <code class="language-plaintext highlighter-rouge">1</code>. Lorsque <code class="language-plaintext highlighter-rouge">/WE</code> passe à <code class="language-plaintext highlighter-rouge">0</code>, la puce capture la valeur présente sur le bus d’adresse. Quand <code class="language-plaintext highlighter-rouge">/WE</code> repasse à <code class="language-plaintext highlighter-rouge">1</code> elle capture la donnée et procède à l’écriture dans la mémoire.</p>
+
+<p>Je commence par désactiver la sortie en plaçant <code class="language-plaintext highlighter-rouge">/OE</code> à <code class="language-plaintext highlighter-rouge">1</code>. Je configure l’adresse <code class="language-plaintext highlighter-rouge">0</code>, puis je forme la valeur <code class="language-plaintext highlighter-rouge">0xEA</code> sur le bus de données à l’aide de cavaliers, et je vérifie la valeur sur les LEDs. Enfin je fais passer <code class="language-plaintext highlighter-rouge">/WE</code> à <code class="language-plaintext highlighter-rouge">0</code> puis de nouveau à <code class="language-plaintext highlighter-rouge">1</code>.</p>
+
+<p>Je repasse en mode lecture en enlevant les cavalier sur les lignes de données, je remet <code class="language-plaintext highlighter-rouge">/OE</code> à <code class="language-plaintext highlighter-rouge">0</code>, et je vois bien la valeur 0xEA apparaître sur les LEDs. Je regarde les autres adresses et constate que je retrouve bien les valeurs relevées précédemment à l’éxception de l’adresse <code class="language-plaintext highlighter-rouge">0</code> qui affiche désormais <code class="language-plaintext highlighter-rouge">0xEA</code>. Première écriture manuelle réussie !</p>
+
+<p>Je connecte maintenant l’adresse et les données ainsi que les signaux de contrôle à l’Arduino et code un programme pour automatiser les lectures et écritures.</p>
+
+<p>Dans un premier temps le programme parcours séquentiellement les 16 adresses et affiche la données correspondante à chacune. Ça fonctionne bien et je retrouve bien le relevé initial avec la valeur <code class="language-plaintext highlighter-rouge">0xEA</code> à l’adresse <code class="language-plaintext highlighter-rouge">0</code>. Je code ensuite l’écriture, en commençant par une fonction qui écrit un seul octet. Il faut reproduire la séquence des signaux de contrôle que j’ai effectuée à la main juste avant. Ensuite j’ajoute la possibilité d’écrire une séquence de valeurs une à une.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<div class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/writeByte.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/writeByte.png" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <p class="image-legend">Fonction d'écriture d'un octet dans la ROM</p>
+</div>
+
+    </div>
+
+</div>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/ROM.mp4" title="Cliquer pour agrandir l'image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/ROM.mp4" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <p class="image-legend">Ecriture des 14 premiers octets puis relecture</p>
+</div>
+
+    </div>
+
+</div>
+
+<p>Le code Arduino est disponible <a href="https://github.com/alexbinary/arduino-6502">sur GitHub</a>.</p>
+
+<h2 id="connexion-au-6502">Connexion au 6502</h2>
+
+<p>L’objectif maintenant est de connecter la ROM au CPU pour que celui-ci lise et exécute le programme. En laissant la ROM sur sa breadboard, je relie désormais les 4 lignes d’adresse et le bus de données sur les broches correspondantes du 6502. Ce faisant je remarque que j’avais du aller un peu vite quand j’ai choisi les quatre lignes d’adresse à manipuler sur la ROM car ce n’était pas du tout les quatre bits de poids faible, bien que c’était mon intention. Il s’agissait en fait des lignes 13, 8, 9 et 11. En réalité ce n’est pas gênant, du moment que je connecte au CPU les mêmes lignes de la même manière, il retrouvera les données aux adresses attendues.</p>
+
+<p>Pour analyser le résulat je choisis de me baser sur les LEDs connectés au bus de données de la ROM. Ce n’est pas forcément le plus pratique, et je pourrais connecter l’Arduino comme précédemment mais je n’ai pas envie d’ajouter encore davantage de fils volants à un montage déjà très chargé. Mais surtout j’aime utiliser toutes les opportunités qui se présentent pour confronter mes prédictions à la réalité. Parfois ça met en valeur des lacunes dans ma compréhension.</p>
+
+<p>Avant de lancer le test je modifie le programme de sorte que le bus reste en mode lecture. Je retire l’instruction <code class="language-plaintext highlighter-rouge">STA</code> et restructure un peu l’ordre. Voici le nouveau programme :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Addr</th>
+      <th>Instruction</th>
+      <th>Données</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">LDA $0009</code></td>
+      <td><code class="language-plaintext highlighter-rouge">AD 09 00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x3</code></td>
+      <td><code class="language-plaintext highlighter-rouge">LDA $000A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">AD 0A 00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x6</code></td>
+      <td><code class="language-plaintext highlighter-rouge">ADC $000B</code></td>
+      <td><code class="language-plaintext highlighter-rouge">6D 0B 00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x9</code></td>
+      <td> </td>
+      <td><code class="language-plaintext highlighter-rouge">28</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xA</code></td>
+      <td> </td>
+      <td><code class="language-plaintext highlighter-rouge">02</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xB</code></td>
+      <td> </td>
+      <td><code class="language-plaintext highlighter-rouge">0A</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xC</code></td>
+      <td> </td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xD</code></td>
+      <td> </td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xE</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xF</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Si tout se passe bien on est sensé observer les données suivantes sur le bus :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Hexa</th>
+      <th>Binaire</th>
+      <th>Explication</th>
+    </tr>
+  </thead>
+  <tbody class="monospace">
+    <tr><td>00</td><td>0000&nbsp;0000</td><td class="normal-font" rowspan="2">Vecteur Reset</td></tr>
+    <tr><td>00</td><td>0000&nbsp;0000</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td>AD</td><td>1010&nbsp;1101</td><td class="normal-font" rowspan="3">Première instruction</td></tr>
+    <tr><td>09</td><td>0000&nbsp;1001</td></tr>
+    <tr><td>00</td><td>0000&nbsp;0000</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td>28</td><td>0010&nbsp;1000</td><td class="normal-font">Donnée</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td>AD</td><td>1010&nbsp;1101</td><td class="normal-font" rowspan="3">Deuxième instruction</td></tr>
+    <tr><td>0A</td><td>0000&nbsp;1010</td></tr>
+    <tr><td>00</td><td>0000&nbsp;0000</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td>02</td><td>0000&nbsp;0010</td><td class="normal-font">Donnée</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td>6D</td><td>0110&nbsp;1101</td><td class="normal-font" rowspan="3">Troisième instruction</td></tr>
+    <tr><td>0B</td><td>0000&nbsp;1011</td></tr>
+    <tr><td>00</td><td>0000&nbsp;0000</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td>0A</td><td>0000&nbsp;1010</td><td class="normal-font">Donnée</td></tr>
+  </tbody>
+</table>
+
+<p>Les premières observations m’ont laissé perplexe. Les résultats n’avaient pas l’air de correspondre à ce qui est attendu, et j’ai commencé à me demander ce qui n’allait pas. J’avais l’impression de reconnaitre le <code class="language-plaintext highlighter-rouge">02</code> (<code class="language-plaintext highlighter-rouge">0000 0010</code>) mais à l’envers, mais je ne voyais pas comment les données auraient pu être inversées. Et puis j’ai réalisé que je lisais les LEDs dans le mauvais sens ! Je m’attendais à voir la même chose que ce que j’avais affiché à l’écran pour référence, mais sur les LEDs les bits de poids faible étaient à gauche et non à droite. J’ai retourné la plaque et là tout semblait correspondre. J’ai filmé la séquence pour analyser les résultat plus rigourseuement, et je confirme que tout correspond parfaitement.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<div class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/IMG_7393.mp4" title="Cliquer pour agrandir l'image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/IMG_7393.mp4" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <p class="image-legend">Observation des données qui transitent sur le bus</p>
 </div>
 
     </div>
@@ -214,13 +771,13 @@
 
 <h2 id="la-suite">La suite</h2>
 
-<p>La prochaine étape est de fournir au CPU des données dynamiques en fonction de l’adresse qu’il demande, de sorte à former un programme qui ait du sens. Classiquement c’est le rôle d’une puce mémoire. Mais on peut aussi utiliser Arduino.</p>
+<p>Je veux maintenant connecter la ROM au 6502 de manière un peu plus permanente sur la même breadboard, câbler toutes les lignes d’adresse et de données, ainsi que la logique d’activation de la puce. Pour ça il sera utile de pouvoir programmer l’intrégralité de la mémoire disponible, et j’ai quelques idées à ce sujet. Après ça je pourrais commencer à installer la puce d’entrées-sorties qui permettra d’avoir enfin des résultats observables.</p>
 
   </div>
 
   <div class="last-updated">
     
-    Dernière mise à jour le 2 juin 2026
+    Dernière mise à jour le 6 juin 2026
     
 </div>
 

@@ -31,7 +31,10 @@ case "$1" in
 		rm palette.png
 		;;
 	video)
-		ffmpeg -i $2 -an -c:v libx264 -crf 30 -preset slow -vf "fps=15,scale=640:-2" -movflags +faststart $2.mp4
+		ffmpeg -i $2 -an -c:v libx264 -crf 30 -preset slow -vf "fps=15,scale=1040:-2" -movflags +faststart $2.mp4
+		;;
+	image)
+		magick $2 -strip -interlace Plane -quality 75 $2
 		;;
 	*)
 		echo "Usage: dev {open|start|deploy|newproject|gif}"
