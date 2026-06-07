@@ -90,6 +90,10 @@ code {
     width: 0.5rem;
 }
 
+.highlighter-rouge .highlight {
+    background-color: transparent;
+}
+
 
 
 /* ---- Header */

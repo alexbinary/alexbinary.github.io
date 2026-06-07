@@ -21,7 +21,7 @@
     <meta property="twitter:title" content="Alexandre Bintz" />
 
     <link rel="stylesheet" href="/assets/main.css">
-    <link rel="stylesheet" href="/assets/css/custom.css?v=20260606094343"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260607084116"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -1056,7 +1056,7 @@
             <img src="/assets/projects/emulation/IMG_7402.JPG" alt="" width="50%" height="" style="width:50%" />
         </a>
     </p>
-    <figcaption class="image-legend">Premier montage expérimental du registre à décalage avec Arduino</figcaption>
+    <figcaption class="image-legend">Premier montage du registre à décalage avec Arduino</figcaption>
 </figure>
 
     </div>
@@ -1165,9 +1165,365 @@
 
 <p>Le code Arduino est disponible <a href="https://github.com/alexbinary/arduino-eeprom-programmer">sur GitHub</a>.</p>
 
+<h2 id="programmation-de-la-rom">Programmation de la ROM</h2>
+
+<p>Tout est désormais prêt pour pouvoir programmer la ROM. Je place celle-ci sur la breadboard à la place des LEDs. Je connecte l’alimentation et je force <code class="language-plaintext highlighter-rouge">/CE</code> à <code class="language-plaintext highlighter-rouge">0</code>. Je connecte ensuite les 15 lignes d’adresse aux sorties des registres, dans l’ordre en commençant par les poids faibles. Sur la dernière ligne du dernier registre, je connecte <code class="language-plaintext highlighter-rouge">/OE</code>. Ce qui donne ceci :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Registre</th>
+      <th>Sortie</th>
+      <th>Entrée ROM</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>R1</td>
+      <td>QA</td>
+      <td>A0</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QB</td>
+      <td>A1</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QC</td>
+      <td>A2</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QD</td>
+      <td>A3</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QE</td>
+      <td>A4</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QF</td>
+      <td>A5</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QG</td>
+      <td>A6</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QH</td>
+      <td>A7</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QA</td>
+      <td>A8</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QB</td>
+      <td>A9</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QC</td>
+      <td>A10</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QD</td>
+      <td>A11</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QE</td>
+      <td>A12</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QF</td>
+      <td>A13</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QG</td>
+      <td>A14</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QH</td>
+      <td>/OE</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Je connecte <code class="language-plaintext highlighter-rouge">/WE</code> et les lignes de données directement à l’Arduino comme avant, et je suis prêt à passer au codage. Je prends la <a href="https://www.youtube.com/watch?v=K88pgWhEb1M">vidéo de Ben Eater</a> comme référence, mais j’essaie de faire le plus possible par moi-même et d’expérimenter à ma manière. Je reprends le code précédemment utilisé pour programmer la ROM, et je modifie la fonction <code class="language-plaintext highlighter-rouge">setAddr()</code> pour utiliser désormais les registres à décalage. Je lui ajoute un paramètre qui permettra d’envoyer la bonne valeur de <code class="language-plaintext highlighter-rouge">/OE</code>.</p>
+
+<p>La logique de shifting est un peu technique. Le but est de pousser les bits de l’adresse dans les registres dans le bon ordre pour qu’au final on ait les bons bits sur les bonnes lignes d’adresses de la ROM + le bit correspondant à <code class="language-plaintext highlighter-rouge">/OE</code>. J’utilise la fonction Arduino <code class="language-plaintext highlighter-rouge">shiftOut()</code>, et même si on peut lui passer un nombre qui s’écrit sur plus de 8 bits, elle ne pousse que les 8 premiers bits. Il faut donc découper notre adresse en deux paquets de 8 bits et faire deux appels à la fonction. Un paramètre supplémentaire permet de dire dans quel ordre on veut pousser les données :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Signification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">MSBFIRST</code></td>
+      <td>Bits de poids fort en premier</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">LSBFIRST</code></td>
+      <td>Bits de poids faible en premier</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Si on pousse <code class="language-plaintext highlighter-rouge">1110 1010</code> (<code class="language-plaintext highlighter-rouge">0xEA</code>) :</p>
+<ul>
+  <li>Avec <code class="language-plaintext highlighter-rouge">MSBFIRST</code>, les bits sont poussés dans cet ordre : <code class="language-plaintext highlighter-rouge">1,1,1,0,1,0,1,0</code></li>
+  <li>Avec <code class="language-plaintext highlighter-rouge">LSBFIRST</code>, les bits sont poussés dans cet ordre : <code class="language-plaintext highlighter-rouge">0,1,0,1,0,1,1,1</code></li>
+</ul>
+
+<p>Si on pousse 16 bits, le premier bit qu’on pousse va se retrouver sur la dernière ligne de données, et le dernier bit poussé finira sur la première. Dans notre cas il faut donc pousser les poids forts en premier.</p>
+
+<p>Voici ce que j’ai écrit initialement :</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/shift1.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/shift1.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend"></figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<h3 id="lecture">Lecture</h3>
+
+<p>J’essaie de lire les données depuis la ROM mais ça ne fonctionne pas, je ne retrouve pas les données programmées précédemment. Tout est faux. Je soupçonne immédiatement une erreur dans le code précédent vu que c’est la parte la plus complexe mais rien ne me saute aux yeux. J’extrais donc la logique dans une fonction de test et affiche le résultat dans la console en forçant les valeurs d’entrée. Je constate qu’effectivement ça fait n’importe quoi 🤦‍♂️. D’abord il y a une faute de frappe dans la deuxième ligne, il faut un seul <code class="language-plaintext highlighter-rouge">&amp;</code> et pas deux car on veut faire un <code class="language-plaintext highlighter-rouge">ET</code> binaire et non pas un <code class="language-plaintext highlighter-rouge">ET</code> logique. Ensuite pour que le bit <code class="language-plaintext highlighter-rouge">/OE</code> soit en position 8, en partant de la position 1, il faut le décaler de 7 bits et non de 8. Au final j’ai fait comme Ben Eater et j’ai utilisé directement la valeur <code class="language-plaintext highlighter-rouge">0x80</code>. Ça rend le code un peu plus lisible.</p>
+
+<p>Voici la version corrigée qui fonctionne :</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/shift2.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/shift2.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend"></figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Le code Arduino est disponible <a href="https://github.com/alexbinary/arduino-eeprom-programmer">sur GitHub</a>.</p>
+
+<h3 id="écriture">Écriture</h3>
+
+<p>Je teste maintenant l’écriture, et ça ne fonctionne pas bien. Je teste d’écrire un octets, plusieurs, je teste plusieurs fois chaque code, ça semble fonctionner parfois, et parfois non. Je relis attentivement le code et tout me semble correct. Perplexe, je fais appel à ChatGPT. Je lui copie colle mon code sans rien dire d’autre pour ne pas l’influencer et voir ce qu’il dit spontanément.</p>
+
+<p>Il mentionne un délai manquant après le pulse <code class="language-plaintext highlighter-rouge">/WE</code>. C’est intéressant car je n’y avais pas pensé. L’écriture ne se fait pas lorsque <code class="language-plaintext highlighter-rouge">/WE</code> passe à <code class="language-plaintext highlighter-rouge">0</code> mais lorsqu’il repasse à <code class="language-plaintext highlighter-rouge">1</code>, et il faut laisser un peu de temps pour que la ROM écrive la donnée dans la mémoire. J’ajoute donc un <code class="language-plaintext highlighter-rouge">delay()</code> après <code class="language-plaintext highlighter-rouge">digitalWrite(WEB, HIGH)</code> et sur le coup ça semble fonctionner, mais ensuite ça ne marche de nouveau plus.</p>
+
+<p>J’écris un programme de test qui écrit et relit en boucle en défilant les valeurs et/ou les adresses, et je constate que certaines écritures passent et d’autres pas, sans logique visible. Je laisse tourner le programme et inspecte les connexions. Je détecte que le résultat semble impacté par le fait que j’ajuste le fil qui porte <code class="language-plaintext highlighter-rouge">/WE</code>. Je soupçonne donc un mauvais contact. Je remplace le fil et ça semble mieux fonctionner.</p>
+
+<p>Je relance des tests et ça fonctionne effectivement mieux. Cependant un problème subsiste. Quand j’écris une séquence, à chaque fois le premier octet ne s’écrit pas correctement. Dans les remarques de ChatGPT du début, il y avait une note sur l’ordre des appels à <code class="language-plaintext highlighter-rouge">pinMode()</code> et <code class="language-plaintext highlighter-rouge">digitalWrite()</code>. Je n’avais pas prêté attention à cette remarque parce que j’avais suivi les conseils de Ben Eater et placé <code class="language-plaintext highlighter-rouge">digitalWrite()</code> en premier pour garantir que la pin ne passe jamais à <code class="language-plaintext highlighter-rouge">0</code>, ce qui pourrait déclencher des écritures non désirées. Ben explique que même si ça parait contre intuitif, en fait ça fonctionne et c’est la bonne manière de faire.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/pinMode1.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/pinMode1.png" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">D'après la vidéo de Ben Eater, ce code devrait laisser WEB à 1</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Comme dans mon cas vu que c’est systématiquement la première écriture qui ne passe pas, je soupçonne fortement que <code class="language-plaintext highlighter-rouge">/WE</code> n’est pas à <code class="language-plaintext highlighter-rouge">1</code> au début comme prévu. Je rajoute donc un <code class="language-plaintext highlighter-rouge">digitalWrite()</code> après le <code class="language-plaintext highlighter-rouge">pinMode()</code>, et ça fonctionne.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/pinMode2.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/pinMode2.png" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Dans mon cas il est nécessaire de rappeler digitalWrite() après pinMode() pour laisser WEB à 1</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Je rajoute aussi un <code class="language-plaintext highlighter-rouge">digitalWrite()</code> au moment où je fais le pulse pour être sûr qu’on part bien de <code class="language-plaintext highlighter-rouge">1</code>.</p>
+
+<p>Pour bien valider mes observations, je branche rapidement le signal <code class="language-plaintext highlighter-rouge">/WE</code> sur une LED, et je constate effectivement qu’après <code class="language-plaintext highlighter-rouge">digitalWrite()</code> et <code class="language-plaintext highlighter-rouge">pinMode()</code> dans cet ordre, la LED ne s’allume pas. Elle s’allume seulement après un nouveau <code class="language-plaintext highlighter-rouge">digitalWrite()</code>.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<figure class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/pinMode3.mp4" title="Cliquer pour agrandir l'image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/pinMode3.mp4" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">digitalWrite() avant pinMode() laisse la pin à 0</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Je n’ai pas d’explications sur le fait que ça fonctionnait chez Ben Eater et pas chez moi. Peut-être des variations selon les modèles d’Arduino.</p>
+
+<p>Au passage je note également que le signal passe à <code class="language-plaintext highlighter-rouge">0</code> quand je reset ou programme l’Arduino, et je me demande si ça peut déclencher des écritures non désirées, vu que la ROM reste active pendant ce temps là. Si on part du principe que toutes les pins passent à <code class="language-plaintext highlighter-rouge">0</code>, alors ça inclue <code class="language-plaintext highlighter-rouge">/OE</code>, et aucune écriture n’est possible s’il est à <code class="language-plaintext highlighter-rouge">0</code>, donc ça devrait être bon. Peut-être que pour être sûr on pourrait connecter le signal <code class="language-plaintext highlighter-rouge">/CE</code> à l’Arduino via un inverseur au lieu de le forcer physiquement à <code class="language-plaintext highlighter-rouge">0</code> sur la board, ce qui permettrait de n’activer la ROM que lorsque l’Arduino est prêt. Ça fonctionne bien comme ça donc je ne touche à rien pour l’instant, mais c’est le genre de choses qui peut venir causer des problèmes à un moment où n’y pense pas.</p>
+
+<h3 id="optimisation">Optimisation</h3>
+
+<p>Maintenant que tout fonctionne correctement, je peux essayer d’accélérer les opérations. Jusque là j’avais mis des <code class="language-plaintext highlighter-rouge">delay(100)</code> pour être sûr que ça fonctionne et avoir le temps de voir ce qui se passe, mais si on veut lire ou écrire des quantités de données non triviales ça prend beaucoup trop de temps pour rien.</p>
+
+<p>Pour essayer de faire les choses correctement, je parcours les datasheet des différents composants pour déterminer les délais minimaux à respecter. Pour l’EEPROM <a href="https://ww1.microchip.com/downloads/en/DeviceDoc/doc0006.pdf">AT28C256</a>, le délai maximum entre le changement d’adresse et la disponibilité de la donnée en sortie est indiqué à 150 ns. Je fais un calcul rapide en fonction de la fréquence de travail de l’Arduino. Mon modèle <a href="https://docs.arduino.cc/resources/datasheets/ABX00087-datasheet.pdf">Uno R4 WiFi</a> fonctionne à 48 MHz, ce qui correspond à une durée d’environ 20 ns par cycle. Une fonction haut niveau du type <code class="language-plaintext highlighter-rouge">digitalWrite()</code> prend certainement de nombreux cycles d’horloge donc ça devrait marcher sans mettre aucun <code class="language-plaintext highlighter-rouge">delay()</code>. Je mets quand même un <code class="language-plaintext highlighter-rouge">delayMicroseconds(1)</code> pour assurer le coup. Je teste et ça fonctionne. De la même manière, je remplace le <code class="language-plaintext highlighter-rouge">delay(100)</code> par <code class="language-plaintext highlighter-rouge">delayMicroseconds(1)</code> dans le pulse de <code class="language-plaintext highlighter-rouge">/WE</code> sans soucis.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/delay.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/delay.png" alt="" width="70%" height="" style="width:70%" />
+        </a>
+    </p>
+    <figcaption class="image-legend"></figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Pour le  registres à décalage <a href="https://www.ti.com/lit/ds/symlink/sn74hc595.pdf">74HC595</a>, la doc indique que pour le latch une durée d’impulsion d’environ 1µs devrait largement suffire. Pourtant ici ça ne fonctionne pas. Je teste différentes valeurs et détermine que 10ms est le minimum qui fonctionne. Ça me laisse perplexe. À cette vitesse, programmer toute la ROM, soit 32000 adresses, prendrait au moins 320s, soit plus de 5 minutes.</p>
+
+<p>J’interroge ChatGPT qui n’est pas d’une grande aide, mais me permet quand même de déterminer que le problème n’est pas la durée du pulse mais le délai qui le précède. Voici le meilleur code que je peux obtenir :</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/delay2.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/delay2.png" alt="" width="70%" height="" style="width:70%" />
+        </a>
+    </p>
+    <figcaption class="image-legend"></figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Je me dis que c’est peut-être un problème du à la breadboard, mais pourtant chez Ben Eater ça fonctionne parfaitement sans délai. Peut-être que c’est la qualité de mes breadboard premier prix d’Aliexpress qui est mauvaise, ou alors les contacts ne sont pas bons. Je n’y crois pas tellement et même ChatGPT semble septique.</p>
+
+<blockquote>
+  <p>Even a terrible breadboarded HC595 setup should not require that.</p>
+</blockquote>
+
+<p>Et puis en y réfléchissant, le délai est entre le moment où on pousse les données dans les registres à décalage et le moment où on demande de mettre à jour la sortie des registres avec les données poussées. Il n’y a aucune transmission longue distance en jeu, tout se passe dans les registres, donc la breadboard ne devrait pas avoir d’impact. Je n’ai pas d’explication.</p>
+
+<h3 id="nettoyage-et-améliorations">Nettoyage et améliorations</h3>
+
+<p>Maintenant que la lecture et l’écriture fonctionnent (au délai près), je remet un peu d’ordre dans le code. Je réécris une fonction <code class="language-plaintext highlighter-rouge">print()</code> qui affiche des lignes de 16 octets plutôt qu’une seule adresse à la fois, et je fais en sorte de pouvoir lui passer une adresse arbitraire même si elle n’est pas un multiple de 16.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/readROM.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/readROM.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">La fonction de lecture qui affiche des lignes de 16 octets</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>J’ajoute aussi une fonction pour écrire une valeur sur deux octets. Grâce à ces changements je peux désormais écrire ce genre de choses :</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/asm.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/asm.png" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Prémisce d'un assembleur !</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Pour l’instant le code laisse un délai fixe entre chaque écriture, mais la ROM fournit un moyen de détecter la fin de l’opération d’écriture. Ça permettrai d’envoyer la donnée suivante dès que la mémoire est prête à la recevoir. Implémenter cette fonction serait un bon exercice technique, mais dans mon cas ça n’améliorerait pas la vitesse d’écriture puisque pour l’instant c’est le délai dans les registres à décalage qui limite la vitesse globale, et de très loin. Une idée à garder en tête si je trouve une solution pour ça.</p>
+
+<p>Le code Arduino est disponible <a href="https://github.com/alexbinary/arduino-eeprom-programmer">sur GitHub</a>.</p>
+
 <h2 id="la-suite">La suite</h2>
 
-<p>Les registres à décalage vont permettre de créer un circuit de programmation complète de la ROM avec Arduino malgré la limitation du nombre de broches. Une fois capable d’écrire des programmes arbitrairement longs, je pourrai commencer à installer une puce d’entrées-sorties qui permettra de connecter des périphériques au 6502 et d’avoir enfin des résultats observables sans instruments.</p>
+<p>Maintenant que je peux écrire dans la mémoire des programmes arbitrairement longs, je peux commencer à installer la puce d’entrées-sorties qui permettra de connecter des périphériques au 6502 et de visualiser enfin l’activité du CPU sans instruments.</p>
 
   </div>
 

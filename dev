@@ -32,6 +32,7 @@ case "$1" in
 		;;
 	video)
 		ffmpeg -i $2 -an -c:v libx264 -crf 30 -preset slow -vf "fps=15,scale=1040:-2" -movflags +faststart $2.mp4
+		mv $2.mp4 $2
 		;;
 	stab)
 		ffmpeg -i $2 -vf vidstabdetect=result=transforms.trf -f null -
@@ -44,10 +45,18 @@ case "$1" in
 		ffmpeg -i $2 -vf "crop=$3" $2.crop.mp4
 		mv $2.crop.mp4 $2
 		;;
+
+		# Crop screenshot video shadow :
+		# left: 110, right: 110
+		# top: 75, bottom: 140
+		# original : 1696 × 1976 => 1476:1760:110:75
+
+		
+		
 	photo)
 		magick $2 -strip -interlace Plane -quality 75 $2
 		;;
 	*)
-		echo "Usage: dev {open|start|deploy|newproject|gif|video|photo}"
+		echo "Usage: dev {open|start|deploy|newproject|gif|video|stab|crop|photo}"
 		;;
 esac

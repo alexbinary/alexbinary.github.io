@@ -21,7 +21,7 @@
     <meta property="twitter:title" content="Alexandre Bintz" />
 
     <link rel="stylesheet" href="/assets/main.css">
-    <link rel="stylesheet" href="/assets/css/custom.css?v=20260606094343"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260607084116"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -1167,9 +1167,366 @@
 
 <p>Arduino code is available <a href="https://github.com/alexbinary/arduino-eeprom-programmer">on GitHub</a>.</p>
 
-<h2 id="whats-next">What’s next</h2>
+<h2 id="programming-the-rom">Programming the ROM</h2>
 
-<p>Shift registers make it possible to build a complete ROM programming circuit using an Arduino despite its limited number of I/O pins. Once I can write arbitrarily long programs, I will be able to install an I/O chip that will let me connect peripherals to the 6502, finally making it possible to obtain directly observable results.</p>
+<p>Everything is now ready to program the ROM. I place it on the breadboard, replacing the LEDs. I connect the power supply and force <code class="language-plaintext highlighter-rouge">/CE</code> to <code class="language-plaintext highlighter-rouge">0</code>. I then connect the 15 address lines to the outputs of the shift registers, in order starting with the least significant bits. On the last output of the last register, I connect <code class="language-plaintext highlighter-rouge">/OE</code>. This gives the following mapping:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Register</th>
+      <th>Output</th>
+      <th>ROM Input</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>R1</td>
+      <td>QA</td>
+      <td>A0</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QB</td>
+      <td>A1</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QC</td>
+      <td>A2</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QD</td>
+      <td>A3</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QE</td>
+      <td>A4</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QF</td>
+      <td>A5</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QG</td>
+      <td>A6</td>
+    </tr>
+    <tr>
+      <td>R1</td>
+      <td>QH</td>
+      <td>A7</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QA</td>
+      <td>A8</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QB</td>
+      <td>A9</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QC</td>
+      <td>A10</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QD</td>
+      <td>A11</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QE</td>
+      <td>A12</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QF</td>
+      <td>A13</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QG</td>
+      <td>A14</td>
+    </tr>
+    <tr>
+      <td>R2</td>
+      <td>QH</td>
+      <td>/OE</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>I connect <code class="language-plaintext highlighter-rouge">/WE</code> and the data lines directly to the Arduino as before, and I’m ready to start coding. I use <a href="https://www.youtube.com/watch?v=K88pgWhEb1M">Ben Eater’s video</a> as a reference, but I try to do as much as possible on my own and experiment in my own way. I reuse the code that was previously used to program the ROM and modify the <code class="language-plaintext highlighter-rouge">setAddr()</code> function so that it now uses the shift registers, and I add a parameter for the value of <code class="language-plaintext highlighter-rouge">/OE</code>.</p>
+
+<p>The shifting logic is a bit technical. The goal is to push the address bits into the registers in the correct order so that the right bits ultimately appear on the correct ROM address lines, as well as the <code class="language-plaintext highlighter-rouge">/OE</code> bit. I use the Arduino <code class="language-plaintext highlighter-rouge">shiftOut()</code> function, and although it can be passed a number larger than 8 bits, it only shifts out the first 8 bits. Therefore, the address must be split into two 8-bit chunks and I need to call the function twice. An additional parameter determines the order in which the bits are shifted out:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">MSBFIRST</code></td>
+      <td>Most significant bits first</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">LSBFIRST</code></td>
+      <td>Least significant bits first</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If we shift out <code class="language-plaintext highlighter-rouge">1110 1010</code> (<code class="language-plaintext highlighter-rouge">0xEA</code>):</p>
+
+<ul>
+  <li>With <code class="language-plaintext highlighter-rouge">MSBFIRST</code>, the bits are shifted in this order: <code class="language-plaintext highlighter-rouge">1,1,1,0,1,0,1,0</code></li>
+  <li>With <code class="language-plaintext highlighter-rouge">LSBFIRST</code>, the bits are shifted in this order: <code class="language-plaintext highlighter-rouge">0,1,0,1,0,1,1,1</code></li>
+</ul>
+
+<p>When shifting out 16 bits, the first bit shifted will end up on the last output line, while the last bit shifted will end up on the first. In our case, we therefore need to shift the most significant bits first.</p>
+
+<p>Here is what I initially wrote:</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/shift1.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/shift1.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend"></figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<h3 id="reading">Reading</h3>
+
+<p>I try reading data from the ROM, but it doesn’t work. I can’t retrieve the data that was previously programmed. Everything is wrong. I immediately suspect a bug in the code above as it is the most tricky part, but nothing obvious stands out. So I extract the logic into a test function and print the results to the console while forcing the input values. I quickly discover that it is not at all doing what it is supposed to do. First, there is a typo in the second line: there should be a single <code class="language-plaintext highlighter-rouge">&amp;</code> instead of <code class="language-plaintext highlighter-rouge">&amp;&amp;</code>, since we want a bitwise AND, not a logical AND. Second, for the <code class="language-plaintext highlighter-rouge">/OE</code> bit to end up in position 8 (counting from 1), it needs to be shifted by 7 bits rather than 8. In the end, I followed Ben Eater’s approach and simply used the value <code class="language-plaintext highlighter-rouge">0x80</code> directly. It makes the code a bit more readable.</p>
+
+<p>Here is the corrected version that works:</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/shift2.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/shift2.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend"></figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Arduino code is available <a href="https://github.com/alexbinary/arduino-eeprom-programmer">on GitHub</a>.</p>
+
+<h3 id="writing">Writing</h3>
+
+<p>Next, I test writing, and at first it doesn’t work reliably. I try writing a single byte, multiple bytes, and running the same tests repeatedly. Sometimes it works, sometimes it doesn’t. I review the code carefully and everything looks correct. Puzzled, I turn to ChatGPT. I paste the code without any question so as not to influence the analysis and see what it notices on its own.</p>
+
+<p>It points out that a delay is missing after the <code class="language-plaintext highlighter-rouge">/WE</code> pulse. That’s interesting because I hadn’t thought about it. The write operation does not occur when <code class="language-plaintext highlighter-rouge">/WE</code> goes low, but when it returns high, and the ROM needs a bit of time to actually store the data. So I add a <code class="language-plaintext highlighter-rouge">delay()</code> after <code class="language-plaintext highlighter-rouge">digitalWrite(WEB, HIGH)</code>, and at first it seems to work. Then it starts failing again.</p>
+
+<p>I write a test program that continuously writes and reads while cycling through values and addresses. I notice that some writes succeed and others don’t, with no obvious pattern. I let the program run and inspect the wiring. I notice that the results seem to change when I move the <code class="language-plaintext highlighter-rouge">/WE</code> wire. I therefore suspect a bad connection. I replace the wire and things immediately seem more reliable.</p>
+
+<p>I run more tests and confirm there is a net improvement. However, one issue remains: whenever I write a sequence, the first byte is always written incorrectly. Among ChatGPT’s earlier observations, there was a note regarding the order of <code class="language-plaintext highlighter-rouge">pinMode()</code> and <code class="language-plaintext highlighter-rouge">digitalWrite()</code> calls that I had dismissed because I followed Ben Eater’s advice and called <code class="language-plaintext highlighter-rouge">digitalWrite()</code> first to ensure that the pin never briefly goes low during setup, which could trigger undesired writes. Ben explains that although it seems counterintuitive, it works and is the correct way to do it.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/pinMode1.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/pinMode1.png" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">According to Ben Eater's video, this should leave WEB high</figcaption>
+</figure>
+
+    </div>  
+
+</div>
+
+<p>In my case, however, since it is always the first write that fails, I strongly suspect that <code class="language-plaintext highlighter-rouge">/WE</code> is not actually left high at startup as expected. I therefore add another <code class="language-plaintext highlighter-rouge">digitalWrite()</code> after <code class="language-plaintext highlighter-rouge">pinMode()</code>, and the problem disappears.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/pinMode2.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/pinMode2.png" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">In my case, I need to call digitalWrite() after pinMode() to leave the pin high</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>I also add another <code class="language-plaintext highlighter-rouge">digitalWrite()</code> when generating the pulse to ensure that we always start from a known high state.</p>
+
+<p>To validate my observations, I quickly connect <code class="language-plaintext highlighter-rouge">/WE</code> to an LED and confirm that after calling <code class="language-plaintext highlighter-rouge">digitalWrite()</code> and <code class="language-plaintext highlighter-rouge">pinMode()</code> in that order, the LED does not light up. It only turns on after an additional <code class="language-plaintext highlighter-rouge">digitalWrite()</code>.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<figure class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/pinMode3.mp4" title="Click to view full size image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/pinMode3.mp4" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Calling digitalWrite() before pinMode() leaves the pin low</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>I don’t have an explanation for why it worked for Ben Eater but not for me. Perhaps differences between Arduino models.</p>
+
+<p>This experiment also clearly shows that the signal goes low when I reset or reprogram the Arduino, which makes me wonder whether this could trigger unwanted writes, since the ROM remains active during that time. Assuming all pins go low, that would include <code class="language-plaintext highlighter-rouge">/OE</code>, and no write operation is possible while <code class="language-plaintext highlighter-rouge">/OE</code> is low, so everything should be safe. To be extra cautious, one could connect <code class="language-plaintext highlighter-rouge">/CE</code> to the Arduino through an inverter instead of physically tying it low on the breadboard. That way, the ROM would only become active once the Arduino is ready. Everything works fine as it is, so I won’t change it for now, but it’s the kind of detail that can come back to cause trouble when you least expect it.</p>
+
+<h3 id="optimization">Optimization</h3>
+
+<p>Now that everything works correctly, I can try speeding things up. Up until now I had been using <code class="language-plaintext highlighter-rouge">delay(100)</code> everywhere just to ensure everything worked and to give myself time to observe what was happening. But if we want to read or write any significant amount of data, this is unnecessarily slow.</p>
+
+<p>In an attempt to do things properly, I go through the datasheets of the various components to determine the minimum timing requirements. For the <a href="https://ww1.microchip.com/downloads/en/DeviceDoc/doc0006.pdf">AT28C256</a> EEPROM, the maximum delay between an address change and valid output data is specified as 150 ns. I perform a quick calculation based on the Arduino clock speed. My <a href="https://docs.arduino.cc/resources/datasheets/ABX00087-datasheet.pdf">Uno R4 WiFi</a> runs at 48 MHz, corresponding to a clock period of approximately 20 ns. A high-level function such as <code class="language-plaintext highlighter-rouge">digitalWrite()</code> undoubtedly consumes many clock cycles, so everything should work without any delay at all. I still add a <code class="language-plaintext highlighter-rouge">delayMicroseconds(1)</code> for safety. I test and it works. Likewise, I replace the <code class="language-plaintext highlighter-rouge">delay(100)</code> used for the <code class="language-plaintext highlighter-rouge">/WE</code> pulse with <code class="language-plaintext highlighter-rouge">delayMicroseconds(1)</code> without any issues.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/delay.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/delay.png" alt="" width="70%" height="" style="width:70%" />
+        </a>
+    </p>
+    <figcaption class="image-legend"></figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>For the <a href="https://www.ti.com/lit/ds/symlink/sn74hc595.pdf">74HC595</a> shift registers however, the datasheet indicates that a latch pulse width of roughly 1 µs should be more than sufficient. But surprisingly, that does not work in my setup. I test various values and determine that 10 ms is the minimum delay that works reliably. That leaves me puzzled. At that speed, programming the entire ROM (roughly 32,000 addresses) would take at least 320 seconds, that is more than five minutes.</p>
+
+<p>I ask ChatGPT, it isn’t particularly useful but it does help me determine that the issue is not the pulse duration itself, but the delay preceding it. Here is the best code I was able to get:</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row mobile-column">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/delay2.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/delay2.png" alt="" width="70%" height="" style="width:70%" />
+        </a>
+    </p>
+    <figcaption class="image-legend"></figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>It might be a breadboard issue, but Ben Eater’s setup works perfectly without any delay. Perhaps my cheap AliExpress breadboards are of too poor quality, or maybe some contacts are unreliable. I don’t really believe that, and even ChatGPT seems skeptical:</p>
+
+<blockquote>
+  <p>Even a terrible breadboarded HC595 setup should not require that.</p>
+</blockquote>
+
+<p>And when I think about it, the delay occurs between shifting data into the registers and latching it to the outputs. No long-distance signal transmission is involved. Everything happens inside the shift registers themselves, so the breadboard should not matter. I still don’t have an explanation.</p>
+
+<h3 id="cleanup-and-improvements">Cleanup and improvements</h3>
+
+<p>Now that I can read and write (mostly) fine, I clean up the code a bit. I rewrite the <code class="language-plaintext highlighter-rouge">print()</code> function so that it displays rows of 16 bytes instead of a single address at a time, and I make it possible to pass any arbitrary starting address, even if it is not aligned on a 16-byte boundary.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/readROM.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/readROM.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">The read function displaying 16-byte rows</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>I also add a function to write two bytes at once at a given address. Thanks to these changes, I can now write things like this:</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/asm.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/asm.png" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">The beginnings of an assembler!</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>For now, the code uses a fixed delay between writes, but the ROM also provides a way to detect when a write operation has completed. That would allow the next byte to be sent as soon as the memory is ready. Implementing that feature would be an interesting technical exercise, but in my case it would not improve programming speed because the delay associated with the shift registers is currently the dominant bottleneck by far. Still, it’s an idea worth keeping in mind if I ever find a solution to that problem.</p>
+
+<p>Arduino code is available <a href="https://github.com/alexbinary/arduino-eeprom-programmer">on GitHub</a>.</p>
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>Now that I can write arbitrarily long programs into memory, I can start installing the I/O chip that will allow peripherals to be connected to the 6502 and finally make CPU activity visible without external instruments.</p>
 
   </div>
 
