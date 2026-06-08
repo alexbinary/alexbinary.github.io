@@ -21,7 +21,7 @@
     <meta property="twitter:title" content="Alexandre Bintz" />
 
     <link rel="stylesheet" href="/assets/main.css">
-    <link rel="stylesheet" href="/assets/css/custom.css?v=20260608145609"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260608150748"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -1563,11 +1563,77 @@
 
 <p>Until now I had tied the EEPROM’s <em>Chip Select</em> (<code class="language-plaintext highlighter-rouge">/CE</code>) low so that the ROM was always active. As a result, the entire address space was assigned to it. The ROM only has 15 address lines (32 KB addressable), and we left the 16th address line disconnected. Consequently, when the CPU uses an address in the range <code class="language-plaintext highlighter-rouge">0x0000–0x7FFF</code>, it maps directly to an address in the ROM. But the same is true for addresses <code class="language-plaintext highlighter-rouge">0x8000–0xFFFF</code> because looking at only the 15 first lines, the addresses are identical. From the CPU’s perspective, the ROM contents appear duplicated.</p>
 
+<table>
+  <thead>
+    <tr>
+      <th>Bin</th>
+      <th>Hex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0000 0000 0000 0000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x0000</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0111 1111 1111 1111</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x7FFF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1000 0000 0000 0000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x8000</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1111 1111 1111 1111</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFF</code></td>
+    </tr>
+  </tbody>
+</table>
+
 <p>Since the 16th address line (<code class="language-plaintext highlighter-rouge">A15</code>) is not used to address data within the ROM, we can use it for Chip Select. If we connect it directly to the ROM’s <code class="language-plaintext highlighter-rouge">/CE</code> input, the chip —being active when the signal is <code class="language-plaintext highlighter-rouge">0</code>— will only respond to addresses in the range <code class="language-plaintext highlighter-rouge">0x0000–0x7FFF</code>. We have therefore allocated <code class="language-plaintext highlighter-rouge">0x0000–0x7FFF</code> to the EEPROM and freed the remainder for other devices. However, recall that on startup the CPU reads addresses <code class="language-plaintext highlighter-rouge">0xFFFC</code> and <code class="language-plaintext highlighter-rouge">0xFFFD</code> (the reset vector), and with this memory layout that would no longer work. We could add a component whose sole purpose is to respond to those two addresses, but we would then have to keep its value updated according to where the program starts in ROM. A simpler solution is to allocate the range <code class="language-plaintext highlighter-rouge">0x8000–0xFFFF</code> to the ROM instead. We can do this by inverting <code class="language-plaintext highlighter-rouge">A15</code> (using a NOT gate) before connecting it to <code class="language-plaintext highlighter-rouge">/CE</code>. This way, address <code class="language-plaintext highlighter-rouge">0x7FFC</code> in ROM corresponds to address <code class="language-plaintext highlighter-rouge">0xFFFC</code> from the CPU’s perspective. On the other hand, ROM address <code class="language-plaintext highlighter-rouge">0x0000</code> becomes CPU address <code class="language-plaintext highlighter-rouge">0x8000</code>. We’ll need to keep this in mind when writing programs later.</p>
 
 <p>We can now consider how to allocate the address space to the VIA. We already know that its range must be within <code class="language-plaintext highlighter-rouge">0x0000–0x7FFF</code>. We could allocate the entire range, and as long as we don’t add any other components this wouldn’t cause a problem. However, I plan to add at least one RAM chip later, so let’s do something a bit better.The VIA only has 16 registers, so in principle it only requires 16 addresses. Of course, its allocated range can be larger than that.</p>
 
 <p>I’m starting to run out of breadboards, and the ones already in use are fairly crowded, so I’d like a solution that requires as few connections and components as possible. The VIA has two <em>Chip Select</em> signals: <code class="language-plaintext highlighter-rouge">CS1</code> and <code class="language-plaintext highlighter-rouge">/CS2</code>. The chip is enabled when <code class="language-plaintext highlighter-rouge">CS1</code> is <code class="language-plaintext highlighter-rouge">1</code> and <code class="language-plaintext highlighter-rouge">/CS2</code> is <code class="language-plaintext highlighter-rouge">0</code>. We already know that the VIA must be disabled whenever the 16th address line (<code class="language-plaintext highlighter-rouge">A15</code>) is <code class="language-plaintext highlighter-rouge">1</code>, because that corresponds to the range assigned to the ROM. Therefore we can connect <code class="language-plaintext highlighter-rouge">A15</code> directly to <code class="language-plaintext highlighter-rouge">/CS2</code>. If we stop there, we have effectively assigned the entire range <code class="language-plaintext highlighter-rouge">0x0000–0x7FFF</code> to the VIA. Now imagine connecting <code class="language-plaintext highlighter-rouge">A14</code> to <code class="language-plaintext highlighter-rouge">CS1</code>. The VIA would then only be active when <code class="language-plaintext highlighter-rouge">A15 = 0</code> and <code class="language-plaintext highlighter-rouge">A14 = 1</code>, which corresponds to addresses <code class="language-plaintext highlighter-rouge">0x4000–0x7FFF</code>. If we added <code class="language-plaintext highlighter-rouge">A13</code> through an AND gate, we would reduce the range to <code class="language-plaintext highlighter-rouge">0x6000–0x7FFF</code>. Adding <code class="language-plaintext highlighter-rouge">A12</code> would further reduce it to <code class="language-plaintext highlighter-rouge">0x7000–0x7FFF</code>. The more we shrink the allocated memory range, the more space we leave available for other devices, but the more logic is required to generate the <em>Chip Select</em> signals.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Bin</th>
+      <th>Hex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0000 0000 0000 0000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x0000</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0100 0000 0000 0000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x4000</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0110 0000 0000 0000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x6000</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0111 0000 0000 0000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x7000</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0111 1111 1111 1111</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x7FFF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1000 0000 0000 0000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x8000</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1111 1111 1111 1111</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFF</code></td>
+    </tr>
+  </tbody>
+</table>
 
 <p>For now, I choose to keep things simple and stop at <code class="language-plaintext highlighter-rouge">A14</code>. This allows <code class="language-plaintext highlighter-rouge">CS1</code> and <code class="language-plaintext highlighter-rouge">/CS2</code> to be connected directly without additional logic, and the address-space tradeoff is acceptable for the moment.</p>
 
