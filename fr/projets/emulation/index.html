@@ -21,7 +21,7 @@
     <meta property="twitter:title" content="Alexandre Bintz" />
 
     <link rel="stylesheet" href="/assets/main.css">
-    <link rel="stylesheet" href="/assets/css/custom.css?v=20260608073352"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260608145609"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -162,7 +162,7 @@
 
 <p>Ce projet est avant tout une exploration. C’est l’occasion pour moi de prendre en main des concepts hardware bas niveau et de pendre de l’expérience dans l’interaction entre matériel et logiciel. Dans ce genre de projets découverte j’aime partir de la base et expérimenter petit à petit avec les composants pour valider le fonctionnement supposé étape par étape, confronter mes prédictions à la réalité, et développer une compréhension solide des choses.</p>
 
-<p>Aujourd’hui j’ai quasiment terminé le système hardware. Il me reste à installer le 6522 et je pourrai bientôt écrire des programmes interactifs et commencer à réfléchir à l’émulation.</p>
+<p>Aujourd’hui j’ai quasiment terminé le système hardware. Je rencontres des difficultés avec le 6522 mais je prévois de les contourner avec des périphériques fait maison. C’est un petit détour inattendu mais très interressant. Ensuite je pourrai écrire des programmes interactifs et commencer à réfléchir à l’émulation.</p>
 
 <h2 id="comprendre-lémulation">Comprendre l’émulation</h2>
 
@@ -1523,9 +1523,536 @@
 
 <p>Le code Arduino est disponible <a href="https://github.com/alexbinary/arduino-eeprom-programmer">sur GitHub</a>.</p>
 
+<h2 id="la-puce-dentrées-sorties">La puce d’entrées-sorties</h2>
+
+<p>Maintenant que je peux écrire dans la mémoire des programmes arbitrairement longs, le but est désormais d’ajouter des LEDs et des boutons pour pouvoir écrire et exécuter des programmes interactifs qui produisent des résultats directement observables sans instruments.</p>
+
+<p>Le CPU seul n’est pas en mesure de piloter directement des LEDs et des boutons, car les seules choses qu’il peut faire directement c’est lire et écrire sur les bus d’adresse et de données. Pour piloter une LED ou lire un bouton il faut un système intermédiaire qui s’interface avec la LED ou le bouton d’un côté, et communique avec le CPU via le bus de l’autre côté.</p>
+
+<p>Le <a href="https://eater.net/datasheets/w65c22.pdf">6522</a> est une puce d’interfaçage conçue pour fonctionner avec le 6502. Son nom en anglais est <em>Versatile Interface Adatper</em>, je l’appelle donc “VIA” pour faire court. Le VIA propose plusieurs fonctions complémentaires, notamment des timers, mais ce qui nous intéresse ici ce sont les deux ports parallèles d’entrée-sortie. Il s’agit de 16 lignes qui peuvent être configurées individuellement en entrée ou en sortie, et qu’on va pouvoir lire ou écrire depuis le CPU.</p>
+
+<p>Le VIA possède 16 registres de contrôle dans lesquel le CPU va lire ou écrire via le bus de données pour réaliser les fonctions souhaitées. Pour sélectionner le registre dans lequel on veut lire ou écrire, on utilise le bus d’adresse. Comme on a que 16 registres, 4 lignes d’adresse suffisent.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/w65c22 regs.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/w65c22 regs.png" alt="" width="70%" height="" style="width:70%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Liste des registres du 6522 (extrait de la datasheet)</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<h3 id="chip-select-et-espace-dadressage">Chip Select et espace d’adressage</h3>
+
+<p>Jusqu’à maintenant on avait qu’un seul composant connecté aux bus d’adresse et de données : l’EEPROM. On va maintenant ajouter le VIA, et il faut donc s’assurer que le CPU puisse communiquer avec chaque composant sans perturber les autres ou être perturbé par leur présence sur le bus. Pour ça on utilise le <em>Chip Select</em> (aussi appelé <em>Chip Enabled</em>). C’est un signal qui permet d’activer le composant avec lequel le CPU cherche à communiquer à un instant donné. Chaque composant possède une ou plusieurs entrée pour ce signal, et ne prennent le contrôle du bus que lorsque le signal les y autorise. Le reste du temps les pins connectées au bus sont électroniquement déconnectées du bus (dans ce qu’on appelle un <em>état de haute impédance</em>).</p>
+
+<p>Pour déterminer quel composant doit être actif on utilise le bus d’adresses. Avec 16 lignes d’adresse le CPU peut produire 65 536 adresses différentes. Ces 65 536 adresses constituent ce qu’on appelle “l’espace d’adressage”, et l’idée est de découper cet espace d’adressage en plusieurs plages et d’attribuer une plage à chaque composant. Pour ça on utilise des lignes d’adresse judicieusement choisies pour générer le signal Chip Select pour chaque composant.</p>
+
+<p>Jusqu’à maintenant j’avais forcé le <em>Chip Select</em> (signal <code class="language-plaintext highlighter-rouge">/CE</code>) de l’EEPROM pour qu’elle soit toujours active. L’intégralité de l’espace d’adressage lui était par conséquent attribuée. La ROM possède seulement 15 lignes d’adresse (32k adressable), et on avait laissé la 16e ligne déconnectée. Par conséquent quand le CPU utilise une adresse dans la plage <code class="language-plaintext highlighter-rouge">0x0000-0x7FFF</code>, ça correspond directement à une adresse dans la ROM. Mais c’est également le cas pour les adresses <code class="language-plaintext highlighter-rouge">0x8000-0xFFFF</code> car si on ne prend en compte que les 15 premiers bits de l’adresses, les adresses sont identiques. Du point de vue du CPU le contenu de la ROM apparait dupliqué.</p>
+
+<p>La 16e ligne d’adresse (<code class="language-plaintext highlighter-rouge">A15</code>) étant inutilisée pour adresser les données dans la ROM, on peut l’utiliser pour le <em>Chip Select</em>. Si on la connecte directement sur l’entrée <code class="language-plaintext highlighter-rouge">/CE</code> de la ROM, étant donné que la puce est activée si le signal est à <code class="language-plaintext highlighter-rouge">0</code>, celle-ci ne répondra plus qu’aux adresse dans la plage <code class="language-plaintext highlighter-rouge">0x0000-0x7FFF</code>. On a ainsi alloué la plage <code class="language-plaintext highlighter-rouge">0x0000-0x7FFF</code> à l’EEPROM et libéré le reste pour d’autres composants. Cependant, rappelons-nous qu’au démarrage le CPU interroge les adresses <code class="language-plaintext highlighter-rouge">0xFFFC</code> et <code class="language-plaintext highlighter-rouge">0xFFFD</code> (vecteur reset), et dans cette configuration de la mémoire ça ne fonctionnerait pas. On pourrait rajouter un composant dont la tâche est de répondre spécifiquement à ces deux adresses, mais on devrait alors veiller à mettre à jour la valeur en fonction d’où on place le début du programme dans la ROM. Le plus simple est en fait d’allouer la plage <code class="language-plaintext highlighter-rouge">0x8000-0xFFFF</code> à la ROM. On peut faire ça en inversant <code class="language-plaintext highlighter-rouge">A15</code> (avec une porte logique NOT) avant de le connecter sur <code class="language-plaintext highlighter-rouge">/CE</code>. Ainsi l’adresse <code class="language-plaintext highlighter-rouge">0x7FFC</code> dans la ROM correspondra à l’adresse <code class="language-plaintext highlighter-rouge">0xFFFC</code> du point de vue du CPU. En revanche, l’adresse <code class="language-plaintext highlighter-rouge">0x0000</code> de la ROM se retrouve à l’adresse <code class="language-plaintext highlighter-rouge">0x8000</code> du point de vue du CPU. Il faudra donc être vigilant lors de l’écriture du programme.</p>
+
+<p>On peut maintenant réfléchir à l’espace mémoire à allouer au VIA. On sait déjà que cette plage doit être comprise dans la plage <code class="language-plaintext highlighter-rouge">0x0000-0x7FFF</code>. On pourrait allouer toute la plage, et tant qu’on ajoute pas d’autres composants sur le bus ça ne pose pas de problème. Mais je prévois d’ajouter au moins une puce de RAM par la suite, donc essayons de faire mieux que ça. Pour rappel le VIA n’a que 16 registres, la plage d’adresse n’a donc besoin de contenir au minimum que 16 adresses. Elle peut évidemment être plus grande que ça.</p>
+
+<p>Je commence à être à court de breadboards, et celles déjà utilisées sont déjà bien chargées, je voudrais donc une solution qui utilise un minimum de connexions et un minimum de composants. Le VIA possède deux signaux <em>Chip Select</em> : <code class="language-plaintext highlighter-rouge">CS1</code> et <code class="language-plaintext highlighter-rouge">/CS2</code>. La puce est activée lorsque <code class="language-plaintext highlighter-rouge">CS1</code> est à <code class="language-plaintext highlighter-rouge">1</code> et <code class="language-plaintext highlighter-rouge">/CS2</code> à <code class="language-plaintext highlighter-rouge">0</code>. On sait déjà que le VIA doit être désactivé lorsque la 16e ligne d’adresse (<code class="language-plaintext highlighter-rouge">A15</code>) est à <code class="language-plaintext highlighter-rouge">1</code>, puisque ça correspond à la plage allouée à la ROM. On peut donc connecter <code class="language-plaintext highlighter-rouge">A15</code> sur <code class="language-plaintext highlighter-rouge">/CS2</code>. Si on s’arrête là on a effectivement alloué la plage <code class="language-plaintext highlighter-rouge">0x0000-0x7FFF</code> au VIA. Imaginons maintenant qu’on branche <code class="language-plaintext highlighter-rouge">A14</code> sur <code class="language-plaintext highlighter-rouge">CS1</code>. Le VIA ne serait alors actif que lorsque la 16e ligne d’adresse (<code class="language-plaintext highlighter-rouge">A15</code>) est à <code class="language-plaintext highlighter-rouge">0</code> et la 15e (<code class="language-plaintext highlighter-rouge">A14</code>) est à <code class="language-plaintext highlighter-rouge">1</code>, ce qui correspond à la plage d’adresses <code class="language-plaintext highlighter-rouge">0x4000-0x7FFF</code>. Si on ajoutait <code class="language-plaintext highlighter-rouge">A13</code> avec un ET on réduirait à la plage <code class="language-plaintext highlighter-rouge">0x6000-0x7FFF</code>. Et si on ajoutait encore <code class="language-plaintext highlighter-rouge">A12</code> ça donnerait <code class="language-plaintext highlighter-rouge">0x7000-0x7FFF</code>. Plus on réduit la plage mémoire allouée et plus on laisse de l’espace pour autre chose, mais plus ça demande de logique pour le <em>Chip Select</em>.</p>
+
+<p>Je choisis de rester simple pour l’instant et de m’arrêter à <code class="language-plaintext highlighter-rouge">A14</code>. Ça permet de connecter <code class="language-plaintext highlighter-rouge">CS1</code> et <code class="language-plaintext highlighter-rouge">/CS2</code> diretement sans introduire de logique supplémentaire, et le compromis en terme d’allocation de l’espace d’adresse est ok pour l’instant.</p>
+
+<p>Résumé des connexions à faire :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ligne d’adresse</th>
+      <th>Connexion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">A15</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/CE</code> de la ROM via une porte NOT</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">A15</code></td>
+      <td><code class="language-plaintext highlighter-rouge">/CS2</code> du VIA</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">A14</code></td>
+      <td><code class="language-plaintext highlighter-rouge">CS1</code> du VIA</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="montage-de-la-rom">Montage de la ROM</h3>
+
+<p>Je veux installer le VIA et la logique du <em>Chip Select</em> de manière semi permantente sur une grande breadboard que j’assemble avec celle du 6502, mais je n’ai plus de grande breadboard. J’en ai commandé des nouvelles, mais en attendant de les recevoir je fais un montage temporaire sur une petite breadboard, en faisant les connexion avec des lignes Dupont. Ça ne me laissera pas assez de Duponts pour monitorer les bus avec l’Arduino, mais tant pis.</p>
+
+<p>Pour faire simple j’utilise une puce <a href="https://www.ti.com/lit/ds/symlink/sn74ls04.pdf">74LS04</a> qui contient 6 inverseurs et je la place sur la breadboard du 6502 après l’espace réservé à la ROM. C’est temporaire car je prévoie de mettre la RAM à cet endroit par la suite. J’alimente le 74LS04, j’amène <code class="language-plaintext highlighter-rouge">A15</code> sur l’entrée du premier inverseur, je retire le fil de connexion qui maintenait <code class="language-plaintext highlighter-rouge">/CE</code> de la ROM à la masse, et je branche la sortie de l’inverseur à la place.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/IMG_7422.JPG" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/IMG_7422.JPG" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">L'inverseur qui permet de générer le Chip Select pour la ROM</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Avant de passer à l’installation du VIA et immobiliser les fils de connexion, il faut reprogrammer la ROM. Pour éviter de reprogrammer si jamais ça ne fonctionne pas comme prévu du premier coup (ce qui demande pour l’instant de recâbler l’Arduino à chaque fois, ce n’est pas très pratique), j’essaie de faire un programme dont les effets sont reconnaissables sans ambiguité. J’imagine un programme qui allume 3 LED avec un motif alternatif <code class="language-plaintext highlighter-rouge">010-101</code>. Il n’est pas nécessaire de faire appel à un compteur ou un timer, avec une horloge suffisamment lente on verra le motif clignoter sans soucis même si les instructions se suivent directement sans délai.</p>
+
+<p>C’est le moment de se pencher plus en détails sur le fonctionnement du VIA. Pour configurer les pins du port A en sortie il faut écrire dans le registre 3. Un bit à <code class="language-plaintext highlighter-rouge">1</code> dans ce registre configure le pin correspondant en sortie. Ensuite pour définir la valeur sur le pin il faut écrire dans le registre 1. Vue le mapping mémoire que nous avons fait précédemment, l’adresse à utiliser pour les registres 1 et 3 sont respectivement <code class="language-plaintext highlighter-rouge">0x4001</code> et <code class="language-plaintext highlighter-rouge">0x4003</code>.</p>
+
+<p>Basiquement notre programme ressemble donc à ça :</p>
+
+<ol>
+  <li>écrire <code class="language-plaintext highlighter-rouge">1111 1111</code> (<code class="language-plaintext highlighter-rouge">0xFF</code>) à l’adresse <code class="language-plaintext highlighter-rouge">0x4003</code></li>
+  <li>écrire <code class="language-plaintext highlighter-rouge">0000 0010</code> (<code class="language-plaintext highlighter-rouge">0x02</code>) à l’adresse <code class="language-plaintext highlighter-rouge">0x4001</code></li>
+  <li>écrire <code class="language-plaintext highlighter-rouge">0000 0101</code> (<code class="language-plaintext highlighter-rouge">0x05</code>) à l’adresse <code class="language-plaintext highlighter-rouge">0x4001</code></li>
+  <li>recommencer à 2.</li>
+</ol>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/w65c22 regs 2.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/w65c22 regs 2.png" alt="" width="70%" height="" style="width:70%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Registres de contrôle des ports A et B du 6522 (extrait de la datasheet)</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>En pseudo code machine ça donne ça :</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">LDA #$FF</code></li>
+  <li><code class="language-plaintext highlighter-rouge">STA $4003</code></li>
+  <li><code class="language-plaintext highlighter-rouge">LDA #$02</code></li>
+  <li><code class="language-plaintext highlighter-rouge">STA $4001</code></li>
+  <li><code class="language-plaintext highlighter-rouge">LDA #$05</code></li>
+  <li><code class="language-plaintext highlighter-rouge">STA $4001</code></li>
+  <li><code class="language-plaintext highlighter-rouge">JMP $XXXX</code></li>
+</ol>
+
+<p>Explications: Pour écrire une valeur donnée dans un registre du VIA, on charge d’abord la valeur dans l’accumulateur, puis on envoie la valeur de l’accumulateur à l’adresse du registre. L’instruction <code class="language-plaintext highlighter-rouge">JMP</code> permet de déplacer le pointeur d’exécution à l’adresse indiquée. Ici on veut revenir à l’instruction <code class="language-plaintext highlighter-rouge">LDA #$02</code> pour former une boucle infinie. Pour définir l’adresse à donner à l’instruction <code class="language-plaintext highlighter-rouge">JMP</code> il faut connaître à quelle adresse exacte se situe l’instruction visée. Pour ça il faut :</p>
+<ul>
+  <li>savoir à quelle adresse commence le programm dans la mémoire</li>
+  <li>combien d’octets occupent les instructions qui précèdent</li>
+  <li>prendre en compte l’allocation de l’espace d’adressage défini précédemment</li>
+</ul>
+
+<p>Pour faire simple on peut placer le programme à l’adresse <code class="language-plaintext highlighter-rouge">0x0000</code> dans la mémoire, ce qui correspond à <code class="language-plaintext highlighter-rouge">0x8000</code> du point de vue du CPU. Il faudra donc penser à placer cette valeur dans le vecteur reset.</p>
+
+<p>Nous avons déjà rencontré l’instruction <code class="language-plaintext highlighter-rouge">STA</code> précédemment. Le code correspondant est <code class="language-plaintext highlighter-rouge">0x8D</code>, et l’adresse est passée dans les deux octets suivants, les poids faibles en premier. Nous avons également déjà rencontré l’instruction <code class="language-plaintext highlighter-rouge">LDA</code>, mais nous avions utilisé la version qui prend une adresse, alors qu’ici nous voulons lui passer la valeur directement. On aurait pu mettre la donnée en mémoire et utiliser <code class="language-plaintext highlighter-rouge">LDA</code> avec l’adresse correspondante, mais pourquoi faire compliqué. Dans la datasheet on trouve que le code pour <code class="language-plaintext highlighter-rouge">LDA</code> en mode d’adressage immédiat est <code class="language-plaintext highlighter-rouge">0xA9</code>, et la valeur est indiquée dans l’octet qui suit. Regardons maintenant l’instruction <code class="language-plaintext highlighter-rouge">JMP</code>. Elle existe aussi dans plusieurs mode d’adressage, ici nous voulons le mode “adressage absolu” qui prend une adresse. Le code correspondant est <code class="language-plaintext highlighter-rouge">0x4C</code>, et l’adresse est indiquée sur les deux octets suivants, poids faibles en premier comme d’habitude.</p>
+
+<p>Voici le programme final :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Adresse CPU</th>
+      <th>Adresse ROM</th>
+      <th>Donnée</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x0000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 FF</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x0002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 03 40</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8005</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x0005</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 02</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8007</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x0007</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 01 40</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x000A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 05</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800C</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x000C</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 01 40</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800F</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x000F</code></td>
+      <td><code class="language-plaintext highlighter-rouge">4C 05 80</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFC</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x7FFC</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFD</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x7FFD</code></td>
+      <td><code class="language-plaintext highlighter-rouge">80</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>On voit que l’instruction <code class="language-plaintext highlighter-rouge">LDA #$02</code> si retrouve à l’adresse <code class="language-plaintext highlighter-rouge">0x8005</code>, c’est donc cette valeur qu’on donne au <code class="language-plaintext highlighter-rouge">JMP</code>. Je programme la ROM avec le setup défini précédemment, et je la remet en place sur le circuit.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/via.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/via.png" alt="" width="70%" height="" style="width:70%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Le programme de test du VIA écrit sur la ROM</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Avant d’installer le VIA je vérifie que le <em>Chip Select</em> fonctionne comme prévu et que le programme est bon. Je branche l’Arduino sur le bus et observe les données, toujours avec uniquement les 4 premières lignes d’adresse. Voici le résultat :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Adresse théorique</th>
+      <th>Adresse observée</th>
+      <th>R/W</th>
+      <th>Donnée</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFc</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xc</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x00</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFd</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xd</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x80</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xa9</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8001</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xff</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x2</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x8d</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8003</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x3</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x03</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8004</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x4</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x40</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4003</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x3</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xff</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8005</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x5</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xa9</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8006</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x6</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x02</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8007</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x7</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x8d</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8008</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x8</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x01</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8009</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x9</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x40</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4001</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x02</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800a</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xa</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xa9</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800b</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xb</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x05</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800c</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xc</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x8d</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800d</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xd</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x01</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800e</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xe</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x40</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4001</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x05</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800f</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xf</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x4c</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8010</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x05</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8011</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x80</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8005</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x5</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xa9</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8006</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x6</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x02</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8007</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x7</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x8d</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8008</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x8</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x01</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8009</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x9</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x40</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4001</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x02</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800a</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xa</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xa9</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800b</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xb</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x05</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800c</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xc</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x8d</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800d</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xd</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x01</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800e</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xe</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x40</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4001</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x05</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800f</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0xf</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x4c</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8010</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x05</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8011</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0x80</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Tout est conforme.</p>
+
+<h3 id="montage-du-via">Montage du VIA</h3>
+
+<p>Je peux maintenant enfin installer le VIA. Je place le 6522 sur une petite breadboard, et je connecte tout de suite VDD et VSS. J’ajoute 3 LEDs à côtés avec leur résistance et je connecte les LEDs aux 3 premières sorties du port A. Je passe en revue le reste des pins. Il faut connecter :</p>
+<ul>
+  <li>les 8 lignes de données (<code class="language-plaintext highlighter-rouge">D0</code> à <code class="language-plaintext highlighter-rouge">D7</code>)</li>
+  <li>les 4 lignes adresses (<code class="language-plaintext highlighter-rouge">A0</code> à <code class="language-plaintext highlighter-rouge">A15</code>)</li>
+  <li>le signal d’écriture/lecture (<code class="language-plaintext highlighter-rouge">/RW</code>)</li>
+  <li>la clock (<code class="language-plaintext highlighter-rouge">PHI2</code>)</li>
+  <li>le reset (<code class="language-plaintext highlighter-rouge">/RES</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">CS1</code> et <code class="language-plaintext highlighter-rouge">/CS2</code></li>
+</ul>
+
+<p>Nous n’utilisions pas le signal d’écriture/lecture (<code class="language-plaintext highlighter-rouge">/RW</code>) jusqu’à présent puisque la ROM n’est utilisée qu’en lecture. Mais le VIA peut-être utilisé en lecture et écriture, même si notre programme de test ne fait pour l’instant qu’écrire. Les signaux d’horloge et de reset peuvent être repris directement sur ceux du 6502. Je branche donc tout ça, l’Arduino fournit le signal d’horloge comme d’habitude.</p>
+
+<p>Je lance, fait un reset, mais ça ne fonctionne pas, les diodes restent éteintes. Ça me laisse perplexe. Je teste d’abord les LEDs en amenant directement le 5V dessus et elles s’allument bien. J’observe ensuite les valeurs en sortie du VIA avec Arduino, et elles restent toutes à 0. De la même manière je vérifie les signaux <code class="language-plaintext highlighter-rouge">CS1</code>, <code class="language-plaintext highlighter-rouge">/CS2</code>, la clock, et <code class="language-plaintext highlighter-rouge">/RW</code>, et tout semble correcte. <code class="language-plaintext highlighter-rouge">/RW</code> est à <code class="language-plaintext highlighter-rouge">1</code> la plupart du temps pour indiquer une lecture, et passe à <code class="language-plaintext highlighter-rouge">0</code> de temps en temps pendant exactement un cycle. Idem pour <code class="language-plaintext highlighter-rouge">CS1</code> et <code class="language-plaintext highlighter-rouge">/CS2</code> qui prennent bien les valeurs attendues.</p>
+
+<p>J’entreprends alors d’essayer de piloter le VIA directement avec l’Arduino pour vérifier que j’arrive à le faire fonctionner en envoyant manuellement des commandes et confirmer que le programme de test envoie bien les bonnes commandes. Sur la breadboard je force <code class="language-plaintext highlighter-rouge">/CS1</code> à <code class="language-plaintext highlighter-rouge">1</code>, <code class="language-plaintext highlighter-rouge">/CS2</code> à <code class="language-plaintext highlighter-rouge">0</code>, et <code class="language-plaintext highlighter-rouge">/RW</code> à <code class="language-plaintext highlighter-rouge">0</code>. Avec le code je fais un reset en mettant à <code class="language-plaintext highlighter-rouge">/RES</code> à <code class="language-plaintext highlighter-rouge">0</code> et en faisant quelques cycles d’horloge, puis j’envoie les octets pour configurer le port A, mais toujours rien de visible. J’essaie avec le port B et toujours rien. À ce moment je commence à soupçonner mon VIA d’être défectueux.</p>
+
+<p>Je tente de lire les entrées sur les ports. J’ajoute <code class="language-plaintext highlighter-rouge">/RW</code> dans le code pour pouvoir lire/écrire, et je connecte directement le 5V sur une des pins d’entrées. Là je réalise que les LEDs sont toujours connectées au port A alors que je teste le port B. Je corrige ça et relance le test précédent mais toujours rien. Je fais le teste de lecture et je lis <code class="language-plaintext highlighter-rouge">0</code>. Ça me laisse vraiment perplexe.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row free-width mobile-column">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/IMG_7415.JPG" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/IMG_7415.JPG" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Connection du VIA directement à l'Arduino</figcaption>
+</figure>
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/code_via_test.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/code_via_test.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Extrait du code de test du VIA</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Le code Arduino est disponible <a href="https://github.com/alexbinary/arduino-6502">sur GitHub</a>.</p>
+
 <h2 id="la-suite">La suite</h2>
 
-<p>Maintenant que je peux écrire dans la mémoire des programmes arbitrairement longs, je peux commencer à installer la puce d’entrées-sorties qui permettra de connecter des périphériques au 6502 et de visualiser enfin l’activité du CPU sans instruments.</p>
+<p>Je n’arrive pas à faire fonctionner le 6522, mais en revoyant <a href="https://www.youtube.com/watch?v=yl8vPW5hydQ">la vidéo de Ben Eater</a> j’ai l’idée de construire un latch comme il l’a montré dans <a href="https://www.youtube.com/watch?v=YW-_GkUguMM">cette vidéo</a>, et d’essayer de l’interfacer avec le CPU. C’est un exercice intéressant. Si ça fonctionne ça permettra d’avoir déjà une sortie pilotable par le 6502, et donc d’avoir enfin des résultats observables directement et d’écrire des programmes qui font quelque chose.</p>
 
   </div>
 

@@ -295,6 +295,7 @@ ul.list-pointer-style li::before {
 .inline-image-container-row {
     display: flex;
     gap: 1rem;
+    /* justify-content: center; */
 }
 
 .inline-image-item {
@@ -302,6 +303,10 @@ ul.list-pointer-style li::before {
     margin-bottom: 1rem;
     flex: 1;
     position: relative;
+}
+
+.inline-image-container-row.free-width .inline-image-item {
+    flex: inherit;
 }
 
 .inline-image-item figcaption {
