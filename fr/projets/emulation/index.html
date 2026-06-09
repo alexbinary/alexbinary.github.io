@@ -21,7 +21,7 @@
     <meta property="twitter:title" content="Alexandre Bintz" />
 
     <link rel="stylesheet" href="/assets/main.css">
-    <link rel="stylesheet" href="/assets/css/custom.css?v=20260608150748"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260609103113"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -162,7 +162,7 @@
 
 <p>Ce projet est avant tout une exploration. C’est l’occasion pour moi de prendre en main des concepts hardware bas niveau et de pendre de l’expérience dans l’interaction entre matériel et logiciel. Dans ce genre de projets découverte j’aime partir de la base et expérimenter petit à petit avec les composants pour valider le fonctionnement supposé étape par étape, confronter mes prédictions à la réalité, et développer une compréhension solide des choses.</p>
 
-<p>Aujourd’hui j’ai quasiment terminé le système hardware. Je rencontres des difficultés avec le 6522 mais je prévois de les contourner avec des périphériques fait maison. C’est un petit détour inattendu mais très interressant. Ensuite je pourrai écrire des programmes interactifs et commencer à réfléchir à l’émulation.</p>
+<p>Aujourd’hui j’ai quasiment terminé le système hardware. Je rencontres des difficultés avec le 6522 et pour l’instant je les contourne avec des périphériques fait maison. C’est un petit détour inattendu mais très interressant. J’ai déjà un périphérique de sortie à une LED, et je travaille maintenant sur un périphérique d’entrée à un bouton. Je vais bientôt pouvoir écrire des programmes interactifs et commencer à réfléchir à l’émulation.</p>
 
 <h2 id="comprendre-lémulation">Comprendre l’émulation</h2>
 
@@ -2116,15 +2116,388 @@
 
 <p>Le code Arduino est disponible <a href="https://github.com/alexbinary/arduino-6502">sur GitHub</a>.</p>
 
+<h2 id="la-bascule-d">La bascule D</h2>
+
+<p>Pour essayer de générer de nouvelles idées je revisionne <a href="https://www.youtube.com/watch?v=yl8vPW5hydQ">la vidéo de Ben Eater sur le VIA</a>. Comme nous l’avons vu, la raison pour laquelle le 6502 ne peut pas piloter directement des périphériques est que les données envoyées sur le bus ne sont présentes que pendant un cycle d’horloge. Il faut donc quelque chose qui capture la donnée et la garde en mémoire. Dans des vidéos précédentes Ben Eater a expliqué comment construire des bascules de type RS ou D. Ce sont des circuits très simples qu’on peut réaliser avec quelques portes logiques et capables de mémoriser une donnée et la mettre à jour en fonction de différents signaux. La bascule RS prend en entrée un signal <em>set</em> qui active la sortie et un signal <em>reset</em> qui la désactive. La bascule D elle possède un signal de donnée et un signal d’horloge, et la donnée est capturée à chaque front montant de l’horloge. C’est exactement ce qu’il nous faut ici.</p>
+
+<p>Je revisionne la <a href="https://www.youtube.com/watch?v=peCh_859q7Q">vidéo sur la bascule D</a> et implémente le circuit sur une nouvelle petite breadboard. J’utilise un <a href="https://www.ti.com/lit/ds/symlink/sn74ls02.pdf">74LS02</a> et un <a href="https://www.ti.com/lit/ds/symlink/sn74ls08.pdf">74LS08</a> qui contiennent respectivement 4 portes NOR et 4 portes AND. Il y a pas mal de connexions à faire et il faut être vigilent car les pins ne sont pas disposées de la même manière sur les deux puces. Pour éviter de me tromper je dessine le schéma au brouillon et notes les pins à connecter. J’ajoute deux LEDs pour visualiser l’état de la sortie (une pour la sortie normale et une pour la sortie inversée).</p>
+
+<p>Comme d’habitude je teste en contrôlant manuellement les signaux d’entrée. Au début ça ne fonctionne pas, mais c’est parce que j’avais oublié de connecter ensemble les deux rails d’alimentation de la breadboard, un oubli malheureusement courant. Une fois corrigé ça fonctionne parfaitement : sur un front montant du signal d’horloge, la donnée présentée sur le signal d’entrée est capturée sur la sortie. Modifier le signal d’entrée n’affecte pas la sortie tant que l’horloge ne bouge pas. Contrairement à un verrou (<em>latch</em> en anglais), qui met à jour la sortie continuellement tant que le signal <em>Enable</em> est à <code class="language-plaintext highlighter-rouge">1</code>, une bascule ne capture la donnée qu’à l’instant où l’horloge passe de <code class="language-plaintext highlighter-rouge">0</code> à <code class="language-plaintext highlighter-rouge">1</code>. Je confirme que c’est bien le cas chez moi.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/d-flip-flop.JPG" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/d-flip-flop.JPG" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Mon brouillon utilisé pour la réalisation du circuit</figcaption>
+</figure>
+
+    </div>
+    
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/sn74ls02.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/sn74ls02.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Identification des pins du 74LS02</figcaption>
+</figure>
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/sn74ls08.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/sn74ls08.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Identification des pins du 74LS08</figcaption>
+</figure>
+
+    </div>
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/IMG_7416.JPG" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/IMG_7416.JPG" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Bascule D réalisée sur breadboard</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Le fonctionnement dans notre circuit sera le suivant : L’entrée de la bascule est connectée à une des 8 lignes du bus de données. Quand on veut changer l’état de la bascule, le CPU place la donnée à envoyer sur le bus de données. Ensuite, le signal d’horloge déclenche la capture de la donnée par la bascule. Si on s’arrête là, la bascule capture toute les données qui passent sur le bus, et le CPU n’a aucun moyen de l’en empêcher. Il faut ajouter un équivalent du <em>Chip Select</em> expliqué précédement, c’est-à-dire utiliser les lignes d’adresses pour n’activer la bascule que lorsque le CPU utilise une adresse qui lui est affectée. Avant de réfléchir à ça, je veux déjà tester que la bascule fonctionne bien avec le bus de données. Je vérifie dans la datasheet du 6502 que les données sont bien présentes sur le bus au moment du front montant de l’horloge, et c’est bien le cas. Ça devrait donc fonctionner.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/w65c02s timing.png" title="Cliquer pour agrandir l'image">
+            <img src="/assets/projects/emulation/w65c02s timing.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Schéma des timing du 6502 (extrait de la datasheet)</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Je branche donc l’entrée de la bascule sur la ligne <code class="language-plaintext highlighter-rouge">D0</code> du 6502 et le signal d’horloge sur <code class="language-plaintext highlighter-rouge">PHI2</code>. Je reprends le programme de test utilisé précédemment qui est encore dans la ROM et calcule ce qu’on devrait observer. Voici le résultat :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Adresse</th>
+      <th>R/W</th>
+      <th>Données</th>
+      <th>D0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFC</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFD</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">80</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 FF</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 02 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8005</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 02</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8007</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 00 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">02</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 05</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800C</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 00 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">05</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800F</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">4C 05 80</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 1 0</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>J’alimente le circuits, et je vois tout de suite que la bascule s’anime, c’est bon signe. Je reset le CPU et j’observe attentivement. Après un reset le CPU prend 7 cycles d’horloge pour s’initialiser, on devrait donc voir la séquence prévue commencer 7 cycles après avoir lâché le bouton reset. Comme d’habitude c’est l’Arduino qui fournit le signal d’horloge et on peut utiliser le fait qu’il clignote à chaque changement d’état de l’horloge pour suivre l’exécution du programme. Ça demande un peu de concentration mais c’est très satisfaisant de constater que le bascule change d’état exactement aux moments prévus !</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/IMG_7419.mp4" title="Cliquer pour agrandir l'image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/IMG_7419.mp4" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">La bascule capture tout ce qui passe sur le bus</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>La bascule fonctionne donc bien mais pour l’instant elle capture tout ce qui passe sur le bus, ce qui n’est pas très utile. Il faut donc ajouter un peu de logique pour qu’elle ne capture que les données qui lui sont destinées. Pour pouvoir réutiliser le programme existant, je décide d’utiliser <code class="language-plaintext highlighter-rouge">A15</code> et <code class="language-plaintext highlighter-rouge">A14</code> pour pouvoir sélectionner l’adresse <code class="language-plaintext highlighter-rouge">0x4000</code>. Je prends aussi en compte le <code class="language-plaintext highlighter-rouge">/RW</code> pour ne répondre qu’aux commandes d’écriture. Dans notre cas ce n’est pas forcément nécessaire vu que la bascule ne peut que recevoir des données, pas en envoyer. L’idée est d’ajouter des portes logiques ET avec les signaux d’entrée de la bascule pour que le signal reçu par celle-ci ne passe que lorsque les bonnes conditions sont réunies. Ma première idée est de mettre le ET sur la donnée, mais je me rends vite compte que c’est une erreur. C’est le signal d’horloge qu’il faut bloquer, car c’est lui qui capture la donnée. L’idée c’est que la donnée en entrée va varier au gré de ce qui passe sur le bus, mais la bascule ne va capturer cette donnée que lorsque les signaux d’activation sont présents. Le reste du temps aucun signal de capture ne parvient à la bascule.</p>
+
+<p>Si on résume, on veut donc que la capture ne se fasse que si toutes les conditions suivantes sont réunies :</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">A15 = 0</code></li>
+  <li><code class="language-plaintext highlighter-rouge">A14 = 1</code></li>
+  <li><code class="language-plaintext highlighter-rouge">/RW = 0</code></li>
+  <li><code class="language-plaintext highlighter-rouge">PHI2 = 1</code></li>
+</ul>
+
+<p>Il faut donc connecter sur le signal de capture le résultat de l’expression suivante :</p>
+
+<p style="text-align: center;"><code class="language-plaintext highlighter-rouge">CLK = /A15 ET A14 ET /RW ET PHI2</code></p>
+
+<p>Je n’ai pas utilisé toutes les portes logiques disponibles sur les puces pour faire la bascule. Il reste 1 NOR et 2 AND, et si besoin on a encore 5 inverseurs sur le puce utilisée pour le <em>Chip Select</em> de la ROM. Voyons ce qu’on peut faire avec ça.</p>
+
+<p>Voici la table de vérité de la porte NOR :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th><code class="language-plaintext highlighter-rouge">a</code></th>
+      <th><code class="language-plaintext highlighter-rouge">b</code></th>
+      <th><code class="language-plaintext highlighter-rouge">a NOR b</code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>On constate que :</p>
+
+<p style="text-align: center;"><code class="language-plaintext highlighter-rouge">a NOR b</code></p>
+
+<p>est équivalent à :</p>
+
+<p style="text-align: center;"><code class="language-plaintext highlighter-rouge">/a ET /b</code></p>
+
+<p>Si on réarrange les termes de notre expression on peut écrire :</p>
+
+<p style="text-align: center;"><code class="language-plaintext highlighter-rouge">CLK = (/A15 ET /RW) ET A14 ET PHI2</code></p>
+
+<p>En utilisant l’équivalence <code class="language-plaintext highlighter-rouge">NOR</code>/<code class="language-plaintext highlighter-rouge">ET</code> on peut transformer :</p>
+
+<p style="text-align: center;"><code class="language-plaintext highlighter-rouge">CLK = (A15 NOR RW) ET A14 ET PHI2</code></p>
+
+<p>On utilise ainsi une porte NOR et 2 portes ET, exactement ce qu’on a sous la main, c’est parfait. Je réalise le montage mais avant de tester je reprends le programme et détermine ce qu’on devrait observer. Cette fois la valeur de la bascule ne devrait changer que lorsque le CPU envoie une écriture sur une adresse comprise dans la plage <code class="language-plaintext highlighter-rouge">0x4000-0x7FFF</code>, ce qui donne ça :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Adresse</th>
+      <th>R/W</th>
+      <th>Données</th>
+      <th>LED</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFC</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFD</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">80</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 FF</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 02 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8005</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 02</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8007</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 00 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 1 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">02</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 05</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800C</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 00 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">05</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800F</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">4C 05 80</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 1 1</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Comme tout à l’heure il faut se concentrer pour suivre le déroulement du programme, mais on voit que ça fonctionne !</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/IMG_7420.mp4" title="Cliquer pour agrandir l'image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/IMG_7420.mp4" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">La bascule capture uniquement les données qui lui sont adressées</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Interfacer une bascule D au 6502 n’était pas prévu initialement mais ça s’est révélé très intéressant et ça m’a aidé à comprendre ce qui peut se jouer dans les puces qui communiquent sur un bus de données, comme la ROM ou le VIA. Je suis très content d’avoir fait ce petit détour.</p>
+
 <h2 id="la-suite">La suite</h2>
 
-<p>Je n’arrive pas à faire fonctionner le 6522, mais en revoyant <a href="https://www.youtube.com/watch?v=yl8vPW5hydQ">la vidéo de Ben Eater</a> j’ai l’idée de construire un latch comme il l’a montré dans <a href="https://www.youtube.com/watch?v=YW-_GkUguMM">cette vidéo</a>, et d’essayer de l’interfacer avec le CPU. C’est un exercice intéressant. Si ça fonctionne ça permettra d’avoir déjà une sortie pilotable par le 6502, et donc d’avoir enfin des résultats observables directement et d’écrire des programmes qui font quelque chose.</p>
+<p>Le 6502 peut désormais piloter une LED et changer son état selon la logique définie par le programme. Ça reste bien sûr limité mais c’est déjà un bon système simple à émuler. Mais avant, je voudrais rendre les choses encore un petit peu plus intéressantes en ajoutant la possibilité pour un utilisateur d’injecter des données dans le système via un bouton. L’idée est donc de créer cette fois un périphérique d’entrée, c’est-à-dire capable d’envoyer une donnée sur le bus lorsque le CPU le demande. Après ça je pourrai enfin créer des programmes interractifs et attaquer l’émulation à proprement parler.</p>
 
   </div>
 
   <div class="last-updated">
     
-    Dernière mise à jour le 8 juin 2026
+    Dernière mise à jour le 9 juin 2026
     
 </div>
 

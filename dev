@@ -37,7 +37,7 @@ case "$1" in
 		;;
 	video)
 		ffmpeg -i $2 -an -c:v libx264 -crf 30 -preset slow -vf "fps=15,scale=1040:-2" -movflags +faststart $2.mp4
-		mv $2.mp4 $2
+		rm $2
 		;;
 	stab)
 		ffmpeg -i $2 -vf vidstabdetect=result=transforms.trf -f null -

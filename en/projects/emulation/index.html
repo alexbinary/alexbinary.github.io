@@ -21,7 +21,7 @@
     <meta property="twitter:title" content="Alexandre Bintz" />
 
     <link rel="stylesheet" href="/assets/main.css">
-    <link rel="stylesheet" href="/assets/css/custom.css?v=20260608150748"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="stylesheet" href="/assets/css/custom.css?v=20260609103113"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Alexandre Bintz" /><link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -162,7 +162,7 @@
 
 <p>This project is mainly an exploration. It is a way for me get hands on experience with low level hardware concepts and hardware/software interactions. With this kind of discovery projects, I like to start form first principles and work my way up. I experiment step by step and check whether what I think I know is actually true, to build a strong understanding.</p>
 
-<p>At this point the hardware system is almost complete. I can’t get the 6522 to work, but I’ll be making custom peripherals for now, which is an unexpected but interesting side quest. After that I will be able to start writing interactive programs and think about emulation.</p>
+<p>At this point the hardware system is almost complete. I can’t get the 6522 to work, so for now I’m going with custom made peripherals, an unexpected side quest that turned out to be very rewarding. I already have a one-LED output peripheral, and I am now working on a one-button input device. I am almost at the point where I can start writing interactive programs and think about emulation.</p>
 
 <h2 id="understanding-emulation">Understanding emulation</h2>
 
@@ -2121,15 +2121,391 @@
 
 <p>Arduino code is available <a href="https://github.com/alexbinary/arduino-6502">on GitHub</a>.</p>
 
+<h2 id="the-d-flip-flop">The D Flip-Flop</h2>
+
+<p>To generate new ideas, I rewatch <a href="https://www.youtube.com/watch?v=yl8vPW5hydQ">Ben Eater’s video about the VIA</a>. As we saw earlier, the reason the 6502 cannot directly drive peripherals is that the data placed on the bus is only present for a single clock cycle. We therefore need something that can capture the data. In previous videos, Ben Eater explained how to build RS and D flip-flops. These are very simple circuits that can be built with just a few logic gates and are capable of storing a value and updating it based on various signals. An RS flip-flop has a <em>set</em> input that activates the output and a <em>reset</em> input that deactivates it. A D flip-flop, on the other hand, has a data input and a clock input, and it captures the data on every rising edge of the clock. That’s exactly what we need here.</p>
+
+<p>I rewatch <a href="https://www.youtube.com/watch?v=peCh_859q7Q">Ben Eater’s video about the D flip-flop</a> and implement the circuit on a new small breadboard. I use one <a href="https://www.ti.com/lit/ds/symlink/sn74ls02.pdf">74LS02</a> and one <a href="https://www.ti.com/lit/ds/symlink/sn74ls08.pdf">74LS08</a> chips, which contain four NOR gates and four AND gates, respectively. There are quite a few connections to make, and I need to be careful because the pins are not arranged the same way on both chips. To avoid mistakes, I sketch the circuit on paper and write down the pins that need to be connected. I also add two LEDs to visualize the state of the output (one for the normal output and one for the inverted output).</p>
+
+<p>As usual, I test the circuit by manually controlling the input signals. At first it doesn’t work, but that’s because I forgot to connect the two power rails of the breadboard together —a mistake that I unfortunately do quite often. Once this is fixed, everything works perfectly: on the rising edge of the clock signal, the value present on the input is captured on the output. Changing the input signal does not affect the output as long as the clock remains unchanged. Unlike a latch, which continuously updates its output while the <em>Enable</em> signal is <code class="language-plaintext highlighter-rouge">1</code>, a flip-flop only captures the data at the exact moment when the clock transitions from <code class="language-plaintext highlighter-rouge">0</code> to <code class="language-plaintext highlighter-rouge">1</code>. I confirm that this is indeed how my circuit behaves.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/d-flip-flop.JPG" title="Click to view full size image">
+            <img src="/assets/projects/emulation/d-flip-flop.JPG" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">The schematic I used to do the circuit</figcaption>
+</figure>
+
+    </div>
+    
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/sn74ls02.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/sn74ls02.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">74LS02 pinout</figcaption>
+</figure>
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/sn74ls08.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/sn74ls08.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">74LS08 pinout</figcaption>
+</figure>
+
+    </div>
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/IMG_7416.JPG" title="Click to view full size image">
+            <img src="/assets/projects/emulation/IMG_7416.JPG" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">A D-flip-flop on a breadboard</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>The circuit will operate as follows: the input of the flip-flop is connected to one of the eight lines of the data bus. When we want to change the state of the flip-flop, the CPU places the desired value on the data bus. The clock signal then triggers the flip-flop to capture that value. If we stop there, however, the flip-flop captures every data that appears on the bus, and the CPU has no way to prevent it. We need to add something equivalent to the <em>Chip Select</em> mechanism discussed earlier, meaning that we must use the address lines so that the flip-flop is only enabled when the CPU accesses an address assigned to it. Before tackling that, I first want to verify that the flip-flop works correctly with the data bus. I check the 6502 datasheet to ensure that data is present on the bus when the clock’s rising edge occurs, and that is indeed the case. So it should work.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p class="image-p">
+        <a href="/assets/projects/emulation/w65c02s timing.png" title="Click to view full size image">
+            <img src="/assets/projects/emulation/w65c02s timing.png" alt="" width="" height="" style="width:" />
+        </a>
+    </p>
+    <figcaption class="image-legend">Timing diagram for the 6502 (from the datasheet)</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>I connect the flip-flop input to the <code class="language-plaintext highlighter-rouge">D0</code> line of the 6502 and the clock input to <code class="language-plaintext highlighter-rouge">PHI2</code>. I review the test program that is still stored in ROM and calculate what we should observe. The result is as follows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>R/W</th>
+      <th>Data</th>
+      <th>D0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFC</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFD</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">80</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 FF</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 02 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8005</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 02</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8007</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 00 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">02</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 05</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800C</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 00 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">05</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800F</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">4C 05 80</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 1 0</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>I power up the circuit, and I can immediately see the flip-flop changing state, which is a good sign. I reset the CPU and watch carefully. After a reset, the CPU takes seven clock cycles to initialize, so we should see the expected sequence begin seven cycles after releasing the reset button. As usual, the Arduino provides the clock signal, and we can use the fact that its LED blinks on every clock transition to follow the execution of the program. Focus is required here, but it is very rewarding to see the flip-flop changing state exactly when expected.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/IMG_7419.mp4" title="Click to view full size image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/IMG_7419.mp4" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">The flip-flop is capturing every data that goes through the bus</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>The flip-flop is working correctly, but for now it captures everything that goes through the bus, which is not very useful. We need to add some logic so that it only captures data intended for it. To reuse the existing program, I decide to use <code class="language-plaintext highlighter-rouge">A15</code> and <code class="language-plaintext highlighter-rouge">A14</code> so that the address <code class="language-plaintext highlighter-rouge">0x4000</code> can be used to talk to the flip-flop. I also take <code class="language-plaintext highlighter-rouge">/RW</code> into account so that the circuit only responds to write operations. In this particular case it is not strictly necessary, since the flip-flop can only receive data and never send any. The idea is to add AND gates to the flip-flop inputs so that the signal reaching it only passes when the appropriate conditions are met. My first thought is to gate the data signal itself, but I quickly realize that this is a mistake. It is the clock signal that must be gated, because it is the clock that captures the data. The input data can vary freely according to whatever is happening on the bus, but the flip-flop will only capture that data when the enabling signals are present. The rest of the time, no capture signal reaches the flip-flop.</p>
+
+<p>To summarize, we want a capture to occur only when all of the following conditions are true:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">A15 = 0</code></li>
+  <li><code class="language-plaintext highlighter-rouge">A14 = 1</code></li>
+  <li><code class="language-plaintext highlighter-rouge">/RW = 0</code></li>
+  <li><code class="language-plaintext highlighter-rouge">PHI2 = 1</code></li>
+</ul>
+
+<p>The capture signal should therefore be the result of the following expression:</p>
+
+<p style="text-align: center;"><code class="language-plaintext highlighter-rouge">CLK = /A15 AND A14 AND /RW AND PHI2</code></p>
+
+<p>I did not use all of the logic gates available on the chips when building the flip-flop. There is still one NOR gate and two AND gates available, and if necessary we also have five inverters left on the chip used for the ROM’s <em>Chip Select</em>. Let’s see what we can do with that.</p>
+
+<p>Here is the truth table of a NOR gate:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th><code class="language-plaintext highlighter-rouge">a</code></th>
+      <th><code class="language-plaintext highlighter-rouge">b</code></th>
+      <th><code class="language-plaintext highlighter-rouge">a NOR b</code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We can see that:</p>
+
+<p style="text-align: center;"><code class="language-plaintext highlighter-rouge">a NOR b</code></p>
+
+<p>is equivalent to:</p>
+
+<p style="text-align: center;"><code class="language-plaintext highlighter-rouge">/a AND /b</code></p>
+
+<p>If we rearrange our expression, we can write:</p>
+
+<p style="text-align: center;"><code class="language-plaintext highlighter-rouge">CLK = (/A15 AND /RW) AND A14 AND PHI2</code></p>
+
+<p>Using the <code class="language-plaintext highlighter-rouge">NOR</code>/<code class="language-plaintext highlighter-rouge">AND</code> equivalence, we can transform it into:</p>
+
+<p style="text-align: center;"><code class="language-plaintext highlighter-rouge">CLK = (A15 NOR RW) AND A14 AND PHI2</code></p>
+
+<p>This uses exactly one NOR gate and two AND gates —precisely what we have available. Perfect.</p>
+
+<p>I build the circuit and, before testing it, I once again review the program to determine what we should observe. This time, the flip-flop should only change state when the CPU performs a write to an address in the range <code class="language-plaintext highlighter-rouge">0x4000–0x7FFF</code>, giving the following sequence:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>R/W</th>
+      <th>Data</th>
+      <th>LED</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFC</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">00</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0xFFFD</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">80</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 FF</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 02 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4002</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">FF</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8005</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 02</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x8007</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 00 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 1 1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">02</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800A</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">A9 05</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800C</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">8D 00 40</code></td>
+      <td><code class="language-plaintext highlighter-rouge">0 0 0</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x4000</code></td>
+      <td><code class="language-plaintext highlighter-rouge">W</code></td>
+      <td><code class="language-plaintext highlighter-rouge">05</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0x800F</code></td>
+      <td><code class="language-plaintext highlighter-rouge">R</code></td>
+      <td><code class="language-plaintext highlighter-rouge">4C 05 80</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1 1 1</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Just as before, it takes some concentration to follow the execution of the program, but it is clear that everything works as expected.</p>
+
+<div class="inline-image-container">
+
+    <div class="inline-image-container-row">
+
+        
+
+<figure class="inline-image-item">
+    <p>
+        <a href="/assets/projects/emulation/IMG_7420.mp4" title="Click to view full size image">
+            <video playsinline="" loop="" muted="" autoplay="" src="/assets/projects/emulation/IMG_7420.mp4" alt="" width="50%" height="" style="width:50%" />
+        </a>
+    </p>
+    <figcaption class="image-legend">The flip-flop is only capturing the data that are meant for it</figcaption>
+</figure>
+
+    </div>
+
+</div>
+
+<p>Using a D flip-flop with the 6502 was not part of the original plan, but it turned out to be very rewarding and helped me better understand what might happen inside chips that communicate over a data bus, such as ROMs or the VIA. I’m very glad I took this little detour.</p>
+
 <h2 id="whats-next">What’s Next</h2>
 
-<p>I haven’t managed to get the 6522 working, but after rewatching <a href="https://www.youtube.com/watch?v=yl8vPW5hydQ">Ben Eater’s video</a>, I got the idea of building a latch like the one he demonstrated in <a href="https://www.youtube.com/watch?v=YW-_GkUguMM">this video</a> and trying to interface it with the CPU. It’s an interesting exercise. If it works, it will provide a first CPU-controlled output device, which means I can finally observe results directly and start writing programs that actually do something.</p>
+<p>The 6502 can now control an LED and change its state according to the logic defined by the program. This is still quite limited, of course, but it already forms a simple system that is worth emulating. Before moving on, however, I would like to make things a bit more interesting by adding the ability for a user to inject data into the system through a push button. This time, the goal is to create an input peripheral, capable of placing data onto the bus when requested by the CPU. Once that is done, I will finally be able to write interactive programs and begin working on the emulator itself.</p>
 
   </div>
 
   <div class="last-updated">
     
-    Last updated Jun 8th, 2026
+    Last updated Jun 9th, 2026
     
 </div>
 
